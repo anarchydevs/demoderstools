@@ -412,7 +412,7 @@ namespace Demoder.MapCompiler
 							else
 							{
 								images.Add(wl, this._Data_SlicedImages[wl]);
-								//this._Data_SlicedImages.Remove(wl.imagename); //Remove entry so that there's no reference to it in that list.
+								this._Data_SlicedImages.Remove(wl); //Remove entry, since nothing else will be referencing it ever again.
 								WaitForIt = false;
 							}
 						}
