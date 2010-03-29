@@ -98,6 +98,17 @@ namespace AOMC
 			}
 		}
 		#endregion application thread
+
+
+		private void button_docompile_Click(object sender, EventArgs e)
+		{
+			this.button_docompile.Enabled = false;
+			this._compiler_debugmessages.Text = "";
+			if (!this._bw_Compiler.IsBusy)
+			{
+				this._bw_Compiler.RunWorkerAsync();
+			}
+		}
 		#endregion background worker
 
 
@@ -469,11 +480,12 @@ namespace AOMC
 									txt.Name = ilme._name.Text;
 									txt.Layers=new List<string>();
 									txt.Type = ilme.mapType;
-									foreach (ListViewItem lvi2 in ilme._layers.Items)
-										txt.Layers.Add(lvi2.Text);
+									foreach (string lvi2 in ilme._layers.Items)
+										txt.Layers.Add(lvi2);
 									break;
 							}
 						} while (error);
+						this.LoadMapConfigValues();
 					}
 				}
 			}
@@ -492,16 +504,6 @@ namespace AOMC
 		}
 
 		#endregion
-
-		private void button_docompile_Click(object sender, EventArgs e)
-		{
-			this.button_docompile.Enabled = false;
-			this._compiler_debugmessages.Text = "";
-			if (!this._bw_Compiler.IsBusy)
-			{
-				this._bw_Compiler.RunWorkerAsync();
-			}
-		}
 
 		#region File menu
 		//new
