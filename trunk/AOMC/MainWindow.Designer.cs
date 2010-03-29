@@ -85,8 +85,8 @@ namespace AOMC
 			this.label7 = new System.Windows.Forms.Label();
 			this._map_texturesize = new System.Windows.Forms.NumericUpDown();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabPage_MapInfo = new System.Windows.Forms.TabPage();
+			this.tabPage_Images = new System.Windows.Forms.TabPage();
 			this._imagelist = new System.Windows.Forms.ListView();
 			this.columnHeader_Name = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader_Path = new System.Windows.Forms.ColumnHeader();
@@ -95,7 +95,7 @@ namespace AOMC
 			this.imagesContextMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.imagesContextMenu_Remove = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.tabPage_WorkerTasks = new System.Windows.Forms.TabPage();
 			this._WorkerTasks = new System.Windows.Forms.ListView();
 			this.workerColumn_Name = new System.Windows.Forms.ColumnHeader();
 			this.workerColumn_Maprect = new System.Windows.Forms.ColumnHeader();
@@ -105,7 +105,7 @@ namespace AOMC
 			this.workerTasks_ContextMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.workerTasks_ContextMenu_Remove = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.tabPage_MapVersions = new System.Windows.Forms.TabPage();
 			this._MapVersions = new System.Windows.Forms.ListView();
 			this._MapVersions_File = new System.Windows.Forms.ColumnHeader();
 			this._MapVersions_Type = new System.Windows.Forms.ColumnHeader();
@@ -117,34 +117,48 @@ namespace AOMC
 			this.mapVersions_ContextMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.mapVersions_ContextMenu_Remove = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.tabPage_Compile = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.progressBar_assembler = new System.Windows.Forms.ProgressBar();
+			this.label9 = new System.Windows.Forms.Label();
+			this.progressBar_worker = new System.Windows.Forms.ProgressBar();
+			this.progressBar_imageloader = new System.Windows.Forms.ProgressBar();
+			this.progressBar_imageslicer = new System.Windows.Forms.ProgressBar();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.statuslabel_imageloader = new System.Windows.Forms.Label();
+			this.statuslabel_imageslicer = new System.Windows.Forms.Label();
+			this.statuslabel_worker = new System.Windows.Forms.Label();
+			this.statuslabel_assembler = new System.Windows.Forms.Label();
 			this._compiler_debugmessages = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.button_docompile = new System.Windows.Forms.Button();
 			this._OpenMapConfig = new System.Windows.Forms.OpenFileDialog();
 			this._SaveMapConfig = new System.Windows.Forms.SaveFileDialog();
-			this.menuStrip1.SuspendLayout();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this._HelperBox = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_minor)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_build)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_texturesize)).BeginInit();
 			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
-			this.tabPage2.SuspendLayout();
+			this.tabPage_MapInfo.SuspendLayout();
+			this.tabPage_Images.SuspendLayout();
 			this.images_Contextmenu.SuspendLayout();
-			this.tabPage3.SuspendLayout();
+			this.tabPage_WorkerTasks.SuspendLayout();
 			this.workerTasks_ContextMenu.SuspendLayout();
-			this.tabPage4.SuspendLayout();
+			this.tabPage_MapVersions.SuspendLayout();
 			this.mapVersions_ContextMenu.SuspendLayout();
-			this.tabPage5.SuspendLayout();
+			this.tabPage_Compile.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(631, 24);
@@ -230,7 +244,7 @@ namespace AOMC
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -249,30 +263,30 @@ namespace AOMC
 			// contentsToolStripMenuItem
 			// 
 			this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.contentsToolStripMenuItem.Text = "&Contents";
 			// 
 			// indexToolStripMenuItem
 			// 
 			this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-			this.indexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.indexToolStripMenuItem.Text = "&Index";
 			// 
 			// searchToolStripMenuItem
 			// 
 			this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-			this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.searchToolStripMenuItem.Text = "&Search";
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.aboutToolStripMenuItem.Text = "&About...";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -422,52 +436,53 @@ namespace AOMC
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Controls.Add(this.tabPage3);
-			this.tabControl1.Controls.Add(this.tabPage4);
-			this.tabControl1.Controls.Add(this.tabPage5);
+			this.tabControl1.Controls.Add(this.tabPage_MapInfo);
+			this.tabControl1.Controls.Add(this.tabPage_Images);
+			this.tabControl1.Controls.Add(this.tabPage_WorkerTasks);
+			this.tabControl1.Controls.Add(this.tabPage_MapVersions);
+			this.tabControl1.Controls.Add(this.tabPage_Compile);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 24);
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(631, 535);
+			this.tabControl1.Size = new System.Drawing.Size(631, 456);
 			this.tabControl1.TabIndex = 2;
+			this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
 			// 
-			// tabPage1
+			// tabPage_MapInfo
 			// 
-			this.tabPage1.Controls.Add(this._map_texturesize);
-			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.Controls.Add(this.label7);
-			this.tabPage1.Controls.Add(this._map_name);
-			this.tabPage1.Controls.Add(this._map_assemblymethod);
-			this.tabPage1.Controls.Add(this.label2);
-			this.tabPage1.Controls.Add(this.label6);
-			this.tabPage1.Controls.Add(this._map_version_major);
-			this.tabPage1.Controls.Add(this.label5);
-			this.tabPage1.Controls.Add(this.label3);
-			this.tabPage1.Controls.Add(this._map_subdirectory);
-			this.tabPage1.Controls.Add(this._map_version_minor);
-			this.tabPage1.Controls.Add(this._map_version_build);
-			this.tabPage1.Controls.Add(this.label4);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(623, 509);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Map information";
-			this.tabPage1.UseVisualStyleBackColor = true;
+			this.tabPage_MapInfo.Controls.Add(this._map_texturesize);
+			this.tabPage_MapInfo.Controls.Add(this.label1);
+			this.tabPage_MapInfo.Controls.Add(this.label7);
+			this.tabPage_MapInfo.Controls.Add(this._map_name);
+			this.tabPage_MapInfo.Controls.Add(this._map_assemblymethod);
+			this.tabPage_MapInfo.Controls.Add(this.label2);
+			this.tabPage_MapInfo.Controls.Add(this.label6);
+			this.tabPage_MapInfo.Controls.Add(this._map_version_major);
+			this.tabPage_MapInfo.Controls.Add(this.label5);
+			this.tabPage_MapInfo.Controls.Add(this.label3);
+			this.tabPage_MapInfo.Controls.Add(this._map_subdirectory);
+			this.tabPage_MapInfo.Controls.Add(this._map_version_minor);
+			this.tabPage_MapInfo.Controls.Add(this._map_version_build);
+			this.tabPage_MapInfo.Controls.Add(this.label4);
+			this.tabPage_MapInfo.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_MapInfo.Name = "tabPage_MapInfo";
+			this.tabPage_MapInfo.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage_MapInfo.Size = new System.Drawing.Size(623, 430);
+			this.tabPage_MapInfo.TabIndex = 0;
+			this.tabPage_MapInfo.Text = "Map information";
+			this.tabPage_MapInfo.UseVisualStyleBackColor = true;
 			// 
-			// tabPage2
+			// tabPage_Images
 			// 
-			this.tabPage2.Controls.Add(this._imagelist);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(623, 509);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Images";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.tabPage_Images.Controls.Add(this._imagelist);
+			this.tabPage_Images.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_Images.Name = "tabPage_Images";
+			this.tabPage_Images.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage_Images.Size = new System.Drawing.Size(623, 430);
+			this.tabPage_Images.TabIndex = 1;
+			this.tabPage_Images.Text = "Images";
+			this.tabPage_Images.UseVisualStyleBackColor = true;
 			// 
 			// _imagelist
 			// 
@@ -479,7 +494,7 @@ namespace AOMC
 			this._imagelist.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._imagelist.Location = new System.Drawing.Point(3, 3);
 			this._imagelist.Name = "_imagelist";
-			this._imagelist.Size = new System.Drawing.Size(617, 503);
+			this._imagelist.Size = new System.Drawing.Size(617, 424);
 			this._imagelist.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this._imagelist.TabIndex = 0;
 			this._imagelist.UseCompatibleStateImageBehavior = false;
@@ -532,16 +547,16 @@ namespace AOMC
 			this.imagesContextMenu_Remove.Text = "Remove";
 			this.imagesContextMenu_Remove.Click += new System.EventHandler(this.imagesContextMenu_Remove_Click);
 			// 
-			// tabPage3
+			// tabPage_WorkerTasks
 			// 
-			this.tabPage3.Controls.Add(this._WorkerTasks);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(623, 509);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Worker tasks";
-			this.tabPage3.UseVisualStyleBackColor = true;
+			this.tabPage_WorkerTasks.Controls.Add(this._WorkerTasks);
+			this.tabPage_WorkerTasks.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_WorkerTasks.Name = "tabPage_WorkerTasks";
+			this.tabPage_WorkerTasks.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage_WorkerTasks.Size = new System.Drawing.Size(623, 430);
+			this.tabPage_WorkerTasks.TabIndex = 2;
+			this.tabPage_WorkerTasks.Text = "Worker tasks";
+			this.tabPage_WorkerTasks.UseVisualStyleBackColor = true;
 			// 
 			// _WorkerTasks
 			// 
@@ -554,7 +569,7 @@ namespace AOMC
 			this._WorkerTasks.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._WorkerTasks.Location = new System.Drawing.Point(3, 3);
 			this._WorkerTasks.Name = "_WorkerTasks";
-			this._WorkerTasks.Size = new System.Drawing.Size(617, 503);
+			this._WorkerTasks.Size = new System.Drawing.Size(617, 424);
 			this._WorkerTasks.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this._WorkerTasks.TabIndex = 0;
 			this._WorkerTasks.UseCompatibleStateImageBehavior = false;
@@ -612,16 +627,16 @@ namespace AOMC
 			this.workerTasks_ContextMenu_Remove.Text = "Remove";
 			this.workerTasks_ContextMenu_Remove.Click += new System.EventHandler(this.workerTasks_ContextMenu_Remove_Click);
 			// 
-			// tabPage4
+			// tabPage_MapVersions
 			// 
-			this.tabPage4.Controls.Add(this._MapVersions);
-			this.tabPage4.Location = new System.Drawing.Point(4, 22);
-			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(623, 509);
-			this.tabPage4.TabIndex = 3;
-			this.tabPage4.Text = "Map Versions";
-			this.tabPage4.UseVisualStyleBackColor = true;
+			this.tabPage_MapVersions.Controls.Add(this._MapVersions);
+			this.tabPage_MapVersions.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_MapVersions.Name = "tabPage_MapVersions";
+			this.tabPage_MapVersions.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage_MapVersions.Size = new System.Drawing.Size(623, 430);
+			this.tabPage_MapVersions.TabIndex = 3;
+			this.tabPage_MapVersions.Text = "Map Versions";
+			this.tabPage_MapVersions.UseVisualStyleBackColor = true;
 			// 
 			// _MapVersions
 			// 
@@ -635,7 +650,7 @@ namespace AOMC
 			this._MapVersions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._MapVersions.Location = new System.Drawing.Point(3, 3);
 			this._MapVersions.Name = "_MapVersions";
-			this._MapVersions.Size = new System.Drawing.Size(617, 503);
+			this._MapVersions.Size = new System.Drawing.Size(617, 424);
 			this._MapVersions.TabIndex = 0;
 			this._MapVersions.UseCompatibleStateImageBehavior = false;
 			this._MapVersions.View = System.Windows.Forms.View.Details;
@@ -702,32 +717,158 @@ namespace AOMC
 			this.mapVersions_ContextMenu_Remove.Text = "Remove";
 			this.mapVersions_ContextMenu_Remove.Click += new System.EventHandler(this.mapVersions_ContextMenu_Remove_Click);
 			// 
-			// tabPage5
+			// tabPage_Compile
 			// 
-			this.tabPage5.Controls.Add(this._compiler_debugmessages);
-			this.tabPage5.Controls.Add(this.label8);
-			this.tabPage5.Controls.Add(this.button_docompile);
-			this.tabPage5.Location = new System.Drawing.Point(4, 22);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(623, 509);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "Compile";
-			this.tabPage5.UseVisualStyleBackColor = true;
+			this.tabPage_Compile.Controls.Add(this.tableLayoutPanel1);
+			this.tabPage_Compile.Controls.Add(this._compiler_debugmessages);
+			this.tabPage_Compile.Controls.Add(this.label8);
+			this.tabPage_Compile.Controls.Add(this.button_docompile);
+			this.tabPage_Compile.Location = new System.Drawing.Point(4, 22);
+			this.tabPage_Compile.Name = "tabPage_Compile";
+			this.tabPage_Compile.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage_Compile.Size = new System.Drawing.Size(623, 430);
+			this.tabPage_Compile.TabIndex = 4;
+			this.tabPage_Compile.Text = "Compile";
+			this.tabPage_Compile.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+			this.tableLayoutPanel1.ColumnCount = 3;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.44275F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.55725F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+			this.tableLayoutPanel1.Controls.Add(this.progressBar_assembler, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this.label9, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.progressBar_worker, 1, 2);
+			this.tableLayoutPanel1.Controls.Add(this.progressBar_imageloader, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.progressBar_imageslicer, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.label10, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.label11, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.label12, 0, 3);
+			this.tableLayoutPanel1.Controls.Add(this.statuslabel_imageloader, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.statuslabel_imageslicer, 2, 1);
+			this.tableLayoutPanel1.Controls.Add(this.statuslabel_worker, 2, 2);
+			this.tableLayoutPanel1.Controls.Add(this.statuslabel_assembler, 2, 3);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(40, 6);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 4;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(414, 71);
+			this.tableLayoutPanel1.TabIndex = 5;
+			// 
+			// progressBar_assembler
+			// 
+			this.progressBar_assembler.Location = new System.Drawing.Point(86, 55);
+			this.progressBar_assembler.Name = "progressBar_assembler";
+			this.progressBar_assembler.Size = new System.Drawing.Size(164, 10);
+			this.progressBar_assembler.TabIndex = 8;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(4, 18);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(65, 13);
+			this.label9.TabIndex = 0;
+			this.label9.Text = "Image Slicer";
+			// 
+			// progressBar_worker
+			// 
+			this.progressBar_worker.Location = new System.Drawing.Point(86, 38);
+			this.progressBar_worker.Name = "progressBar_worker";
+			this.progressBar_worker.Size = new System.Drawing.Size(164, 10);
+			this.progressBar_worker.TabIndex = 7;
+			// 
+			// progressBar_imageloader
+			// 
+			this.progressBar_imageloader.Location = new System.Drawing.Point(86, 4);
+			this.progressBar_imageloader.Name = "progressBar_imageloader";
+			this.progressBar_imageloader.Size = new System.Drawing.Size(164, 10);
+			this.progressBar_imageloader.TabIndex = 4;
+			// 
+			// progressBar_imageslicer
+			// 
+			this.progressBar_imageslicer.Location = new System.Drawing.Point(86, 21);
+			this.progressBar_imageslicer.Name = "progressBar_imageslicer";
+			this.progressBar_imageslicer.Size = new System.Drawing.Size(164, 10);
+			this.progressBar_imageslicer.TabIndex = 6;
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(4, 1);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(72, 13);
+			this.label10.TabIndex = 1;
+			this.label10.Text = "Image Loader";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(4, 35);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(42, 13);
+			this.label11.TabIndex = 2;
+			this.label11.Text = "Worker";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(4, 52);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(55, 13);
+			this.label12.TabIndex = 3;
+			this.label12.Text = "Assembler";
+			// 
+			// statuslabel_imageloader
+			// 
+			this.statuslabel_imageloader.AutoSize = true;
+			this.statuslabel_imageloader.Location = new System.Drawing.Point(257, 1);
+			this.statuslabel_imageloader.Name = "statuslabel_imageloader";
+			this.statuslabel_imageloader.Size = new System.Drawing.Size(0, 13);
+			this.statuslabel_imageloader.TabIndex = 9;
+			// 
+			// statuslabel_imageslicer
+			// 
+			this.statuslabel_imageslicer.AutoSize = true;
+			this.statuslabel_imageslicer.Location = new System.Drawing.Point(257, 18);
+			this.statuslabel_imageslicer.Name = "statuslabel_imageslicer";
+			this.statuslabel_imageslicer.Size = new System.Drawing.Size(0, 13);
+			this.statuslabel_imageslicer.TabIndex = 10;
+			// 
+			// statuslabel_worker
+			// 
+			this.statuslabel_worker.AutoSize = true;
+			this.statuslabel_worker.Location = new System.Drawing.Point(257, 35);
+			this.statuslabel_worker.Name = "statuslabel_worker";
+			this.statuslabel_worker.Size = new System.Drawing.Size(0, 13);
+			this.statuslabel_worker.TabIndex = 11;
+			// 
+			// statuslabel_assembler
+			// 
+			this.statuslabel_assembler.AutoSize = true;
+			this.statuslabel_assembler.Location = new System.Drawing.Point(257, 52);
+			this.statuslabel_assembler.Name = "statuslabel_assembler";
+			this.statuslabel_assembler.Size = new System.Drawing.Size(0, 13);
+			this.statuslabel_assembler.TabIndex = 12;
 			// 
 			// _compiler_debugmessages
 			// 
-			this._compiler_debugmessages.Location = new System.Drawing.Point(25, 42);
+			this._compiler_debugmessages.Location = new System.Drawing.Point(40, 134);
 			this._compiler_debugmessages.Multiline = true;
 			this._compiler_debugmessages.Name = "_compiler_debugmessages";
 			this._compiler_debugmessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._compiler_debugmessages.Size = new System.Drawing.Size(544, 121);
+			this._compiler_debugmessages.Size = new System.Drawing.Size(455, 222);
 			this._compiler_debugmessages.TabIndex = 3;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(8, 26);
+			this.label8.Location = new System.Drawing.Point(48, 118);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(89, 13);
 			this.label8.TabIndex = 2;
@@ -735,7 +876,7 @@ namespace AOMC
 			// 
 			// button_docompile
 			// 
-			this.button_docompile.Location = new System.Drawing.Point(170, 169);
+			this.button_docompile.Location = new System.Drawing.Point(187, 83);
 			this.button_docompile.Name = "button_docompile";
 			this.button_docompile.Size = new System.Drawing.Size(75, 23);
 			this.button_docompile.TabIndex = 0;
@@ -754,34 +895,68 @@ namespace AOMC
 			this._SaveMapConfig.DefaultExt = "xml";
 			this._SaveMapConfig.Filter = "Map Config Files|*.xml|All files|*.*";
 			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+			this.splitContainer1.Name = "splitContainer1";
+			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this._HelperBox);
+			this.splitContainer1.Panel2MinSize = 75;
+			this.splitContainer1.Size = new System.Drawing.Size(631, 535);
+			this.splitContainer1.SplitterDistance = 456;
+			this.splitContainer1.TabIndex = 3;
+			// 
+			// _HelperBox
+			// 
+			this._HelperBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._HelperBox.Location = new System.Drawing.Point(0, 0);
+			this._HelperBox.Multiline = true;
+			this._HelperBox.Name = "_HelperBox";
+			this._HelperBox.ReadOnly = true;
+			this._HelperBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this._HelperBox.Size = new System.Drawing.Size(631, 75);
+			this._HelperBox.TabIndex = 0;
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(631, 559);
-			this.Controls.Add(this.tabControl1);
+			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainWindow";
 			this.Text = "Anarchy Online Map Compiler (C#)";
 			this.Load += new System.EventHandler(this.MainWindow_Load);
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_minor)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_build)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_texturesize)).EndInit();
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
-			this.tabPage2.ResumeLayout(false);
+			this.tabPage_MapInfo.ResumeLayout(false);
+			this.tabPage_MapInfo.PerformLayout();
+			this.tabPage_Images.ResumeLayout(false);
 			this.images_Contextmenu.ResumeLayout(false);
-			this.tabPage3.ResumeLayout(false);
+			this.tabPage_WorkerTasks.ResumeLayout(false);
 			this.workerTasks_ContextMenu.ResumeLayout(false);
-			this.tabPage4.ResumeLayout(false);
+			this.tabPage_MapVersions.ResumeLayout(false);
 			this.mapVersions_ContextMenu.ResumeLayout(false);
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage5.PerformLayout();
+			this.tabPage_Compile.ResumeLayout(false);
+			this.tabPage_Compile.PerformLayout();
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -822,8 +997,8 @@ namespace AOMC
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.NumericUpDown _map_texturesize;
 		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabPage tabPage_MapInfo;
+		private System.Windows.Forms.TabPage tabPage_Images;
 		private System.Windows.Forms.ListView _imagelist;
 		private System.Windows.Forms.ColumnHeader columnHeader_Name;
 		private System.Windows.Forms.ColumnHeader columnHeader_Path;
@@ -831,7 +1006,7 @@ namespace AOMC
 		private System.Windows.Forms.ToolStripMenuItem imagesContextMenu_Add;
 		private System.Windows.Forms.ToolStripMenuItem imagesContextMenu_Edit;
 		private System.Windows.Forms.ToolStripMenuItem imagesContextMenu_Remove;
-		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.TabPage tabPage_WorkerTasks;
 		private System.Windows.Forms.ListView _WorkerTasks;
 		private System.Windows.Forms.ColumnHeader workerColumn_Name;
 		private System.Windows.Forms.ColumnHeader workerColumn_Layers;
@@ -840,7 +1015,7 @@ namespace AOMC
 		private System.Windows.Forms.ToolStripMenuItem workerTasks_ContextMenu_Add;
 		private System.Windows.Forms.ToolStripMenuItem workerTasks_ContextMenu_Edit;
 		private System.Windows.Forms.ToolStripMenuItem workerTasks_ContextMenu_Remove;
-		private System.Windows.Forms.TabPage tabPage4;
+		private System.Windows.Forms.TabPage tabPage_MapVersions;
 		private System.Windows.Forms.ListView _MapVersions;
 		private System.Windows.Forms.ColumnHeader _MapVersions_File;
 		private System.Windows.Forms.ColumnHeader _MapVersions_Type;
@@ -854,12 +1029,27 @@ namespace AOMC
 		private System.Windows.Forms.ToolStripMenuItem mapVersions_ContextMenu_Edit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem mapVersions_ContextMenu_Remove;
-		private System.Windows.Forms.TabPage tabPage5;
+		private System.Windows.Forms.TabPage tabPage_Compile;
 		private System.Windows.Forms.Button button_docompile;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.OpenFileDialog _OpenMapConfig;
 		private System.Windows.Forms.TextBox _compiler_debugmessages;
 		private System.Windows.Forms.SaveFileDialog _SaveMapConfig;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.ProgressBar progressBar_imageloader;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.ProgressBar progressBar_assembler;
+		private System.Windows.Forms.ProgressBar progressBar_worker;
+		private System.Windows.Forms.ProgressBar progressBar_imageslicer;
+		private System.Windows.Forms.Label statuslabel_imageloader;
+		private System.Windows.Forms.Label statuslabel_imageslicer;
+		private System.Windows.Forms.Label statuslabel_worker;
+		private System.Windows.Forms.Label statuslabel_assembler;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.TextBox _HelperBox;
 	}
 }
 
