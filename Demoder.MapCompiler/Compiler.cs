@@ -79,9 +79,17 @@ namespace Demoder.MapCompiler
 		//Manual reset events
 		ManualResetEvent _MRE_imageSlicer = null;
 		ManualResetEvent _MRE_WorkerThread = null;
+		ManualResetEvent _MRE_WorkerDoWork = null;
 		//Threadpool toggles
 		List<bool> slicerThreadPoolThreads;
 		List<bool> workerThreadPoolThreads;
+		
+		//Work statistics
+		int imageslicerTotalQueue;
+		List<bool> slicerFinishedTasks;
+		int workerTotalQueue;
+		List<bool> workerFinishedTasks;
+
 
 
 
@@ -91,23 +99,58 @@ namespace Demoder.MapCompiler
 
 
 		#region Events
-		public event DebugEventHandler debugevent;
-
+		public event DebugEventHandler eventDebug;
+		public event StatusReportEventHandler eventImageLoader;
+		public event StatusReportEventHandler eventImageSlicer;
+		public event StatusReportEventHandler eventWorker;
+		public event StatusReportEventHandler eventAssembler;
 		#endregion
 
 
+		#region Event methods
 		private void debug(string source, string text)
 		{
-			if (this.debugevent != null)
+			if (this.eventDebug != null)
 			{
-				lock (this.debugevent)
-					this.debugevent(this, new DebugEventArgs(source, text));
+				lock (this.eventDebug)
+					this.eventDebug(this, new DebugEventArgs(source, text));
 			}
 		}
 
+		private void reportImageLoaderStatus(int percent, string message)
+		{
+			if (this.eventImageLoader != null)
+				lock (this.eventImageLoader)
+					this.eventImageLoader(this, new StatusReportEventArgs(percent, message));
+		}
+
+		private void reportImageSlicerStatus(int percent, string message)
+		{
+			if (this.eventImageSlicer != null)
+				lock (this.eventImageSlicer)
+					this.eventImageSlicer(this, new StatusReportEventArgs(percent, message));
+		}
+
+		private void reportWorkerStatus(int percent, string message)
+		{
+			if (this.eventWorker != null)
+				lock (this.eventWorker)
+					this.eventWorker(this, new StatusReportEventArgs(percent, message));
+		}
+
+		private void reportAssemblerStatus(int percent, string message)
+		{
+			if (this.eventAssembler != null)
+				lock (this.eventAssembler)
+					this.eventAssembler(this, new StatusReportEventArgs(percent, message));
+		}
+
+		#endregion
+
 		//Clear all event references
 		public void ClearEvents() {
-			this.debugevent = null;
+			this.eventDebug = null;
+			this.eventImageLoader = null;
 		}
 
 		public Compiler(xml.CompilerConfig cfg)
@@ -147,6 +190,7 @@ namespace Demoder.MapCompiler
 			//Manual reset events
 			this._MRE_WorkerThread = new ManualResetEvent(false);
 			this._MRE_imageSlicer = new ManualResetEvent(false);
+			this._MRE_WorkerDoWork = new ManualResetEvent(false);
 
 			#region Sanitize map configuration
 			//Add work. Don't add nonexisting images to queue. Don't add worktasks using nonexisting images.
@@ -258,6 +302,7 @@ namespace Demoder.MapCompiler
 
 		}
 
+
 		#region Threaded methods.
 
 		/// <summary>
@@ -266,7 +311,10 @@ namespace Demoder.MapCompiler
 		private void __threaded_ImageLoader()
 		{
 			this.debug("IL", "Started.");
+			this.reportImageLoaderStatus(0, "started");
 			//this._RawImages = new Dictionary<string, MemoryStream>(this._Config.Images.Count);
+			int startqueue = this._Queue_ImageLoader.Count;
+			this.imageslicerTotalQueue = startqueue; //the image slicer will be slicing all the images we load.
 			while (true) {
 				LoadImage ie=null;
 				if (this._Queue_ImageLoader.Count > 0)
@@ -279,10 +327,14 @@ namespace Demoder.MapCompiler
 					lock (this._Queue_ImageSlicer)
 						this._Queue_ImageSlicer.Enqueue(new ImageData(ie.name, bytes));
 					this.debug("IL", string.Format("Loaded {0}", ie.name));
+					this.reportImageLoaderStatus(Demoder.Common.Math.Percent(startqueue, (startqueue - this._Queue_ImageLoader.Count)), string.Format("Loaded {0}", ie.name));
 				}
-				catch { }
+				catch (Exception ex) {
+					this.debug("IL", ex.ToString());
+				}
 			}
 			this.debug("IL", "Stopped.");
+			this.reportImageLoaderStatus(100, "Done");
 		}
 
 		/// <summary>
@@ -292,6 +344,7 @@ namespace Demoder.MapCompiler
 		{
 			DateTime dt = DateTime.Now;
 			this.debug("IS", "Started.");
+			this.reportImageSlicerStatus(0, "Started.");
 			//Initialize worker threads.
 			int MaxThreads;
 			lock (this._CompilerConfig)
@@ -299,10 +352,11 @@ namespace Demoder.MapCompiler
 				MaxThreads = this._CompilerConfig.MaxSlicerThreads;
 			}
 			this.slicerThreadPoolThreads = new List<bool>();
-			
+			this.slicerFinishedTasks = new List<bool>();
 			while (true) //Thread true
 			{
 				ImageData imgdata = null;
+				
 				bool end = false;
 				while (imgdata == null) //Fetch data
 				{
@@ -339,7 +393,7 @@ namespace Demoder.MapCompiler
 						ThreadPool.QueueUserWorkItem(this.__threaded_ImageSlicer_DoWork, imgdata);
 						int workthreads, asyncthreads;
 						ThreadPool.GetAvailableThreads(out workthreads, out asyncthreads);
-						this.debug("IS", string.Format("Added work to queue. {0} available worker threads.", workthreads));
+						this.debug("IS", "Added work to queue.");
 						queued = true;
 					}
 					if (!queued) this._MRE_imageSlicer.WaitOne(1000);
@@ -347,6 +401,7 @@ namespace Demoder.MapCompiler
 			}
 			DateTime dt2 = DateTime.Now;
 			this.debug("IS", string.Format("Stopped after {0} seconds.", (dt2 - dt).TotalSeconds));
+			this.reportImageSlicerStatus(100, "Done");
 		}
 
 		private void __threaded_ImageSlicer_DoWork(object obj)
@@ -364,6 +419,10 @@ namespace Demoder.MapCompiler
 			lock (this.slicerThreadPoolThreads)
 				this.slicerThreadPoolThreads.RemoveAt(0);
 			this._MRE_imageSlicer.Set();
+			lock (this.slicerFinishedTasks) {
+				this.slicerFinishedTasks.Add(true);
+				this.reportImageSlicerStatus(Demoder.Common.Math.Percent(this.imageslicerTotalQueue, this.slicerFinishedTasks.Count), string.Format("Sliced {0}", imgdata.name));
+			}
 		}
 
 		/// <summary>
@@ -373,8 +432,11 @@ namespace Demoder.MapCompiler
 		{
 			//We should produce sections of binfiles.
 			this.debug("W","Started.");
+			this.reportWorkerStatus(0, "Started.");
 			bool end = false;
 			this.workerThreadPoolThreads = new List<bool>();
+			this.workerFinishedTasks = new List<bool>();
+			this.workerTotalQueue = this._MapConfig.WorkerTasks.Count;
 			int MaxThreads = this._CompilerConfig.MaxWorkerThreads;
 			while (true)
 			{
@@ -394,7 +456,15 @@ namespace Demoder.MapCompiler
 					}
 					if (worktask == null) Thread.Sleep(250);
 				}
-				if (end) break;
+				if (end)
+				{
+					while (this.slicerThreadPoolThreads.Count > 0 || this.workerThreadPoolThreads.Count > 0)
+					{
+						this._MRE_WorkerDoWork.WaitOne();
+					}
+
+					break;
+				}
 				//Do work. But wait untill we have everything we need!				
 				foreach (string wl in worktask.workentries)
 				{
@@ -424,6 +494,7 @@ namespace Demoder.MapCompiler
 				bool tryagain = true;
 				do
 				{
+					this._MRE_WorkerDoWork.Reset();
 					lock (this.workerThreadPoolThreads)
 					{
 						if (this.workerThreadPoolThreads.Count < MaxThreads)
@@ -432,7 +503,7 @@ namespace Demoder.MapCompiler
 							tryagain = false;
 						}
 					}
-					if (tryagain) Thread.Sleep(100);
+					if (tryagain) this._MRE_WorkerDoWork.WaitOne();
 				} while (tryagain);
 
 				Dictionary<string,object> work = new Dictionary<string,object>(2);
@@ -443,23 +514,30 @@ namespace Demoder.MapCompiler
 			}
 			this.debug("W", "Stopped");
 			this.WorkerEndTime = DateTime.Now;
+			this.reportWorkerStatus(100, "Done.");
 		}
 
-		private void __threaded_Worker_DoWork(object obj) {
-			Dictionary<string,object> work = (Dictionary<string,object>)obj;
+		private void __threaded_Worker_DoWork(object obj)
+		{
+			Dictionary<string, object> work = (Dictionary<string, object>)obj;
 			WorkTask worktask = (WorkTask)work["worktask"];
-			Dictionary<string,SlicedImage> images = (Dictionary<string,SlicedImage>)work["images"];
-
+			Dictionary<string, SlicedImage> images = (Dictionary<string, SlicedImage>)work["images"];
 			this.debug("W", string.Format("Started on {0}", worktask.workname));
 			Worker worker = new Worker(worktask, images);
-				WorkerResult wr = worker.DoWork();
+			WorkerResult wr = worker.DoWork();
 
-				lock (this._Data_WorkerResults) //Add our result
-					this._Data_WorkerResults.Add(wr.Name, wr);
+			lock (this._Data_WorkerResults) //Add our result
+				this._Data_WorkerResults.Add(wr.Name, wr);
 			this.debug("W", string.Format("Processed {0} ", wr.Name));
 
-						lock (this.workerThreadPoolThreads)
+			lock (this.workerFinishedTasks)
+			{
+				this.workerFinishedTasks.Add(true);
+				this.reportWorkerStatus(Demoder.Common.Math.Percent(this.workerTotalQueue, this.workerFinishedTasks.Count), string.Format("Finished work task: {0}", worktask.workname));
+			}
+			lock (this.workerThreadPoolThreads)
 				this.workerThreadPoolThreads.RemoveAt(0);
+			this._MRE_WorkerDoWork.Set();
 		}
 
 
@@ -478,6 +556,7 @@ namespace Demoder.MapCompiler
 #warning fixme: This is NOT optimized for a multi-binfile enviorenment.
 			//multibinfile: Grab what it has, spew out the binfiles as they become available.
 			//Single binfile: Process like now.
+			this.reportAssemblerStatus(0, "Started.");
 			lock (this._Data_TxtFiles)
 			{
 				foreach (TxtFile task in this._Data_TxtFiles.Txts)
@@ -505,6 +584,7 @@ namespace Demoder.MapCompiler
 					}
 				}
 			}
+			this.reportAssemblerStatus(10, "Haver everything we need.");
 			this.debug("A", "Have everything we need.");
 			//We have everything we need now.
 			//Assemble based on work list.
@@ -524,8 +604,6 @@ namespace Demoder.MapCompiler
 			//Prepare the binfiles and layers.
 
 			#region combined
-			
-
 			for (int i = 0; i < this._MapConfig.WorkerTasks.Count; i++)
 			{
 				WorkTask wtask = this._MapConfig.WorkerTasks[i];
@@ -570,51 +648,8 @@ namespace Demoder.MapCompiler
 			}
 			#endregion
 
-			/*
-
-			switch (this._MapConfig.Assembler)
-			{
-				case MapConfig.AssemblyMethod.Single: //Single binfile assembly
-					#region single
-					lock (this._Data_Binfiles)
-						if (!this._Data_Binfiles.ContainsKey(this._MapConfig.ShortName)) //If this binfile doesn't exist in the list, add it.
-							this._Data_Binfiles.Add(this._MapConfig.ShortName, new MemoryStream(1028));
-					MemoryStream binfile = this._Data_Binfiles[this._MapConfig.ShortName]; //Temporary memorystream for binfile.
-
-					for (int i = 0; i < this._MapConfig.WorkerTasks.Count; i++)
-					{
-						long BinOffset = binfile.Length;
-						WorkTask wtask = this._MapConfig.WorkerTasks[i];
-						lock (this._Data_WorkerResults)
-						{
-							WorkerResult wresult = this._Data_WorkerResults[wtask.workname]; //Worker result
-							lock (this._Data_Binfiles)
-								binfile.Write(wresult.Data, 0, wresult.Data.Length);
-							//Data written to binfile stream... Now process file positions.
-							foreach (KeyValuePair<string, List<long>> kvp in wresult.LayerPositionInfo)
-							{
-								List<long> filepos = new List<long>();
-								foreach (long fpos in kvp.Value)
-								{
-									filepos.Add(fpos + BinOffset);
-								}
-								LayerInfo li = new LayerInfo(
-									this._MapConfig.ShortName,
-									filepos,
-									wresult.LayerSliceInfo[kvp.Key],
-									wresult.MapRect);
-								layerInfo.Add(kvp.Key, li);
-							}
-						}
-					}
-					break;
-					#endregion
-				case MapConfig.AssemblyMethod.Multi:
-					#region multi
+			this.reportAssemblerStatus(75, "Binfiles prepared.");
 					
-					#endregion
-			}
-			 */
 			this.debug("A", string.Format("Writing {0} binfiles.", this._Data_Binfiles.Count));
 			if (!Directory.Exists(this._outdir)) Directory.CreateDirectory(this._outdir);
 			//Write the bin files.
@@ -628,9 +663,9 @@ namespace Demoder.MapCompiler
 					fs.Write(b, 0, b.Length);
 					fs.Close();
 				}
-				catch (Exception ex) { }
+				catch { }
 			}
-
+			this.reportAssemblerStatus(90, "Binfiles written to disk.");
 			this.debug("A", string.Format("Writing {0} text files.", this._Data_TxtFiles.Count()));
 			//Write the text files.
 			TxtFile tf = null;
@@ -662,6 +697,7 @@ namespace Demoder.MapCompiler
 				}
 			} while (tf != null);
 			DateTime dt2 = DateTime.Now;
+			this.reportAssemblerStatus(100, "Done.");
 			this.debug("A", String.Format("Stopped after {0} seconds.", (dt2 - this.WorkerEndTime).TotalSeconds));
 			this.debug("App", String.Format("Total runtime: {0} seconds.", (dt2 - this.starttime).TotalSeconds));
 		}
