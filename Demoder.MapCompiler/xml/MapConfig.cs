@@ -130,36 +130,30 @@ namespace Demoder.MapCompiler.xml
 		#endregion
 
 		#region methods: layers
-		public string[] GetAllLayerNames()
-		{
-			List<string> l = new List<string>();
-			lock (this.WorkerTasks)
-			{
-				foreach (WorkTask wt in this.WorkerTasks)
-				{
-					foreach (WorkLayer wl in wt.workentries)
-					{
-						l.Add(wl.layername);
-					}
-				}
-			}
-			return l.ToArray();
-		}
-
 		public bool ContainsLayer(string name)
 		{
 			lock (this.WorkerTasks)
 			{
 				foreach (WorkTask wt in this.WorkerTasks)
 				{
-					foreach (WorkLayer wl in wt.workentries)
-					{
-						if (wl.layername == name)
-							return true;
-					}
+					if (wt.workentries.Contains(name))
+						return true;
 				}
 			}
 			return false;
+		}
+
+		public string[] GetAllLayerNames()
+		{
+			List<string> o = new List<string>();
+			lock (this.WorkerTasks) {
+				foreach (WorkTask wt in this.WorkerTasks)
+				{
+					o.AddRange(wt.workentries);
+				}
+
+			}
+			return o.ToArray();
 		}
 
 		/// <summary>
@@ -172,7 +166,7 @@ namespace Demoder.MapCompiler.xml
 			lock (this.WorkerTasks)
 			{
 				foreach (WorkTask wt in this.WorkerTasks)
-					if (wt.Contains(LayerName))
+					if (wt.workentries.Contains(LayerName))
 						return wt.workname;
 			}
 			return null;
@@ -257,12 +251,9 @@ namespace Demoder.MapCompiler.xml
 					WorkTask nwt = new WorkTask();
 					nwt.maprect = wt.maprect;
 					nwt.workname = wt.workname;
-					foreach (WorkLayer wl in wt.workentries)
+					foreach (string wl in wt.workentries)
 					{
-						WorkLayer nwl = new WorkLayer();
-						nwl.imagename = wl.imagename;
-						nwl.layername = wl.layername;
-						nwt.workentries.Add(nwl);
+						nwt.workentries.Add(wl);
 					}
 					o.WorkerTasks.Add(nwt);
 				}

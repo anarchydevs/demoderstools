@@ -152,8 +152,8 @@ namespace AOMC
 			foreach (WorkTask wt in Program.Config_Map.WorkerTasks)
 			{
 				List<string> workentries = new List<string>(wt.workentries.Count);
-				foreach (WorkLayer wl in wt.workentries)
-					workentries.Add(string.Format("{0}", wl.layername));
+				foreach (string wl in wt.workentries)
+					workentries.Add(string.Format("{0}", wl));
 
 				this._WorkerTasks.Items.Add(new ListViewItem(new string[] { wt.workname, wt.maprect, string.Join(", ", workentries.ToArray()) }));
 			}
@@ -330,9 +330,9 @@ namespace AOMC
 					//Don't reference, in case there is an error and the user decides to abort.
 					wtme.workerTask.maprect = oldtask.maprect;
 					wtme.workerTask.workname = oldtask.workname;
-					foreach (WorkLayer wl in oldtask.workentries)
+					foreach (string wl in oldtask.workentries)
 					{
-						wtme.workerTask.workentries.Add(new WorkLayer(wl.layername, wl.imagename));
+						wtme.workerTask.workentries.Add(wl);
 					}
 					//End of preventing referencing.
 					wtme.Text = "Edit work task";
