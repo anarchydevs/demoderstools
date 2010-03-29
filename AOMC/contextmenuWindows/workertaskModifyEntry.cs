@@ -34,7 +34,7 @@ namespace AOMC.contextmenuWindows
 			this._addedImages.Items.Clear();
 
 			foreach (LoadImage li in this.images)
-				if (!this.workerTask.workentries.Contains(li.name))
+				if (!Program.Config_Map.ContainsLayer(li.name)) //Some task has it. If it's current task or not doesn't matter. Shouldn't compile the same image twice.
 					this._availImages.Items.Add(li.name);
 			foreach (string img in this.workerTask.workentries)
 				this._addedImages.Items.Add(img);

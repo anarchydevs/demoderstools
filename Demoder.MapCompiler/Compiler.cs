@@ -121,7 +121,12 @@ namespace Demoder.MapCompiler
 
 		public void Compile(MapConfig config)
 		{
-			bool threaded = this._CompilerConfig.singlethreaded; //Should we run threaded or not? Debugging purposes.
+			bool threaded; //Should we run threaded or not? Debugging purposes.
+			switch (this._CompilerConfig.singlethreaded) {
+				case true: threaded=false; break;
+				default:
+				case false: threaded=true; break;
+			}
 			if (!threaded)
 			{
 				this._CompilerConfig.MaxSlicerThreads = 1;
