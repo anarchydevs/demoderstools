@@ -56,23 +56,61 @@ namespace AOMC
 			MapConfig mc = Program.Config_Map.Copy();
 
 			Compiler compiler = new Compiler(cc);
-			compiler.debugevent += new DebugEventHandler(this.handleDebugEvent);
+			compiler.eventDebug += new DebugEventHandler(this.handleDebugEvent);
+			compiler.eventImageLoader += new StatusReportEventHandler(this.handleImageLoaderEvent);
+			compiler.eventImageSlicer += new StatusReportEventHandler(this.handleImageSlicerEvent);
+			compiler.eventWorker += new StatusReportEventHandler(this.handleWorkerEvent);
+			compiler.eventAssembler += new StatusReportEventHandler(this.handleAssemblerEvent);
 			compiler.Compile(mc);
+			compiler.ClearEvents();
 		}
 
 		#region worker events
 		private void handleDebugEvent(Compiler compiler, DebugEventArgs e)
 		{
-			KeyValuePair<BackgroundWorkerReportProgressType, object> kvp;
-			kvp = new KeyValuePair<BackgroundWorkerReportProgressType, object>(BackgroundWorkerReportProgressType.Debug, String.Format("[{0}] {1}", e.Source, e.Message));
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.Debug, String.Format("[{0}] {1}", e.Source, e.Message));
 			this._bw_Compiler.ReportProgress(0, kvp);
 		}
+
+		private void handleImageLoaderEvent(Compiler compiler, StatusReportEventArgs e)
+		{
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.ImageLoader, e.Message);
+			this._bw_Compiler.ReportProgress(e.Percent, kvp);
+		}
+
+		private void handleImageSlicerEvent(Compiler compiler, StatusReportEventArgs e)
+		{
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.ImageSlicer, e.Message);
+			this._bw_Compiler.ReportProgress(e.Percent, kvp);
+		}
+
+		private void handleWorkerEvent(Compiler compiler, StatusReportEventArgs e)
+		{
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.Worker, e.Message);
+			this._bw_Compiler.ReportProgress(e.Percent, kvp);
+		}
+
+		private void handleAssemblerEvent(Compiler compiler, StatusReportEventArgs e)
+		{
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.Assembler, e.Message);
+			this._bw_Compiler.ReportProgress(e.Percent, kvp);
+		}
+
 		#endregion worker events
 		#endregion background worker thread
 
-		public enum BackgroundWorkerReportProgressType
+		public enum BWReportProgress
 		{
 			Debug,
+			ImageLoader,
+			ImageSlicer,
+			Worker,
+			Assembler
 		}
 
 		#region Application thread
@@ -89,11 +127,27 @@ namespace AOMC
 		/// <param name="e"></param>
 		private void _bw_Compiler_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			KeyValuePair<BackgroundWorkerReportProgressType, object> kvp = (KeyValuePair<BackgroundWorkerReportProgressType, object>)e.UserState;
+			KeyValuePair<BWReportProgress, string> kvp = (KeyValuePair<BWReportProgress, string>)e.UserState;
 			switch (kvp.Key)
 			{
-				case BackgroundWorkerReportProgressType.Debug:
+				case BWReportProgress.Debug:
 					this._compiler_debugmessages.AppendText((string)kvp.Value + "\r\n");
+					break;
+				case BWReportProgress.ImageLoader:
+					this.progressBar_imageloader.Value = e.ProgressPercentage;
+					this.statuslabel_imageloader.Text = kvp.Value;
+					break;
+				case BWReportProgress.ImageSlicer:
+					this.progressBar_imageslicer.Value = e.ProgressPercentage;
+					this.statuslabel_imageslicer.Text = kvp.Value;
+					break;
+				case BWReportProgress.Worker:
+					this.progressBar_worker.Value = e.ProgressPercentage;
+					this.statuslabel_worker.Text = kvp.Value;
+					break;
+				case BWReportProgress.Assembler:
+					this.progressBar_assembler.Value = e.ProgressPercentage;
+					this.statuslabel_assembler.Text = kvp.Value;
 					break;
 			}
 		}
@@ -104,6 +158,10 @@ namespace AOMC
 		{
 			this.button_docompile.Enabled = false;
 			this._compiler_debugmessages.Text = "";
+			this.progressBar_assembler.Value = 0;
+			this.progressBar_worker.Value = 0;
+			this.progressBar_imageloader.Value = 0;
+			this.progressBar_imageslicer.Value = 0;
 			if (!this._bw_Compiler.IsBusy)
 			{
 				this._bw_Compiler.RunWorkerAsync();
@@ -137,6 +195,7 @@ namespace AOMC
 				_map_assemblymethod.SelectedIndex = 0;
 
 			this.LoadMapConfigValues();
+			this._HelperBox.Text = Properties.Resources.help_MapInfo;
 		}
 
 		private void LoadMapConfigValues()
@@ -564,5 +623,30 @@ namespace AOMC
 			AboutBox ab = new AboutBox();
 			ab.ShowDialog();
 		}
+
+		#region help system
+		private void tabControl1_Selected(object sender, TabControlEventArgs e)
+		{
+			int index = ((TabControl)sender).SelectedIndex;
+			switch (((TabControl)sender).TabPages[index].Name)
+			{
+				case "tabPage_MapInfo":
+					this._HelperBox.Text = Properties.Resources.help_MapInfo;
+					break;
+				case "tabPage_Images":
+					this._HelperBox.Text = Properties.Resources.help_Images;
+					break;
+				case "tabPage_WorkerTasks":
+					this._HelperBox.Text = Properties.Resources.help_Workertasks;
+					break;
+				case "tabPage_MapVersions":
+					this._HelperBox.Text = Properties.Resources.help_Mapversions
+					break;
+				case "tabPage_Compile":
+					this._HelperBox.Text = Properties.Resources.help_Compile;
+					break;
+			}
+		}
+		#endregion
 	}
 }
