@@ -61,7 +61,6 @@ namespace AOMC
 			this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,10 +118,10 @@ namespace AOMC
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.mapVersions_ContextMenu_Remove = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this._compiler_debugmessages = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.button_docompile = new System.Windows.Forms.Button();
 			this._OpenMapConfig = new System.Windows.Forms.OpenFileDialog();
-			this._compiler_debugmessages = new System.Windows.Forms.TextBox();
 			this._SaveMapConfig = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).BeginInit();
@@ -144,7 +143,6 @@ namespace AOMC
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -173,7 +171,7 @@ namespace AOMC
 			this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.newToolStripMenuItem.Text = "&New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
@@ -183,14 +181,14 @@ namespace AOMC
 			this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator
 			// 
 			this.toolStripSeparator.Name = "toolStripSeparator";
-			this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -198,34 +196,28 @@ namespace AOMC
 			this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveAsToolStripMenuItem.Text = "Save &As";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
-			// editToolStripMenuItem
-			// 
-			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-			this.editToolStripMenuItem.Text = "&Edit";
 			// 
 			// toolsToolStripMenuItem
 			// 
@@ -238,7 +230,7 @@ namespace AOMC
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -257,31 +249,32 @@ namespace AOMC
 			// contentsToolStripMenuItem
 			// 
 			this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.contentsToolStripMenuItem.Text = "&Contents";
 			// 
 			// indexToolStripMenuItem
 			// 
 			this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-			this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.indexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.indexToolStripMenuItem.Text = "&Index";
 			// 
 			// searchToolStripMenuItem
 			// 
 			this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-			this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.searchToolStripMenuItem.Text = "&Search";
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.aboutToolStripMenuItem.Text = "&About...";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// _bw_Compiler
 			// 
@@ -722,6 +715,15 @@ namespace AOMC
 			this.tabPage5.Text = "Compile";
 			this.tabPage5.UseVisualStyleBackColor = true;
 			// 
+			// _compiler_debugmessages
+			// 
+			this._compiler_debugmessages.Location = new System.Drawing.Point(25, 42);
+			this._compiler_debugmessages.Multiline = true;
+			this._compiler_debugmessages.Name = "_compiler_debugmessages";
+			this._compiler_debugmessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this._compiler_debugmessages.Size = new System.Drawing.Size(544, 121);
+			this._compiler_debugmessages.TabIndex = 3;
+			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
@@ -746,15 +748,6 @@ namespace AOMC
 			this._OpenMapConfig.DefaultExt = "xml";
 			this._OpenMapConfig.FileName = "*.xml";
 			this._OpenMapConfig.Filter = "Map Config Files|*.xml|All Files|*.*";
-			// 
-			// _compiler_debugmessages
-			// 
-			this._compiler_debugmessages.Location = new System.Drawing.Point(25, 42);
-			this._compiler_debugmessages.Multiline = true;
-			this._compiler_debugmessages.Name = "_compiler_debugmessages";
-			this._compiler_debugmessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._compiler_debugmessages.Size = new System.Drawing.Size(544, 121);
-			this._compiler_debugmessages.TabIndex = 3;
 			// 
 			// _SaveMapConfig
 			// 
@@ -805,7 +798,6 @@ namespace AOMC
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
