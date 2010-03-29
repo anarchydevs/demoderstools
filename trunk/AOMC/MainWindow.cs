@@ -558,5 +558,11 @@ namespace AOMC
 		}
 		
 		#endregion		
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutBox ab = new AboutBox();
+			ab.ShowDialog();
+		}
 	}
 }
