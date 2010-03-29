@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Demoder.Common.csproj">
+    <ProjectReference Include="..\Demoder.Common\Demoder.Common.csproj">
       <Project>{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}</Project>
       <Name>Demoder.Common</Name>
     </ProjectReference>
