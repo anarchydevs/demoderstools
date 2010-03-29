@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.Common", "Demoder.Common\Demoder.Common.csproj", "{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugConsole", "DebugConsole\DebugConsole.csproj", "{A97EC303-835B-409D-B265-0EA16A9FD2F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.MapCompiler", "Demoder.MapCompiler\Demoder.MapCompiler.csproj", "{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOMC", "AOMC\AOMC.csproj", "{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
