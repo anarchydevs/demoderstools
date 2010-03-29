@@ -62,9 +62,9 @@ namespace Demoder.MapCompiler
 
 			//Initialize fileposition list.
 			this._StreamPos = new Dictionary<string, List<long>>(worktask.workentries.Count);
-			foreach (WorkLayer wl in worktask.workentries)
+			foreach (string wl in worktask.workentries)
 			{
-				this._StreamPos.Add(wl.layername, new List<long>());
+				this._StreamPos.Add(wl, new List<long>());
 			}
 			//Copy slice information.
 			foreach (KeyValuePair<string,SlicedImage> kvp in this._slicedImages)
@@ -98,13 +98,13 @@ namespace Demoder.MapCompiler
 		{
 			Dictionary<string, long> _md5s = new Dictionary<string, long>(); //Which streampos was that md5 at?
 			Dictionary<string, long> _LastPos = new Dictionary<string, long>(); //Last position for a given layer
-			WorkLayer wl = this._worktask.workentries[0];
-			SlicedImage simg = this._slicedImages[wl.layername];
+			string wl = this._worktask.workentries[0];
+			SlicedImage simg = this._slicedImages[wl];
 			long curPos;
 			foreach (MemoryStream slice in simg.Slices)
 			{
 				curPos = this._ms.Length;
-				this._StreamPos[wl.layername].Add(curPos); //To stream positions
+				this._StreamPos[wl].Add(curPos); //To stream positions
 				slice.WriteTo(this._ms);
 			}
 			return this._DoWork_Finish();
@@ -125,8 +125,8 @@ namespace Demoder.MapCompiler
 			bool DoAgain;
 			do {
 				DoAgain = false;
-				foreach (WorkLayer wl in this._worktask.workentries) {
-					SlicedImage simg = this._slicedImages[wl.layername];
+				foreach (string wl in this._worktask.workentries) {
+					SlicedImage simg = this._slicedImages[wl];
 					if (index >= (simg.Slices.Count)) break; //If this entry doesn't have more to process, stop.
 					bool treated = false;
 					long curPos = this._ms.Length; //Offset is always length of stream, or we'd be overwriting the last byte.
@@ -136,19 +136,19 @@ namespace Demoder.MapCompiler
 					string md5 = Demoder.Common.GenerateMD5Hash.md5(simg_slice);
 					if (_md5s.ContainsKey(md5))
 					{
-						if (_LastPos.ContainsKey(wl.layername))
+						if (_LastPos.ContainsKey(wl))
 						{
-							if (_LastPos[wl.layername] < _md5s[md5])
+							if (_LastPos[wl] < _md5s[md5])
 							{
-								this._StreamPos[wl.layername].Add(_md5s[md5]); //We have already added a identical slice.
-								_LastPos[wl.layername] = _md5s[md5];
+								this._StreamPos[wl].Add(_md5s[md5]); //We have already added a identical slice.
+								_LastPos[wl] = _md5s[md5];
 								treated = true;
 							}
 						}
 						else
 						{
-							this._StreamPos[wl.layername].Add(_md5s[md5]); //We have already added a identical slice.
-							_LastPos.Add(wl.layername, _md5s[md5]);
+							this._StreamPos[wl].Add(_md5s[md5]); //We have already added a identical slice.
+							_LastPos.Add(wl, _md5s[md5]);
 							treated = true;
 						}
 					}
@@ -156,16 +156,16 @@ namespace Demoder.MapCompiler
 					if (!treated)
 					{ //Add slice.
 						#region Register md5
-						this._StreamPos[wl.layername].Add(curPos); //To stream positions
+						this._StreamPos[wl].Add(curPos); //To stream positions
 						if (_md5s.ContainsKey(md5))
 							_md5s[md5] = curPos;
 						else
 							_md5s.Add(md5, curPos); //To md5<>position lookup
 						#endregion
-						if (_LastPos.ContainsKey(wl.layername))
-							_LastPos[wl.layername] = curPos;
+						if (_LastPos.ContainsKey(wl))
+							_LastPos[wl] = curPos;
 						else
-							_LastPos.Add(wl.layername, curPos);
+							_LastPos.Add(wl, curPos);
 						this._ms.Write(simg_slice, 0, simg_slice.Length);
 						treated = true;
 					}

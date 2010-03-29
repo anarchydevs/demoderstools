@@ -92,92 +92,17 @@ namespace Demoder.MapCompiler
 	{
 		public WorkTask()
 		{
-			this.workentries = new List<WorkLayer>();
+			this.workentries = new List<string>();
 		}
 		[XmlAttribute("workname")]
 		public string workname;
 		[XmlAttribute("maprect")]
 		public string maprect;
 		[XmlElement("WorkEntry")]
-		public List<WorkLayer> workentries;
+		public List<string> workentries;
 
-		public void RemoveImageReference(string imgname) {
-			lock (this.workentries)
-			{
-				List<int> removeindexes = new List<int>();
-				for (int i = 0; i < this.workentries.Count; i++)
-				{
-					WorkLayer wl = this.workentries[i];
-					if (wl.imagename == imgname)
-						removeindexes.Add(i);
-				}
-				for (int i = removeindexes.Count - 1; i >= 0; i--) //reverse order to not change index of the next one we're removing.
-				{
-					this.workentries.RemoveAt(i);
-				}
-			}
-		}
-		public void Remove (WorkLayer wl)
-		{
-			lock (this.workentries)
-				this.workentries.Remove(wl);
-		}
-
-		public void Remove(string LayerName)
-		{
-			lock (this.workentries)
-			{
-				foreach (WorkLayer wl in this.workentries)
-					if (wl.layername == LayerName)
-					{
-						this.workentries.Remove(wl);
-						return;
-					}
-			}
-		}
-		public bool Contains(string LayerName)
-		{
-			lock (this.workentries)
-			{
-				foreach (WorkLayer wl in this.workentries)
-					if (wl.layername == LayerName)
-					{
-						return true;
-					}
-			}
-			return false;
-		}
+	}
 		
-
-		public WorkLayer GetWorkEntry(string name)
-		{
-			foreach (WorkLayer wl in this.workentries)
-			{
-				if (wl.layername == name)
-					return wl;
-			}
-			return null;
-		}
-	}
-	public class WorkLayer //Layer definitions.
-	{
-		public WorkLayer() { }
-		public WorkLayer(string layername, string imagename)
-		{
-			this.layername = layername;
-			this.imagename = imagename;
-		}
-		[XmlAttribute("layername")]
-		public string layername; //Name of layer
-
-		[XmlAttribute("imagename")]
-		public string imagename; //Imagename to		
-
-		public override string ToString()
-		{
-			return string.Format("{0}:{1}", this.layername, this.imagename);
-		}
-	}
 	public class WorkerResult
 	{
 		public WorkerResult() {

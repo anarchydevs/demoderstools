@@ -152,14 +152,14 @@ namespace Demoder.MapCompiler
 				foreach (WorkTask wt in this._MapConfig.WorkerTasks)
 				{
 					int numworks = 0; //Number of works this worker will actually peform.
-					foreach (WorkLayer wl in wt.workentries) //For each work layer
+					foreach (string wl in wt.workentries) //For each work layer
 					{
 						bool exists = false; //Use this to determine if the image exists.
-						if (this._Data_TxtFiles.Contains(TxtFiles.SearchType.Layer, wl.layername)) //If we're going to use this layer
+						if (this._Data_TxtFiles.Contains(TxtFiles.SearchType.Layer, wl)) //If we're going to use this layer
 						{
 							foreach (LoadImage le in this._MapConfig.Images)
 							{ //Check the image list if the image name is the same one
-								if (le.name == wl.imagename)
+								if (le.name == wl)
 								{
 									if (File.Exists(le.path))
 									{ //If this file exists, add it.
@@ -171,7 +171,7 @@ namespace Demoder.MapCompiler
 									}
 									else
 									{ //File doesn't exist. Make the TxtFiles class remove any reference to this layer.
-										this._Data_TxtFiles.RemoveLayerEntry(wl.layername);
+										this._Data_TxtFiles.RemoveLayerEntry(wl);
 										break;
 									}
 								}
@@ -391,7 +391,7 @@ namespace Demoder.MapCompiler
 				}
 				if (end) break;
 				//Do work. But wait untill we have everything we need!				
-				foreach (WorkLayer wl in worktask.workentries)
+				foreach (string wl in worktask.workentries)
 				{
 					bool WaitForIt = false;
 					do
@@ -399,14 +399,14 @@ namespace Demoder.MapCompiler
 						this._MRE_WorkerThread.Reset();
 						lock (this._Data_SlicedImages)
 						{
-							if (!this._Data_SlicedImages.ContainsKey(wl.imagename))
+							if (!this._Data_SlicedImages.ContainsKey(wl))
 							{
 								WaitForIt = true;
 								continue;
 							}
 							else
 							{
-								images.Add(wl.layername, this._Data_SlicedImages[wl.imagename]);
+								images.Add(wl, this._Data_SlicedImages[wl]);
 								//this._Data_SlicedImages.Remove(wl.imagename); //Remove entry so that there's no reference to it in that list.
 								WaitForIt = false;
 							}

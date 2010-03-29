@@ -28,21 +28,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this._workname = new System.Windows.Forms.TextBox();
 			this._maprect = new System.Windows.Forms.TextBox();
-			this._Layers = new System.Windows.Forms.ListView();
-			this.columnHeader_layername = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader_imagename = new System.Windows.Forms.ColumnHeader();
 			this.button_ok = new System.Windows.Forms.Button();
 			this.button_cancel = new System.Windows.Forms.Button();
-			this.layers_ContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.layers_ContextMenu_Add = new System.Windows.Forms.ToolStripMenuItem();
-			this.layers_ContextMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
-			this.layers_ContextMenu_Remove = new System.Windows.Forms.ToolStripMenuItem();
-			this.layers_ContextMenu.SuspendLayout();
+			this._addedImages = new System.Windows.Forms.ListBox();
+			this._availImages = new System.Windows.Forms.ListBox();
+			this.button_addImg = new System.Windows.Forms.Button();
+			this.button_remImg = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -77,33 +72,9 @@
 			this._maprect.Size = new System.Drawing.Size(184, 20);
 			this._maprect.TabIndex = 1;
 			// 
-			// _Layers
-			// 
-			this._Layers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_layername,
-            this.columnHeader_imagename});
-			this._Layers.ContextMenuStrip = this.layers_ContextMenu;
-			this._Layers.LabelEdit = true;
-			this._Layers.Location = new System.Drawing.Point(8, 81);
-			this._Layers.Name = "_Layers";
-			this._Layers.Size = new System.Drawing.Size(235, 137);
-			this._Layers.TabIndex = 2;
-			this._Layers.UseCompatibleStateImageBehavior = false;
-			this._Layers.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader_layername
-			// 
-			this.columnHeader_layername.Text = "Layer";
-			this.columnHeader_layername.Width = 103;
-			// 
-			// columnHeader_imagename
-			// 
-			this.columnHeader_imagename.Text = "Image";
-			this.columnHeader_imagename.Width = 124;
-			// 
 			// button_ok
 			// 
-			this.button_ok.Location = new System.Drawing.Point(8, 224);
+			this.button_ok.Location = new System.Drawing.Point(8, 154);
 			this.button_ok.Name = "button_ok";
 			this.button_ok.Size = new System.Drawing.Size(76, 33);
 			this.button_ok.TabIndex = 3;
@@ -114,7 +85,7 @@
 			// button_cancel
 			// 
 			this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button_cancel.Location = new System.Drawing.Point(157, 229);
+			this.button_cancel.Location = new System.Drawing.Point(157, 159);
 			this.button_cancel.Name = "button_cancel";
 			this.button_cancel.Size = new System.Drawing.Size(75, 23);
 			this.button_cancel.TabIndex = 4;
@@ -122,36 +93,41 @@
 			this.button_cancel.UseVisualStyleBackColor = true;
 			this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
 			// 
-			// layers_ContextMenu
+			// _addedImages
 			// 
-			this.layers_ContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.layers_ContextMenu_Add,
-            this.layers_ContextMenu_Edit,
-            this.layers_ContextMenu_Remove});
-			this.layers_ContextMenu.Name = "layers_ContextMenu";
-			this.layers_ContextMenu.Size = new System.Drawing.Size(118, 70);
-			this.layers_ContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.layers_ContextMenu_Opening);
+			this._addedImages.FormattingEnabled = true;
+			this._addedImages.Location = new System.Drawing.Point(8, 66);
+			this._addedImages.Name = "_addedImages";
+			this._addedImages.Size = new System.Drawing.Size(120, 82);
+			this._addedImages.TabIndex = 5;
 			// 
-			// layers_ContextMenu_Add
+			// _availImages
 			// 
-			this.layers_ContextMenu_Add.Name = "layers_ContextMenu_Add";
-			this.layers_ContextMenu_Add.Size = new System.Drawing.Size(152, 22);
-			this.layers_ContextMenu_Add.Text = "Add";
-			this.layers_ContextMenu_Add.Click += new System.EventHandler(this.layers_ContextMenu_Add_Click);
+			this._availImages.FormattingEnabled = true;
+			this._availImages.Location = new System.Drawing.Point(176, 66);
+			this._availImages.Name = "_availImages";
+			this._availImages.Size = new System.Drawing.Size(120, 82);
+			this._availImages.TabIndex = 6;
 			// 
-			// layers_ContextMenu_Edit
+			// button_addImg
 			// 
-			this.layers_ContextMenu_Edit.Name = "layers_ContextMenu_Edit";
-			this.layers_ContextMenu_Edit.Size = new System.Drawing.Size(152, 22);
-			this.layers_ContextMenu_Edit.Text = "Edit";
-			this.layers_ContextMenu_Edit.Click += new System.EventHandler(this.layers_ContextMenu_Edit_Click);
+			this.button_addImg.Location = new System.Drawing.Point(134, 76);
+			this.button_addImg.Name = "button_addImg";
+			this.button_addImg.Size = new System.Drawing.Size(35, 23);
+			this.button_addImg.TabIndex = 7;
+			this.button_addImg.Text = "<";
+			this.button_addImg.UseVisualStyleBackColor = true;
+			this.button_addImg.Click += new System.EventHandler(this.button_addImg_Click);
 			// 
-			// layers_ContextMenu_Remove
+			// button_remImg
 			// 
-			this.layers_ContextMenu_Remove.Name = "layers_ContextMenu_Remove";
-			this.layers_ContextMenu_Remove.Size = new System.Drawing.Size(152, 22);
-			this.layers_ContextMenu_Remove.Text = "Remove";
-			this.layers_ContextMenu_Remove.Click += new System.EventHandler(this.layers_ContextMenu_Remove_Click);
+			this.button_remImg.Location = new System.Drawing.Point(134, 115);
+			this.button_remImg.Name = "button_remImg";
+			this.button_remImg.Size = new System.Drawing.Size(35, 23);
+			this.button_remImg.TabIndex = 8;
+			this.button_remImg.Text = ">";
+			this.button_remImg.UseVisualStyleBackColor = true;
+			this.button_remImg.Click += new System.EventHandler(this.button_remImg_Click);
 			// 
 			// workertaskModifyEntry
 			// 
@@ -159,10 +135,13 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button_cancel;
-			this.ClientSize = new System.Drawing.Size(247, 269);
+			this.ClientSize = new System.Drawing.Size(301, 195);
+			this.Controls.Add(this.button_remImg);
+			this.Controls.Add(this.button_addImg);
+			this.Controls.Add(this._availImages);
+			this.Controls.Add(this._addedImages);
 			this.Controls.Add(this.button_cancel);
 			this.Controls.Add(this.button_ok);
-			this.Controls.Add(this._Layers);
 			this.Controls.Add(this._maprect);
 			this.Controls.Add(this._workname);
 			this.Controls.Add(this.label2);
@@ -170,7 +149,6 @@
 			this.Name = "workertaskModifyEntry";
 			this.Text = "workertaskModifyEntry";
 			this.Load += new System.EventHandler(this.workertaskModifyEntry_Load);
-			this.layers_ContextMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -182,14 +160,11 @@
 		private System.Windows.Forms.Label label2;
 		internal System.Windows.Forms.TextBox _workname;
 		internal System.Windows.Forms.TextBox _maprect;
-		private System.Windows.Forms.ColumnHeader columnHeader_layername;
-		private System.Windows.Forms.ColumnHeader columnHeader_imagename;
 		internal System.Windows.Forms.Button button_ok;
-		internal System.Windows.Forms.ListView _Layers;
 		private System.Windows.Forms.Button button_cancel;
-		private System.Windows.Forms.ContextMenuStrip layers_ContextMenu;
-		private System.Windows.Forms.ToolStripMenuItem layers_ContextMenu_Add;
-		private System.Windows.Forms.ToolStripMenuItem layers_ContextMenu_Edit;
-		private System.Windows.Forms.ToolStripMenuItem layers_ContextMenu_Remove;
+		private System.Windows.Forms.ListBox _addedImages;
+		private System.Windows.Forms.ListBox _availImages;
+		private System.Windows.Forms.Button button_addImg;
+		private System.Windows.Forms.Button button_remImg;
 	}
 }

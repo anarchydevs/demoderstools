@@ -69,12 +69,6 @@
     <Compile Include="contextmenuWindows\workertaskModifyEntry.Designer.cs">
       <DependentUpon>workertaskModifyEntry.cs</DependentUpon>
     </Compile>
-    <Compile Include="contextmenuWindows\workertaskModifyEntry_ModifyLayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="contextmenuWindows\workertaskModifyEntry_ModifyLayer.Designer.cs">
-      <DependentUpon>workertaskModifyEntry_ModifyLayer.cs</DependentUpon>
-    </Compile>
     <Compile Include="delegates.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -95,9 +89,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="contextmenuWindows\workertaskModifyEntry.resx">
       <DependentUpon>workertaskModifyEntry.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="contextmenuWindows\workertaskModifyEntry_ModifyLayer.resx">
-      <DependentUpon>workertaskModifyEntry_ModifyLayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
