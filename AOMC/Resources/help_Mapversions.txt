@@ -1,1 +1,12 @@
-﻿
+﻿This is a list of the maps choices people will see ingame.
+Rightclick the list and hit:
+  Add    to add a new version.
+  Edit   to edit an existing version.
+  Remove to remove an existing version.
+
+Temporary: (these will be replaced with a more meaningfull syntax eventually)
+  Name:
+    {0} will be replaced with maps name (provided in the Map Information tab).
+    {1} will be replaced with maps version (provided in the Map Information tab).
+  Coords File:
+    {0} will be replaced with the maps Sub directory (provided in the Map Information tab).

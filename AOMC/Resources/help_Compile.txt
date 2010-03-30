@@ -1,1 +1,2 @@
-﻿
+﻿Hit "compile" to compile the map.
+Progress will be shown for each individual part of the compile process.
