@@ -135,7 +135,7 @@ namespace AOMC
 			this.button_docompile = new System.Windows.Forms.Button();
 			this._OpenMapConfig = new System.Windows.Forms.OpenFileDialog();
 			this._SaveMapConfig = new System.Windows.Forms.SaveFileDialog();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer_Secondary = new System.Windows.Forms.SplitContainer();
 			this._HelperBox = new System.Windows.Forms.TextBox();
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,6 +157,7 @@ namespace AOMC
 			this.searchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer_Main = new System.Windows.Forms.SplitContainer();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_minor)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_build)).BeginInit();
@@ -171,10 +172,13 @@ namespace AOMC
 			this.mapVersions_ContextMenu.SuspendLayout();
 			this.tabPage_Compile.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
+			this.splitContainer_Secondary.Panel1.SuspendLayout();
+			this.splitContainer_Secondary.Panel2.SuspendLayout();
+			this.splitContainer_Secondary.SuspendLayout();
 			this.menuStrip.SuspendLayout();
+			this.splitContainer_Main.Panel1.SuspendLayout();
+			this.splitContainer_Main.Panel2.SuspendLayout();
+			this.splitContainer_Main.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// fileToolStripMenuItem
@@ -197,7 +201,7 @@ namespace AOMC
 			this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.newToolStripMenuItem.Text = "&New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
@@ -207,14 +211,14 @@ namespace AOMC
 			this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
 			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator
 			// 
 			this.toolStripSeparator.Name = "toolStripSeparator";
-			this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -222,26 +226,26 @@ namespace AOMC
 			this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveAsToolStripMenuItem.Text = "Save &As";
 			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -256,7 +260,7 @@ namespace AOMC
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -275,30 +279,30 @@ namespace AOMC
 			// contentsToolStripMenuItem
 			// 
 			this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.contentsToolStripMenuItem.Text = "&Contents";
 			// 
 			// indexToolStripMenuItem
 			// 
 			this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-			this.indexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.indexToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.indexToolStripMenuItem.Text = "&Index";
 			// 
 			// searchToolStripMenuItem
 			// 
 			this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-			this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.searchToolStripMenuItem.Text = "&Search";
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(119, 6);
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.aboutToolStripMenuItem.Text = "&About...";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -457,7 +461,7 @@ namespace AOMC
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(631, 473);
+			this.tabControl1.Size = new System.Drawing.Size(627, 287);
 			this.tabControl1.TabIndex = 2;
 			this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
 			// 
@@ -480,7 +484,7 @@ namespace AOMC
 			this.tabPage_MapInfo.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_MapInfo.Name = "tabPage_MapInfo";
 			this.tabPage_MapInfo.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_MapInfo.Size = new System.Drawing.Size(623, 447);
+			this.tabPage_MapInfo.Size = new System.Drawing.Size(619, 261);
 			this.tabPage_MapInfo.TabIndex = 0;
 			this.tabPage_MapInfo.Text = "Map information";
 			this.tabPage_MapInfo.UseVisualStyleBackColor = true;
@@ -491,7 +495,7 @@ namespace AOMC
 			this.tabPage_Images.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_Images.Name = "tabPage_Images";
 			this.tabPage_Images.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_Images.Size = new System.Drawing.Size(623, 356);
+			this.tabPage_Images.Size = new System.Drawing.Size(619, 261);
 			this.tabPage_Images.TabIndex = 1;
 			this.tabPage_Images.Text = "Images";
 			this.tabPage_Images.UseVisualStyleBackColor = true;
@@ -506,7 +510,7 @@ namespace AOMC
 			this._imagelist.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._imagelist.Location = new System.Drawing.Point(3, 3);
 			this._imagelist.Name = "_imagelist";
-			this._imagelist.Size = new System.Drawing.Size(617, 350);
+			this._imagelist.Size = new System.Drawing.Size(613, 255);
 			this._imagelist.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this._imagelist.TabIndex = 0;
 			this._imagelist.UseCompatibleStateImageBehavior = false;
@@ -565,7 +569,7 @@ namespace AOMC
 			this.tabPage_WorkerTasks.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_WorkerTasks.Name = "tabPage_WorkerTasks";
 			this.tabPage_WorkerTasks.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_WorkerTasks.Size = new System.Drawing.Size(623, 356);
+			this.tabPage_WorkerTasks.Size = new System.Drawing.Size(619, 261);
 			this.tabPage_WorkerTasks.TabIndex = 2;
 			this.tabPage_WorkerTasks.Text = "Worker tasks";
 			this.tabPage_WorkerTasks.UseVisualStyleBackColor = true;
@@ -581,7 +585,7 @@ namespace AOMC
 			this._WorkerTasks.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._WorkerTasks.Location = new System.Drawing.Point(3, 3);
 			this._WorkerTasks.Name = "_WorkerTasks";
-			this._WorkerTasks.Size = new System.Drawing.Size(617, 350);
+			this._WorkerTasks.Size = new System.Drawing.Size(613, 255);
 			this._WorkerTasks.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this._WorkerTasks.TabIndex = 0;
 			this._WorkerTasks.UseCompatibleStateImageBehavior = false;
@@ -645,7 +649,7 @@ namespace AOMC
 			this.tabPage_MapVersions.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_MapVersions.Name = "tabPage_MapVersions";
 			this.tabPage_MapVersions.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_MapVersions.Size = new System.Drawing.Size(623, 356);
+			this.tabPage_MapVersions.Size = new System.Drawing.Size(619, 261);
 			this.tabPage_MapVersions.TabIndex = 3;
 			this.tabPage_MapVersions.Text = "Map Versions";
 			this.tabPage_MapVersions.UseVisualStyleBackColor = true;
@@ -662,7 +666,7 @@ namespace AOMC
 			this._MapVersions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._MapVersions.Location = new System.Drawing.Point(3, 3);
 			this._MapVersions.Name = "_MapVersions";
-			this._MapVersions.Size = new System.Drawing.Size(617, 350);
+			this._MapVersions.Size = new System.Drawing.Size(613, 255);
 			this._MapVersions.TabIndex = 0;
 			this._MapVersions.UseCompatibleStateImageBehavior = false;
 			this._MapVersions.View = System.Windows.Forms.View.Details;
@@ -738,7 +742,7 @@ namespace AOMC
 			this.tabPage_Compile.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_Compile.Name = "tabPage_Compile";
 			this.tabPage_Compile.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_Compile.Size = new System.Drawing.Size(623, 356);
+			this.tabPage_Compile.Size = new System.Drawing.Size(619, 261);
 			this.tabPage_Compile.TabIndex = 4;
 			this.tabPage_Compile.Text = "Compile";
 			this.tabPage_Compile.UseVisualStyleBackColor = true;
@@ -749,7 +753,7 @@ namespace AOMC
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.44275F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.55725F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 168F));
 			this.tableLayoutPanel1.Controls.Add(this.progressBar_assembler, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.label9, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.progressBar_worker, 1, 2);
@@ -774,9 +778,9 @@ namespace AOMC
 			// 
 			// progressBar_assembler
 			// 
-			this.progressBar_assembler.Location = new System.Drawing.Point(84, 55);
+			this.progressBar_assembler.Location = new System.Drawing.Point(83, 55);
 			this.progressBar_assembler.Name = "progressBar_assembler";
-			this.progressBar_assembler.Size = new System.Drawing.Size(160, 10);
+			this.progressBar_assembler.Size = new System.Drawing.Size(157, 10);
 			this.progressBar_assembler.TabIndex = 8;
 			// 
 			// label9
@@ -790,23 +794,23 @@ namespace AOMC
 			// 
 			// progressBar_worker
 			// 
-			this.progressBar_worker.Location = new System.Drawing.Point(84, 38);
+			this.progressBar_worker.Location = new System.Drawing.Point(83, 38);
 			this.progressBar_worker.Name = "progressBar_worker";
-			this.progressBar_worker.Size = new System.Drawing.Size(160, 10);
+			this.progressBar_worker.Size = new System.Drawing.Size(157, 10);
 			this.progressBar_worker.TabIndex = 7;
 			// 
 			// progressBar_imageloader
 			// 
-			this.progressBar_imageloader.Location = new System.Drawing.Point(84, 4);
+			this.progressBar_imageloader.Location = new System.Drawing.Point(83, 4);
 			this.progressBar_imageloader.Name = "progressBar_imageloader";
-			this.progressBar_imageloader.Size = new System.Drawing.Size(160, 10);
+			this.progressBar_imageloader.Size = new System.Drawing.Size(157, 10);
 			this.progressBar_imageloader.TabIndex = 4;
 			// 
 			// progressBar_imageslicer
 			// 
-			this.progressBar_imageslicer.Location = new System.Drawing.Point(84, 21);
+			this.progressBar_imageslicer.Location = new System.Drawing.Point(83, 21);
 			this.progressBar_imageslicer.Name = "progressBar_imageslicer";
-			this.progressBar_imageslicer.Size = new System.Drawing.Size(160, 10);
+			this.progressBar_imageslicer.Size = new System.Drawing.Size(157, 10);
 			this.progressBar_imageslicer.TabIndex = 6;
 			// 
 			// label10
@@ -839,7 +843,7 @@ namespace AOMC
 			// statuslabel_imageloader
 			// 
 			this.statuslabel_imageloader.AutoSize = true;
-			this.statuslabel_imageloader.Location = new System.Drawing.Point(251, 1);
+			this.statuslabel_imageloader.Location = new System.Drawing.Point(247, 1);
 			this.statuslabel_imageloader.Name = "statuslabel_imageloader";
 			this.statuslabel_imageloader.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageloader.TabIndex = 9;
@@ -847,7 +851,7 @@ namespace AOMC
 			// statuslabel_imageslicer
 			// 
 			this.statuslabel_imageslicer.AutoSize = true;
-			this.statuslabel_imageslicer.Location = new System.Drawing.Point(251, 18);
+			this.statuslabel_imageslicer.Location = new System.Drawing.Point(247, 18);
 			this.statuslabel_imageslicer.Name = "statuslabel_imageslicer";
 			this.statuslabel_imageslicer.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageslicer.TabIndex = 10;
@@ -855,7 +859,7 @@ namespace AOMC
 			// statuslabel_worker
 			// 
 			this.statuslabel_worker.AutoSize = true;
-			this.statuslabel_worker.Location = new System.Drawing.Point(251, 35);
+			this.statuslabel_worker.Location = new System.Drawing.Point(247, 35);
 			this.statuslabel_worker.Name = "statuslabel_worker";
 			this.statuslabel_worker.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_worker.TabIndex = 11;
@@ -863,7 +867,7 @@ namespace AOMC
 			// statuslabel_assembler
 			// 
 			this.statuslabel_assembler.AutoSize = true;
-			this.statuslabel_assembler.Location = new System.Drawing.Point(251, 52);
+			this.statuslabel_assembler.Location = new System.Drawing.Point(247, 52);
 			this.statuslabel_assembler.Name = "statuslabel_assembler";
 			this.statuslabel_assembler.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_assembler.TabIndex = 12;
@@ -874,7 +878,7 @@ namespace AOMC
 			this._compiler_debugmessages.Multiline = true;
 			this._compiler_debugmessages.Name = "_compiler_debugmessages";
 			this._compiler_debugmessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._compiler_debugmessages.Size = new System.Drawing.Size(455, 222);
+			this._compiler_debugmessages.Size = new System.Drawing.Size(455, 120);
 			this._compiler_debugmessages.TabIndex = 3;
 			// 
 			// label8
@@ -907,24 +911,28 @@ namespace AOMC
 			this._SaveMapConfig.DefaultExt = "xml";
 			this._SaveMapConfig.Filter = "Map Config Files|*.xml|All files|*.*";
 			// 
-			// splitContainer1
+			// splitContainer_Secondary
 			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer1.Name = "splitContainer1";
-			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.splitContainer_Secondary.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer_Secondary.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer_Secondary.IsSplitterFixed = true;
+			this.splitContainer_Secondary.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer_Secondary.Name = "splitContainer_Secondary";
+			this.splitContainer_Secondary.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// splitContainer1.Panel1
+			// splitContainer_Secondary.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+			this.splitContainer_Secondary.Panel1.Controls.Add(this.tabControl1);
+			this.splitContainer_Secondary.Panel1MinSize = 150;
 			// 
-			// splitContainer1.Panel2
+			// splitContainer_Secondary.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this._HelperBox);
-			this.splitContainer1.Panel2MinSize = 75;
-			this.splitContainer1.Size = new System.Drawing.Size(631, 559);
-			this.splitContainer1.SplitterDistance = 473;
-			this.splitContainer1.TabIndex = 3;
+			this.splitContainer_Secondary.Panel2.Controls.Add(this._HelperBox);
+			this.splitContainer_Secondary.Panel2MinSize = 75;
+			this.splitContainer_Secondary.Size = new System.Drawing.Size(627, 365);
+			this.splitContainer_Secondary.SplitterDistance = 287;
+			this.splitContainer_Secondary.SplitterWidth = 1;
+			this.splitContainer_Secondary.TabIndex = 3;
 			// 
 			// _HelperBox
 			// 
@@ -934,7 +942,7 @@ namespace AOMC
 			this._HelperBox.Name = "_HelperBox";
 			this._HelperBox.ReadOnly = true;
 			this._HelperBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._HelperBox.Size = new System.Drawing.Size(631, 82);
+			this._HelperBox.Size = new System.Drawing.Size(627, 77);
 			this._HelperBox.TabIndex = 0;
 			// 
 			// menuStrip
@@ -945,7 +953,7 @@ namespace AOMC
             this.helpToolStripMenuItem});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
-			this.menuStrip.Size = new System.Drawing.Size(631, 24);
+			this.menuStrip.Size = new System.Drawing.Size(627, 24);
 			this.menuStrip.TabIndex = 4;
 			this.menuStrip.Text = "menuStrip1";
 			// 
@@ -1089,13 +1097,34 @@ namespace AOMC
 			this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
 			this.aboutToolStripMenuItem1.Text = "&About...";
 			// 
+			// splitContainer_Main
+			// 
+			this.splitContainer_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer_Main.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer_Main.IsSplitterFixed = true;
+			this.splitContainer_Main.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer_Main.Name = "splitContainer_Main";
+			this.splitContainer_Main.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer_Main.Panel1
+			// 
+			this.splitContainer_Main.Panel1.Controls.Add(this.menuStrip);
+			// 
+			// splitContainer_Main.Panel2
+			// 
+			this.splitContainer_Main.Panel2.Controls.Add(this.splitContainer_Secondary);
+			this.splitContainer_Main.Size = new System.Drawing.Size(627, 391);
+			this.splitContainer_Main.SplitterDistance = 25;
+			this.splitContainer_Main.SplitterWidth = 1;
+			this.splitContainer_Main.TabIndex = 5;
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(631, 559);
-			this.Controls.Add(this.menuStrip);
-			this.Controls.Add(this.splitContainer1);
+			this.ClientSize = new System.Drawing.Size(627, 391);
+			this.Controls.Add(this.splitContainer_Main);
+			this.MinimumSize = new System.Drawing.Size(643, 429);
 			this.Name = "MainWindow";
 			this.Text = "Anarchy Online Map Compiler (C#)";
 			this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -1116,14 +1145,17 @@ namespace AOMC
 			this.tabPage_Compile.PerformLayout();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			this.splitContainer1.Panel2.PerformLayout();
-			this.splitContainer1.ResumeLayout(false);
+			this.splitContainer_Secondary.Panel1.ResumeLayout(false);
+			this.splitContainer_Secondary.Panel2.ResumeLayout(false);
+			this.splitContainer_Secondary.Panel2.PerformLayout();
+			this.splitContainer_Secondary.ResumeLayout(false);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
+			this.splitContainer_Main.Panel1.ResumeLayout(false);
+			this.splitContainer_Main.Panel1.PerformLayout();
+			this.splitContainer_Main.Panel2.ResumeLayout(false);
+			this.splitContainer_Main.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -1212,7 +1244,7 @@ namespace AOMC
 		private System.Windows.Forms.Label statuslabel_imageslicer;
 		private System.Windows.Forms.Label statuslabel_worker;
 		private System.Windows.Forms.Label statuslabel_assembler;
-		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.SplitContainer splitContainer_Secondary;
 		private System.Windows.Forms.TextBox _HelperBox;
 		private System.Windows.Forms.MenuStrip menuStrip;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
@@ -1234,6 +1266,7 @@ namespace AOMC
 		private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
+		private System.Windows.Forms.SplitContainer splitContainer_Main;
 	}
 }
 
