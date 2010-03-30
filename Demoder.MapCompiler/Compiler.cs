@@ -358,8 +358,9 @@ namespace Demoder.MapCompiler
 					int slicethreads = math.dePercent(MaxThreads, slicerPercent);
 					int workthreads = math.dePercent(MaxThreads, workerPercent);
 					int overshootthreads = math.dePercent(MaxThreads, overshoot);
+					if (overshootthreads > 0) workthreads++;
 					this._CompilerConfig.MaxSlicerThreads = (slicethreads < 1) ? 1 : slicethreads;
-					this._CompilerConfig.MaxWorkerThreads = (workthreads + overshootthreads < 1) ? 1 : (workthreads + overshootthreads);
+					this._CompilerConfig.MaxWorkerThreads = (workthreads < 1) ? 1 : (workthreads);
 					this._CompilerConfig.singlethreaded = false;
 					threaded = true;
 				} while (false);
