@@ -28,30 +28,37 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
+			this.label_numworkers = new System.Windows.Forms.Label();
 			this._MaxWorkers = new System.Windows.Forms.NumericUpDown();
-			this.label2 = new System.Windows.Forms.Label();
+			this.label_numslicers = new System.Windows.Forms.Label();
 			this._MaxSlicers = new System.Windows.Forms.NumericUpDown();
 			this.button_apply = new System.Windows.Forms.Button();
 			this.button_cancel = new System.Windows.Forms.Button();
 			this._singleThread = new System.Windows.Forms.CheckBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this._showCompilerDebugMessages = new System.Windows.Forms.CheckBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this._showHelpsystem = new System.Windows.Forms.CheckBox();
+			this._autoOptimizeThreads = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this._MaxWorkers)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._MaxSlicers)).BeginInit();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// label1
+			// label_numworkers
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 35);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(89, 13);
-			this.label1.TabIndex = 10;
-			this.label1.Text = "Max # of workers";
+			this.label_numworkers.AutoSize = true;
+			this.label_numworkers.Location = new System.Drawing.Point(6, 40);
+			this.label_numworkers.Name = "label_numworkers";
+			this.label_numworkers.Size = new System.Drawing.Size(89, 13);
+			this.label_numworkers.TabIndex = 10;
+			this.label_numworkers.Text = "Max # of workers";
 			// 
 			// _MaxWorkers
 			// 
 			this._MaxWorkers.AutoSize = true;
-			this._MaxWorkers.Location = new System.Drawing.Point(107, 31);
+			this._MaxWorkers.Location = new System.Drawing.Point(101, 38);
 			this._MaxWorkers.Maximum = new decimal(new int[] {
             5,
             0,
@@ -71,19 +78,19 @@
             0,
             0});
 			// 
-			// label2
+			// label_numslicers
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 10);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(81, 13);
-			this.label2.TabIndex = 10;
-			this.label2.Text = "Max # of slicers";
+			this.label_numslicers.AutoSize = true;
+			this.label_numslicers.Location = new System.Drawing.Point(6, 17);
+			this.label_numslicers.Name = "label_numslicers";
+			this.label_numslicers.Size = new System.Drawing.Size(81, 13);
+			this.label_numslicers.TabIndex = 10;
+			this.label_numslicers.Text = "Max # of slicers";
 			// 
 			// _MaxSlicers
 			// 
 			this._MaxSlicers.AutoSize = true;
-			this._MaxSlicers.Location = new System.Drawing.Point(107, 6);
+			this._MaxSlicers.Location = new System.Drawing.Point(101, 13);
 			this._MaxSlicers.Maximum = new decimal(new int[] {
             25,
             0,
@@ -105,7 +112,7 @@
 			// 
 			// button_apply
 			// 
-			this.button_apply.Location = new System.Drawing.Point(12, 75);
+			this.button_apply.Location = new System.Drawing.Point(12, 134);
 			this.button_apply.Name = "button_apply";
 			this.button_apply.Size = new System.Drawing.Size(81, 32);
 			this.button_apply.TabIndex = 2;
@@ -116,7 +123,7 @@
 			// button_cancel
 			// 
 			this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button_cancel.Location = new System.Drawing.Point(99, 80);
+			this.button_cancel.Location = new System.Drawing.Point(99, 139);
 			this.button_cancel.Name = "button_cancel";
 			this.button_cancel.Size = new System.Drawing.Size(52, 23);
 			this.button_cancel.TabIndex = 3;
@@ -127,12 +134,69 @@
 			// _singleThread
 			// 
 			this._singleThread.AutoSize = true;
-			this._singleThread.Location = new System.Drawing.Point(21, 57);
+			this._singleThread.Location = new System.Drawing.Point(6, 61);
 			this._singleThread.Name = "_singleThread";
-			this._singleThread.Size = new System.Drawing.Size(132, 17);
+			this._singleThread.Size = new System.Drawing.Size(88, 17);
 			this._singleThread.TabIndex = 11;
-			this._singleThread.Text = "DEBUG: Single thread";
+			this._singleThread.Text = "Single thread";
 			this._singleThread.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this._autoOptimizeThreads);
+			this.groupBox1.Controls.Add(this.label_numslicers);
+			this.groupBox1.Controls.Add(this._showCompilerDebugMessages);
+			this.groupBox1.Controls.Add(this._singleThread);
+			this.groupBox1.Controls.Add(this.label_numworkers);
+			this.groupBox1.Controls.Add(this._MaxWorkers);
+			this.groupBox1.Controls.Add(this._MaxSlicers);
+			this.groupBox1.Location = new System.Drawing.Point(6, 1);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(179, 126);
+			this.groupBox1.TabIndex = 12;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Compiler";
+			// 
+			// _showCompilerDebugMessages
+			// 
+			this._showCompilerDebugMessages.AutoSize = true;
+			this._showCompilerDebugMessages.Location = new System.Drawing.Point(6, 107);
+			this._showCompilerDebugMessages.Name = "_showCompilerDebugMessages";
+			this._showCompilerDebugMessages.Size = new System.Drawing.Size(175, 17);
+			this._showCompilerDebugMessages.TabIndex = 0;
+			this._showCompilerDebugMessages.Text = "Show compiler debugmessages";
+			this._showCompilerDebugMessages.UseVisualStyleBackColor = true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this._showHelpsystem);
+			this.groupBox2.Location = new System.Drawing.Point(190, 1);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(122, 110);
+			this.groupBox2.TabIndex = 13;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Visual";
+			// 
+			// _showHelpsystem
+			// 
+			this._showHelpsystem.AutoSize = true;
+			this._showHelpsystem.Location = new System.Drawing.Point(6, 19);
+			this._showHelpsystem.Name = "_showHelpsystem";
+			this._showHelpsystem.Size = new System.Drawing.Size(108, 17);
+			this._showHelpsystem.TabIndex = 1;
+			this._showHelpsystem.Text = "Show helpsystem";
+			this._showHelpsystem.UseVisualStyleBackColor = true;
+			// 
+			// _autoOptimizeThreads
+			// 
+			this._autoOptimizeThreads.AutoSize = true;
+			this._autoOptimizeThreads.Location = new System.Drawing.Point(6, 84);
+			this._autoOptimizeThreads.Name = "_autoOptimizeThreads";
+			this._autoOptimizeThreads.Size = new System.Drawing.Size(127, 17);
+			this._autoOptimizeThreads.TabIndex = 14;
+			this._autoOptimizeThreads.Text = "Auto-optimize threads";
+			this._autoOptimizeThreads.UseVisualStyleBackColor = true;
+			this._autoOptimizeThreads.CheckedChanged += new System.EventHandler(this._autoOptimizeThreads_CheckedChanged);
 			// 
 			// CompilerOptions
 			// 
@@ -140,34 +204,39 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button_cancel;
-			this.ClientSize = new System.Drawing.Size(205, 120);
-			this.Controls.Add(this._singleThread);
+			this.ClientSize = new System.Drawing.Size(320, 186);
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.button_cancel);
 			this.Controls.Add(this.button_apply);
-			this.Controls.Add(this._MaxSlicers);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this._MaxWorkers);
-			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "CompilerOptions";
 			this.Text = "Options";
 			this.Load += new System.EventHandler(this.CompilerOptions_Load);
 			((System.ComponentModel.ISupportInitialize)(this._MaxWorkers)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._MaxSlicers)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label_numworkers;
 		private System.Windows.Forms.NumericUpDown _MaxWorkers;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label_numslicers;
 		private System.Windows.Forms.NumericUpDown _MaxSlicers;
 		private System.Windows.Forms.Button button_apply;
 		private System.Windows.Forms.Button button_cancel;
 		private System.Windows.Forms.CheckBox _singleThread;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.CheckBox _showHelpsystem;
+		private System.Windows.Forms.CheckBox _showCompilerDebugMessages;
+		private System.Windows.Forms.CheckBox _autoOptimizeThreads;
 
 	}
 }

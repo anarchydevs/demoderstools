@@ -44,5 +44,10 @@ namespace Demoder.MapCompiler.xml
 		/// </summary>
 		public bool singlethreaded = (Environment.ProcessorCount > 1) ? false : true;
 
+		/// <summary>
+		/// Should the compiler autooptimize ammount of threads?
+		/// </summary>
+		public bool AutoOptimizeThreads = true;
+
 	}
 }

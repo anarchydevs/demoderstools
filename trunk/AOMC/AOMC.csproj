@@ -51,6 +51,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AOMC_Config.cs" />
     <Compile Include="CompilerOptions.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -106,6 +106,13 @@ namespace Demoder.MapCompiler
 		public event StatusReportEventHandler eventAssembler;
 		#endregion
 
+		#region Event antispam timers
+		DateTime antispamEventImageLoader = DateTime.Now;
+		DateTime antispamEventImageSlicer = DateTime.Now;
+		DateTime antispamEventWorker = DateTime.Now;
+		DateTime antispamEventAssembler = DateTime.Now;
+		#endregion
+
 
 		#region Event methods
 		private void debug(string source, string text)
@@ -119,6 +126,9 @@ namespace Demoder.MapCompiler
 
 		private void reportImageLoaderStatus(int percent, string message)
 		{
+			if (percent!=0 && percent!=100)
+				if ((DateTime.Now - this.antispamEventImageLoader).TotalMilliseconds < 250)
+					return;
 			if (this.eventImageLoader != null)
 				lock (this.eventImageLoader)
 					this.eventImageLoader(this, new StatusReportEventArgs(percent, message));
@@ -126,6 +136,9 @@ namespace Demoder.MapCompiler
 
 		private void reportImageSlicerStatus(int percent, string message)
 		{
+			if (percent != 0 && percent != 100)
+				if ((DateTime.Now - this.antispamEventImageSlicer).TotalMilliseconds < 250)
+					return;
 			if (this.eventImageSlicer != null)
 				lock (this.eventImageSlicer)
 					this.eventImageSlicer(this, new StatusReportEventArgs(percent, message));
@@ -133,6 +146,9 @@ namespace Demoder.MapCompiler
 
 		private void reportWorkerStatus(int percent, string message)
 		{
+			if (percent != 0 && percent != 100)
+				if ((DateTime.Now - this.antispamEventWorker).TotalMilliseconds < 250)
+					return;
 			if (this.eventWorker != null)
 				lock (this.eventWorker)
 					this.eventWorker(this, new StatusReportEventArgs(percent, message));
@@ -140,6 +156,9 @@ namespace Demoder.MapCompiler
 
 		private void reportAssemblerStatus(int percent, string message)
 		{
+			if (percent != 0 && percent != 100)
+				if ((DateTime.Now - this.antispamEventAssembler).TotalMilliseconds < 250)
+					return;
 			if (this.eventAssembler != null)
 				lock (this.eventAssembler)
 					this.eventAssembler(this, new StatusReportEventArgs(percent, message));
@@ -191,21 +210,13 @@ namespace Demoder.MapCompiler
 			#region sanitize compiler configuration
 			if (this._CompilerConfig.MaxWorkerThreads < 1) //Ensure we have at least one worker thread.
 				this._CompilerConfig.MaxWorkerThreads = 1;
+			if (this._CompilerConfig.MaxSlicerThreads < 1)
+				this._CompilerConfig.MaxSlicerThreads = 1;
 			#endregion
 		}
 
 		public void Compile(MapConfig config)
 		{
-			bool threaded = this._CompilerConfig.singlethreaded == true ? false : true; //Should we run singlethreaded mode?
-			switch (this._CompilerConfig.singlethreaded) {
-				case true: threaded=false; break;
-				default:
-				case false: threaded=true; break;
-			}
-			if (!threaded)
-			{
-				this._CompilerConfig.MaxSlicerThreads = 1;
-			}
 			this._MapConfig = config; //Set config.
 			//Initialize queues.
 			this._Queue_ImageLoader = new Queue<LoadImage>();
@@ -274,11 +285,11 @@ namespace Demoder.MapCompiler
 			} while (changed == true);
 
 			//Check config syntax.
-			
+
 			//MapDir
 			if (true)
 			{
-				switch (this._MapConfig.MapDir.Substring((this._MapConfig.MapDir.Length -2), 1))
+				switch (this._MapConfig.MapDir.Substring((this._MapConfig.MapDir.Length - 2), 1))
 				{
 					case "/":
 					case "\\":
@@ -295,6 +306,72 @@ namespace Demoder.MapCompiler
 			//Don't spawn more slicer threads than there are images to slice. (unnessecary overhead)
 			if (this._CompilerConfig.MaxSlicerThreads > this._Queue_ImageLoader.Count)
 				this._CompilerConfig.MaxSlicerThreads = this._Queue_ImageLoader.Count;
+			//Autooptimize thread settings
+			bool threaded;
+			if (this._CompilerConfig.AutoOptimizeThreads)
+			{
+				do
+				{ //So we can break.
+					int MaxThreads = Environment.ProcessorCount;
+					if (MaxThreads == 1)
+					{
+						this._CompilerConfig.MaxSlicerThreads = 1;
+						this._CompilerConfig.MaxWorkerThreads = 1;
+						this._CompilerConfig.singlethreaded = true;
+						threaded = false;
+						break;
+					}
+					if (MaxThreads == 2)
+					{
+						// Overtax the CPU. We just have to, since the worker is dependant on the slicer..
+						// ..and not overtaxing would cause a lot of idling.
+						this._CompilerConfig.MaxSlicerThreads = 2;
+						this._CompilerConfig.MaxWorkerThreads = 1;
+						this._CompilerConfig.singlethreaded = false;
+						threaded = true;
+
+						break;
+					}
+					int workerscore = 0;
+					int imagescore = (int)System.Math.Ceiling((double)(this._MapConfig.Images.Count * 8));
+					foreach (WorkTask wt in this._MapConfig.WorkerTasks)
+					{
+						int bumper;
+						if (wt.imageformat == ImageFormats.Png) bumper = 1;
+						else bumper = 2;
+						workerscore += (int)Math.Round((decimal)wt.workentries.Count * bumper,0);
+					}
+					//Now compare the two.
+
+					int total = workerscore + imagescore;
+					int workerPercent = math.Percent(total, workerscore);
+					int slicerPercent = math.Percent(total, imagescore);
+					int slicethreads = math.dePercent(MaxThreads, slicerPercent);
+					int workthreads = math.dePercent(MaxThreads, workerPercent);
+					this._CompilerConfig.MaxSlicerThreads = (slicethreads < 1) ? 1 : slicethreads;
+					this._CompilerConfig.MaxWorkerThreads = (workthreads < 1) ? 1 : workthreads;
+					this._CompilerConfig.singlethreaded = false;
+					threaded = true;
+				} while (false);
+			}
+			else
+			{
+				threaded = this._CompilerConfig.singlethreaded == true ? false : true; //Should we run singlethreaded mode?
+				switch (this._CompilerConfig.singlethreaded)
+				{
+					case true: threaded = false; break;
+					default:
+					case false: threaded = true; break;
+				}
+				if (!threaded)
+				{
+					this._CompilerConfig.MaxSlicerThreads = 1;
+				}
+			}
+			if (threaded)
+				this.debug("Initializing", String.Format("Starting with {0} slicer and {1} worker threads", this._CompilerConfig.MaxSlicerThreads, this._CompilerConfig.MaxWorkerThreads));
+			else
+				this.debug("Initializing", "Starting in singlethreaded mode.");
 			#endregion
 
 			//Start threads.
@@ -310,7 +387,7 @@ namespace Demoder.MapCompiler
 			if (threaded) this._Thread_imageSlicer.Start();
 			else this.__threaded_ImageSlicer();
 
-			
+
 
 			//Worker thread (the one that actually compiles the map)
 			this._Thread_Worker = new Thread(new ThreadStart(this.__threaded_Worker));
@@ -331,7 +408,6 @@ namespace Demoder.MapCompiler
 			{
 				Thread.Sleep(100);
 			}
-
 		}
 
 
@@ -359,7 +435,7 @@ namespace Demoder.MapCompiler
 					lock (this._Queue_ImageSlicer)
 						this._Queue_ImageSlicer.Enqueue(new ImageData(ie.name, bytes));
 					this.debug("IL", string.Format("Loaded {0}", ie.name));
-					this.reportImageLoaderStatus(Demoder.Common.Math.Percent(startqueue, (startqueue - this._Queue_ImageLoader.Count)), string.Format("Loaded {0}", ie.name));
+					this.reportImageLoaderStatus(Demoder.Common.math.Percent(startqueue, (startqueue - this._Queue_ImageLoader.Count)), string.Format("Loaded {0}", ie.name));
 				}
 				catch (Exception ex) {
 					this.debug("IL", ex.ToString());
@@ -453,7 +529,7 @@ namespace Demoder.MapCompiler
 			this._MRE_imageSlicer.Set();
 			lock (this.slicerFinishedTasks) {
 				this.slicerFinishedTasks.Add(true);
-				this.reportImageSlicerStatus(Demoder.Common.Math.Percent(this.imageslicerTotalQueue, this.slicerFinishedTasks.Count), string.Format("Sliced {0}", imgdata.name));
+				this.reportImageSlicerStatus(Demoder.Common.math.Percent(this.imageslicerTotalQueue, this.slicerFinishedTasks.Count), string.Format("Sliced {0}", imgdata.name));
 			}
 		}
 
@@ -565,7 +641,7 @@ namespace Demoder.MapCompiler
 			lock (this.workerFinishedTasks)
 			{
 				this.workerFinishedTasks.Add(true);
-				this.reportWorkerStatus(Demoder.Common.Math.Percent(this.workerTotalQueue, this.workerFinishedTasks.Count), string.Format("Finished work task: {0}", worktask.workname));
+				this.reportWorkerStatus(Demoder.Common.math.Percent(this.workerTotalQueue, this.workerFinishedTasks.Count), string.Format("Finished work task: {0}", worktask.workname));
 			}
 			lock (this.workerThreadPoolThreads)
 				this.workerThreadPoolThreads.RemoveAt(0);
