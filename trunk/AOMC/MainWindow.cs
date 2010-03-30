@@ -234,7 +234,7 @@ namespace AOMC
 			{
 				this._MapVersions.Items.Add(new ListViewItem(new string[] { tf.File, tf.Type.ToString(), tf.Name, tf.CoordsFile, string.Join(", ",tf.Layers.ToArray()) }));
 			}
-
+			Program.Config_Map_Changed = true;
 		}
 
 		#region _images context menu
@@ -581,6 +581,7 @@ namespace AOMC
 				case DialogResult.OK:
 					Program.Config_Map = Demoder.Common.Xml.Deserialize.file<MapConfig>(_OpenMapConfig.FileName);
 					this.LoadMapConfigValues();
+					Program.Config_Map_Changed = false;
 					break;
 			}
 		}
@@ -588,26 +589,12 @@ namespace AOMC
 		//save
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			DialogResult dr = this._SaveMapConfig.ShowDialog();
-			switch (dr)
-			{
-				case DialogResult.OK:
-					Program.MapConfigSavePath = this._SaveMapConfig.FileName;
-					Demoder.Common.Xml.Serialize.file<MapConfig>(Program.MapConfigSavePath, Program.Config_Map);
-					break;
-			}
+			SaveMapConfigAs(null);
 		}
 		//Save as
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Program.MapConfigSavePath == string.Empty)
-			{
-				this.saveAsToolStripMenuItem_Click(sender, e);
-			}
-			else
-			{
-				Demoder.Common.Xml.Serialize.file<MapConfig>(Program.MapConfigSavePath, Program.Config_Map);
-			}
+			this.SaveMapConfig();
 		}
 		//exit
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -648,5 +635,88 @@ namespace AOMC
 			}
 		}
 		#endregion
+
+		private void _ConfigChanged(object sender, EventArgs e)
+		{
+			Program.Config_Map_Changed = true;
+		}
+
+		private DialogResult SaveMapConfig()
+		{
+			DialogResult dr = DialogResult.Ignore;
+			if (Program.MapConfigSavePath == string.Empty)
+			{
+				dr = this.SaveMapConfigAs(null);
+			}
+			else
+			{
+				Demoder.Common.Xml.Serialize.file<MapConfig>(Program.MapConfigSavePath, Program.Config_Map);
+				Program.Config_Map_Changed = false;
+			}
+			return dr;
+		}
+
+		private DialogResult SaveMapConfigAs(string path)
+		{
+			if (path == null)
+			{
+				DialogResult dr = this._SaveMapConfig.ShowDialog();
+				switch (dr)
+				{
+					case DialogResult.OK:
+						Program.MapConfigSavePath = this._SaveMapConfig.FileName;
+						Demoder.Common.Xml.Serialize.file<MapConfig>(Program.MapConfigSavePath, Program.Config_Map);
+						Program.Config_Map_Changed = false;
+						break;
+				}
+				return dr;
+			}
+			else
+			{
+				try
+				{
+					Demoder.Common.Xml.Serialize.file<MapConfig>(path, Program.Config_Map);
+				}
+				catch { }
+				return DialogResult.OK;
+			}
+		}
+
+		private DialogResult AskToSave()
+		{
+			DialogResult dr = MessageBox.Show("There are unsaved changes. Do you want to save them now?", "Save changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+			switch (dr)
+			{
+				case DialogResult.Yes:
+					dr = this.SaveMapConfig();
+					break;
+			}
+			return dr;
+		}
+
+		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			switch (e.CloseReason)
+			{
+
+				case CloseReason.WindowsShutDown:
+					this.SaveMapConfigAs(Program.ConfigPath+"sysshutdown_mapconfig.xml");
+					break;
+				case CloseReason.FormOwnerClosing:
+				case CloseReason.UserClosing:
+				case CloseReason.TaskManagerClosing:
+				case CloseReason.ApplicationExitCall:
+				case CloseReason.None:
+				default:
+					DialogResult dr = this.AskToSave();
+					switch (dr)
+					{
+						case DialogResult.Cancel:
+							e.Cancel = true;
+							break;
+					}
+					break;
+			}
+		}
 	}
 }

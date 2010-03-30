@@ -35,6 +35,7 @@ namespace AOMC
 #warning fixme: Make this load from appdata or something.
 		internal static CompilerConfig Config_Compiler;
 		internal static MapConfig Config_Map = new MapConfig();
+		internal static bool Config_Map_Changed = false;
 		internal static string ConfigPath = "";
 		internal static string MapConfigSavePath = string.Empty;
 		/// <summary>
