@@ -552,6 +552,37 @@ namespace Demoder.MapCompiler
 			 * - What is layer X's offset in that file
 			 * - What relative file positions does each layer contain?
 			 */
+			byte[] headerimg_bytes;
+			if (true)
+			{
+				System.Reflection.AssemblyName callerassembly = System.Reflection.Assembly.GetEntryAssembly().GetName();
+				System.Reflection.AssemblyName myassembly = System.Reflection.Assembly.GetExecutingAssembly().GetName();
+
+				string[] headerstring = new string[] {
+					string.Format("Compiled with {0} v{1}",
+						callerassembly.Name,
+						callerassembly.Version),
+					string.Format("    using {0} v{1}",
+						myassembly.Name,
+						myassembly.Version),
+					string.Format("Map name: {0}", this._MapConfig.Name),
+					string.Format("Compilation time: {0}-{1}-{2} {3}:{4}:{5}", 
+						DateTime.UtcNow.Year, 
+						DateTime.UtcNow.Month, 
+						DateTime.UtcNow.Day, 
+						DateTime.UtcNow.Hour, 
+						DateTime.UtcNow.Minute, 
+						DateTime.UtcNow.Second) 
+			};
+				Bitmap headerimg = new Bitmap(640, (int)System.Math.Ceiling((double)(10 * headerstring.Length)), PixelFormat.Format24bppRgb); //Image to add to the beginning of every binfile
+				Graphics g = Graphics.FromImage(headerimg);
+				for (int i = 0; i < headerstring.Length; i++)
+					g.DrawString(headerstring[i], new Font(FontFamily.GenericMonospace, 8, FontStyle.Regular), Brushes.White, 2, (int)System.Math.Ceiling((double)(9 * i)));
+				g.Dispose();
+				MemoryStream ms_headerimg = new MemoryStream(1024);
+				headerimg.Save(ms_headerimg, ImageFormat.Png);
+				headerimg_bytes = ms_headerimg.ToArray();
+			}
 
 #warning fixme: This is NOT optimized for a multi-binfile enviorenment.
 			//multibinfile: Grab what it has, spew out the binfiles as they become available.
@@ -618,8 +649,11 @@ namespace Demoder.MapCompiler
 						break;
 				}
 				lock (this._Data_Binfiles)
-					if (!this._Data_Binfiles.ContainsKey(binname)) //If this binfile doesn't exist in the list, add it.
-						this._Data_Binfiles.Add(binname, new MemoryStream(1028));
+					if (!this._Data_Binfiles.ContainsKey(binname))
+					{ //If this binfile doesn't exist in the list, add it.
+						this._Data_Binfiles.Add(binname,new MemoryStream());
+						this._Data_Binfiles[binname].Write(headerimg_bytes, 0, headerimg_bytes.Length);
+					}
 
 				MemoryStream binfile = this._Data_Binfiles[binname]; //Temporary memorystream for binfile.
 				long BinOffset = binfile.Length;
