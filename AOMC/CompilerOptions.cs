@@ -54,6 +54,7 @@ namespace AOMC
 			Program.Config_Compiler.MaxSlicerThreads = (int)_MaxSlicers.Value;
 			Program.Config_Compiler.MaxWorkerThreads = (int)_MaxWorkers.Value;
 			Program.Config_Compiler.singlethreaded = this._singleThread.Checked;
+			Program.Config_Compiler.AutoOptimizeThreads = this._autoOptimizeThreads.Checked;
 			Program.Config_AOMC.show_compiler_debugmessages = this._showCompilerDebugMessages.Checked;
 			Program.Config_AOMC.show_helpsystem = this._showHelpsystem.Checked;
 			this.DialogResult = DialogResult.OK;
