@@ -151,6 +151,9 @@ namespace Demoder.MapCompiler
 		public void ClearEvents() {
 			this.eventDebug = null;
 			this.eventImageLoader = null;
+			this.eventAssembler = null;
+			this.eventImageSlicer = null;
+			this.eventWorker = null;
 		}
 
 		public Compiler(xml.CompilerConfig cfg)
