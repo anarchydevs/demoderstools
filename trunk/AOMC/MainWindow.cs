@@ -195,6 +195,7 @@ namespace AOMC
 				_map_assemblymethod.SelectedIndex = 0;
 
 			this.LoadMapConfigValues();
+			Program.Config_Map_Changed = false;
 			this._HelperBox.Text = Properties.Resources.help_MapInfo;
 		}
 
@@ -568,13 +569,17 @@ namespace AOMC
 		//new
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-#warning fixme: Add a check to see if we have changed config etc, and have it prompt the user if that is the case.
+			if (Program.Config_Map_Changed)
+				this.AskToSave();
 			Program.Config_Map = new MapConfig();
 			this.LoadMapConfigValues();
+			Program.Config_Map_Changed = false;
 		}
 		//open
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (Program.Config_Map_Changed)
+				this.AskToSave();
 			DialogResult dr = _OpenMapConfig.ShowDialog();
 			switch (dr)
 			{
@@ -599,7 +604,6 @@ namespace AOMC
 		//exit
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-#warning fixme: Add a check to see if we have changed config etc, and have it prompt the user if that is the case.
 			this.Close();
 		}
 		
@@ -696,26 +700,29 @@ namespace AOMC
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			switch (e.CloseReason)
+			if (Program.Config_Map_Changed)
 			{
+				switch (e.CloseReason)
+				{
 
-				case CloseReason.WindowsShutDown:
-					this.SaveMapConfigAs(Program.ConfigPath+"sysshutdown_mapconfig.xml");
-					break;
-				case CloseReason.FormOwnerClosing:
-				case CloseReason.UserClosing:
-				case CloseReason.TaskManagerClosing:
-				case CloseReason.ApplicationExitCall:
-				case CloseReason.None:
-				default:
-					DialogResult dr = this.AskToSave();
-					switch (dr)
-					{
-						case DialogResult.Cancel:
-							e.Cancel = true;
-							break;
-					}
-					break;
+					case CloseReason.WindowsShutDown:
+						this.SaveMapConfigAs(Program.ConfigPath + "sysshutdown_mapconfig.xml");
+						break;
+					case CloseReason.FormOwnerClosing:
+					case CloseReason.UserClosing:
+					case CloseReason.TaskManagerClosing:
+					case CloseReason.ApplicationExitCall:
+					case CloseReason.None:
+					default:
+						DialogResult dr = this.AskToSave();
+						switch (dr)
+						{
+							case DialogResult.Cancel:
+								e.Cancel = true;
+								break;
+						}
+						break;
+				}
 			}
 		}
 	}
