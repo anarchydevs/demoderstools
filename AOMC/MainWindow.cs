@@ -52,6 +52,7 @@ namespace AOMC
 			cc.MaxSlicerThreads = Program.Config_Compiler.MaxSlicerThreads;
 			cc.MaxWorkerThreads = Program.Config_Compiler.MaxWorkerThreads;
 			cc.singlethreaded = Program.Config_Compiler.singlethreaded;
+			cc.AutoOptimizeThreads = Program.Config_Compiler.AutoOptimizeThreads;
 			//Make a copy of map configuration that we pass along.
 			MapConfig mc = Program.Config_Map.Copy();
 
