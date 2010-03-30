@@ -387,6 +387,7 @@ namespace AOMC
 						break;
 				}
 			} while (error);
+			this.LoadMapConfigValues();
 		}
 
 		private void workerTasks_ContextMenu_Edit_Click(object sender, EventArgs e)
