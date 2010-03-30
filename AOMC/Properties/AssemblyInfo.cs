@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AOMC")]
+[assembly: AssemblyTitle("AOMC (C#)")]
 [assembly: AssemblyDescription("A map compiler for the game Anarchy Online")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
