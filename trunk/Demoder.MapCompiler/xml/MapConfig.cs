@@ -251,6 +251,7 @@ namespace Demoder.MapCompiler.xml
 					WorkTask nwt = new WorkTask();
 					nwt.maprect = wt.maprect;
 					nwt.workname = wt.workname;
+					nwt.imageformat = wt.imageformat;
 					foreach (string wl in wt.workentries)
 					{
 						nwt.workentries.Add(wl);

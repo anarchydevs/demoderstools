@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Demoder.MapCompiler
 {
@@ -79,7 +81,7 @@ namespace Demoder.MapCompiler
 			switch (this._slicedImages.Count)
 			{
 				case 0: throw new ArgumentNullException("There's nothing to work on!");
-				//case 1: return this._DoWork_Single();
+				case 1: return this._DoWork_Single();
 				default: return this._DoWork_Compare();
 			}
 
@@ -105,7 +107,23 @@ namespace Demoder.MapCompiler
 			{
 				curPos = this._ms.Length;
 				this._StreamPos[wl].Add(curPos); //To stream positions
-				slice.WriteTo(this._ms);
+				if (this._worktask.imageformat != ImageFormats.Png)
+				{
+					ImageFormat imf;
+					switch (this._worktask.imageformat)
+					{
+						default:
+						case ImageFormats.Jpeg:
+							imf = ImageFormat.Jpeg;
+							break;
+					}
+					Image img = Image.FromStream(slice);
+					MemoryStream ms = new MemoryStream();
+					img.Save(ms, imf);
+					ms.WriteTo(this._ms);
+				}
+				else 
+					slice.WriteTo(this._ms);
 			}
 			return this._DoWork_Finish();
 		}
@@ -166,7 +184,24 @@ namespace Demoder.MapCompiler
 							_LastPos[wl] = curPos;
 						else
 							_LastPos.Add(wl, curPos);
-						this._ms.Write(simg_slice, 0, simg_slice.Length);
+						if (this._worktask.imageformat != ImageFormats.Png) //AFTER md5'ing to compare.. check if we should save in another format.
+						{
+							Image img = Image.FromStream(simg.Slices[index]);
+							MemoryStream ms = new MemoryStream();
+							ImageFormat imf;
+							switch (this._worktask.imageformat)
+							{
+								default:
+								case ImageFormats.Jpeg:
+									imf = ImageFormat.Jpeg;
+									break;
+							}
+							img.Save(ms, imf);
+							byte[] msb = ms.ToArray();
+							this._ms.Write(msb, 0, msb.Length);
+						}
+						else 
+							this._ms.Write(simg_slice, 0, simg_slice.Length);
 						treated = true;
 					}
 					if (index < (simg.Slices.Count)) DoAgain = true;

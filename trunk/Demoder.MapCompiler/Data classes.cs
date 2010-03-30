@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace Demoder.MapCompiler
 {
@@ -98,11 +99,19 @@ namespace Demoder.MapCompiler
 		public string workname;
 		[XmlAttribute("maprect")]
 		public string maprect;
+		[XmlAttribute("imgformat")]
+		public ImageFormats imageformat = ImageFormats.Png;
 		[XmlElement("WorkEntry")]
 		public List<string> workentries;
 
 	}
-		
+
+	public enum ImageFormats
+	{
+		Png,
+		Jpeg
+	}
+
 	public class WorkerResult
 	{
 		public WorkerResult() {

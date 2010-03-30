@@ -226,7 +226,7 @@ namespace AOMC
 				foreach (string wl in wt.workentries)
 					workentries.Add(string.Format("{0}", wl));
 
-				this._WorkerTasks.Items.Add(new ListViewItem(new string[] { wt.workname, wt.maprect, string.Join(", ", workentries.ToArray()) }));
+				this._WorkerTasks.Items.Add(new ListViewItem(new string[] { wt.workname, wt.maprect, wt.imageformat.ToString(), string.Join(", ", workentries.ToArray()) }));
 			}
 
 			//Map versions
@@ -406,6 +406,7 @@ namespace AOMC
 					{
 						wtme.workerTask.workentries.Add(wl);
 					}
+					wtme.workerTask.imageformat = oldtask.imageformat;
 					//End of preventing referencing.
 					wtme.Text = "Edit work task";
 					wtme.button_ok.Text = "Apply";

@@ -38,6 +38,8 @@
 			this._availImages = new System.Windows.Forms.ListBox();
 			this.button_addImg = new System.Windows.Forms.Button();
 			this.button_remImg = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this._imageformat = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -74,7 +76,7 @@
 			// 
 			// button_ok
 			// 
-			this.button_ok.Location = new System.Drawing.Point(8, 154);
+			this.button_ok.Location = new System.Drawing.Point(8, 200);
 			this.button_ok.Name = "button_ok";
 			this.button_ok.Size = new System.Drawing.Size(76, 33);
 			this.button_ok.TabIndex = 3;
@@ -85,7 +87,7 @@
 			// button_cancel
 			// 
 			this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button_cancel.Location = new System.Drawing.Point(157, 159);
+			this.button_cancel.Location = new System.Drawing.Point(157, 205);
 			this.button_cancel.Name = "button_cancel";
 			this.button_cancel.Size = new System.Drawing.Size(75, 23);
 			this.button_cancel.TabIndex = 4;
@@ -96,7 +98,7 @@
 			// _addedImages
 			// 
 			this._addedImages.FormattingEnabled = true;
-			this._addedImages.Location = new System.Drawing.Point(8, 66);
+			this._addedImages.Location = new System.Drawing.Point(8, 112);
 			this._addedImages.Name = "_addedImages";
 			this._addedImages.Size = new System.Drawing.Size(120, 82);
 			this._addedImages.TabIndex = 5;
@@ -104,14 +106,14 @@
 			// _availImages
 			// 
 			this._availImages.FormattingEnabled = true;
-			this._availImages.Location = new System.Drawing.Point(176, 66);
+			this._availImages.Location = new System.Drawing.Point(176, 112);
 			this._availImages.Name = "_availImages";
 			this._availImages.Size = new System.Drawing.Size(120, 82);
 			this._availImages.TabIndex = 6;
 			// 
 			// button_addImg
 			// 
-			this.button_addImg.Location = new System.Drawing.Point(134, 76);
+			this.button_addImg.Location = new System.Drawing.Point(134, 122);
 			this.button_addImg.Name = "button_addImg";
 			this.button_addImg.Size = new System.Drawing.Size(35, 23);
 			this.button_addImg.TabIndex = 7;
@@ -121,7 +123,7 @@
 			// 
 			// button_remImg
 			// 
-			this.button_remImg.Location = new System.Drawing.Point(134, 115);
+			this.button_remImg.Location = new System.Drawing.Point(134, 161);
 			this.button_remImg.Name = "button_remImg";
 			this.button_remImg.Size = new System.Drawing.Size(35, 23);
 			this.button_remImg.TabIndex = 8;
@@ -129,13 +131,33 @@
 			this.button_remImg.UseVisualStyleBackColor = true;
 			this.button_remImg.Click += new System.EventHandler(this.button_remImg_Click);
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(8, 73);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(68, 13);
+			this.label3.TabIndex = 9;
+			this.label3.Text = "Image format";
+			// 
+			// _imageformat
+			// 
+			this._imageformat.FormattingEnabled = true;
+			this._imageformat.Location = new System.Drawing.Point(82, 70);
+			this._imageformat.Name = "_imageformat";
+			this._imageformat.Size = new System.Drawing.Size(121, 21);
+			this._imageformat.Sorted = true;
+			this._imageformat.TabIndex = 10;
+			// 
 			// workertaskModifyEntry
 			// 
 			this.AcceptButton = this.button_ok;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button_cancel;
-			this.ClientSize = new System.Drawing.Size(301, 195);
+			this.ClientSize = new System.Drawing.Size(301, 237);
+			this.Controls.Add(this._imageformat);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.button_remImg);
 			this.Controls.Add(this.button_addImg);
 			this.Controls.Add(this._availImages);
@@ -166,5 +188,7 @@
 		private System.Windows.Forms.ListBox _availImages;
 		private System.Windows.Forms.Button button_addImg;
 		private System.Windows.Forms.Button button_remImg;
+		private System.Windows.Forms.Label label3;
+		internal System.Windows.Forms.ComboBox _imageformat;
 	}
 }
