@@ -34,15 +34,15 @@ namespace Demoder.MapCompiler.xml
 		/// <summary>
 		/// How many threads should the image slicer be allowed to use. 0 for unlimited (threadpool)
 		/// </summary>
-		public int MaxSlicerThreads = Environment.ProcessorCount - 1;
+		public int MaxSlicerThreads = (Environment.ProcessorCount > 1) ? Environment.ProcessorCount - 1 : 1;
 		/// <summary>
 		/// How many worker threads should we spawn? One is usually enough; shouldn't need more than two, ever.
 		/// </summary>
 		public int MaxWorkerThreads = 1;
 		/// <summary>
-		/// Is the compiler try to use only one thread?
+		/// Should the compiler try to use only one thread?
 		/// </summary>
-		public bool singlethreaded = false;
+		public bool singlethreaded = (Environment.ProcessorCount > 1) ? false : true;
 
 	}
 }
