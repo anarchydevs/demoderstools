@@ -1,0 +1,12 @@
+﻿PHP patcher structure:
+	One class decompiling binfiles.
+	One class making a distribution out of a given folder. (storing folder structure + hashes)
+	One class updating distribution (fetching local folder structure + hashes, comparing it to remote distribution, applying changes)
+
+C# patcher structure?:
+	One class decompiling a provided binfile.
+	One class storing distribution layout. This class should be able to make a new layout based on a provided folder.
+		This class should have a "compare" method, returning a layout describing what has to be done to update local to remote.
+	One class making a distribution based on the stored layout.
+	One class updating a distribution based on local layout + remote layout.
+	
