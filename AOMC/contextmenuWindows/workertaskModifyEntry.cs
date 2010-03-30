@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Demoder.MapCompiler;
+using System.Drawing.Imaging;
 
 namespace AOMC.contextmenuWindows
 {
@@ -38,6 +39,9 @@ namespace AOMC.contextmenuWindows
 					this._availImages.Items.Add(li.name);
 			foreach (string img in this.workerTask.workentries)
 				this._addedImages.Items.Add(img);
+			this._imageformat.Items.Add(ImageFormats.Png);
+			this._imageformat.Items.Add(ImageFormats.Jpeg);
+			this._imageformat.SelectedIndex = this._imageformat.Items.IndexOf(this.workerTask.imageformat);
 		}
 
 		private void button_ok_Click(object sender, EventArgs e)
@@ -49,6 +53,8 @@ namespace AOMC.contextmenuWindows
 			{
 				this.workerTask.workentries.Add(lvi);
 			}
+			this.workerTask.imageformat = (ImageFormats)this._imageformat.Items[this._imageformat.SelectedIndex];
+
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
