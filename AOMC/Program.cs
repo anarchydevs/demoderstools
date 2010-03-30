@@ -35,6 +35,7 @@ namespace AOMC
 #warning fixme: Make this load from appdata or something.
 		internal static CompilerConfig Config_Compiler;
 		internal static MapConfig Config_Map = new MapConfig();
+		internal static AOMC_Config Config_AOMC = new AOMC_Config();
 		internal static bool Config_Map_Changed = false;
 		internal static string ConfigPath = "";
 		internal static string MapConfigSavePath = string.Empty;
@@ -46,7 +47,14 @@ namespace AOMC
 		{
 			//Initialize variables
 			Program.Config_Compiler = Xml.Deserialize.file<CompilerConfig>(string.Format("{0}compiler_config.xml", Program.ConfigPath));
-			if (Program.Config_Compiler == null) Program.Config_Compiler = new CompilerConfig();
+			Program.Config_AOMC = Xml.Deserialize.file<AOMC_Config>(string.Format("{0}aomc_config.xml", Program.ConfigPath));
+			if (Program.Config_Compiler == null) { 
+				Program.Config_Compiler = new CompilerConfig();
+			}
+			if (Program.Config_AOMC == null)
+			{
+				Program.Config_AOMC = new AOMC_Config();
+			}
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());

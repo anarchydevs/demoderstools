@@ -56,7 +56,8 @@ namespace AOMC
 			MapConfig mc = Program.Config_Map.Copy();
 
 			Compiler compiler = new Compiler(cc);
-			compiler.eventDebug += new DebugEventHandler(this.handleDebugEvent);
+			if (Program.Config_AOMC.show_compiler_debugmessages)
+				compiler.eventDebug += new DebugEventHandler(this.handleDebugEvent);
 			compiler.eventImageLoader += new StatusReportEventHandler(this.handleImageLoaderEvent);
 			compiler.eventImageSlicer += new StatusReportEventHandler(this.handleImageSlicerEvent);
 			compiler.eventWorker += new StatusReportEventHandler(this.handleWorkerEvent);
@@ -180,7 +181,12 @@ namespace AOMC
 			CompilerOptions co = new CompilerOptions();
 			DialogResult dr = co.ShowDialog();
 			if (dr == DialogResult.OK)
+			{
 				Xml.Serialize.file<CompilerConfig>(string.Format("{0}compiler_config.xml", Program.ConfigPath), Program.Config_Compiler);
+				Xml.Serialize.file<AOMC_Config>(string.Format("{0}aomc_config.xml", Program.ConfigPath), Program.Config_AOMC);
+				this.ApplyViewSettings();
+			}
+
 		}
 
 		private void MainWindow_Load(object sender, EventArgs e)
@@ -195,8 +201,16 @@ namespace AOMC
 				_map_assemblymethod.SelectedIndex = 0;
 
 			this.LoadMapConfigValues();
+			this.ApplyViewSettings();
 			Program.Config_Map_Changed = false;
 			this._HelperBox.Text = Properties.Resources.help_MapInfo;
+		}
+
+		private void ApplyViewSettings()
+		{
+			this._compiler_debugmessages.Visible = Program.Config_AOMC.show_compiler_debugmessages;
+			this._label_DebugMessages.Visible = Program.Config_AOMC.show_compiler_debugmessages;
+			this.splitContainer_Secondary.Panel2Collapsed = Program.Config_AOMC.show_helpsystem ? false : true;
 		}
 
 		private void LoadMapConfigValues()
@@ -642,9 +656,16 @@ namespace AOMC
 		}
 		#endregion
 
-		private void _ConfigChanged(object sender, EventArgs e)
+		private void _MapInfoChanged(object sender, EventArgs e)
 		{
 			Program.Config_Map_Changed = true;
+			if (this._map_assemblymethod == sender) Program.Config_Map.Assembler = (MapConfig.AssemblyMethod)Enum.Parse(typeof(MapConfig.AssemblyMethod), this._map_assemblymethod.Text);
+			else if (this._map_name == sender) Program.Config_Map.Name = this._map_name.Text;
+			else if (this._map_subdirectory == sender) Program.Config_Map.MapDir = this._map_subdirectory.Text;
+			else if (this._map_texturesize == sender) Program.Config_Map.TextureSize = (int)this._map_texturesize.Value;
+			else if (this._map_version_major == sender) Program.Config_Map.Version.Major = (uint)this._map_version_major.Value;
+			else if (this._map_version_minor == sender) Program.Config_Map.Version.Minor = (uint)this._map_version_minor.Value;
+			else if (this._map_version_build == sender) Program.Config_Map.Version.Build = (uint)this._map_version_build.Value;
 		}
 
 		private DialogResult SaveMapConfig()
@@ -726,6 +747,11 @@ namespace AOMC
 						break;
 				}
 			}
+		}
+
+		private void toolStripMenuItem_ToggleHelpsystem_Click(object sender, EventArgs e)
+		{
+			
 		}
 	}
 }
