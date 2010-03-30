@@ -334,11 +334,20 @@ namespace Demoder.MapCompiler
 					}
 					int workerscore = 0;
 					int imagescore = (int)System.Math.Ceiling((double)(this._MapConfig.Images.Count * 8));
+					int overshoot = 0;
 					foreach (WorkTask wt in this._MapConfig.WorkerTasks)
 					{
 						int bumper;
-						if (wt.imageformat == ImageFormats.Png) bumper = 1;
-						else bumper = 3;
+						if (wt.imageformat == ImageFormats.Png)
+						{
+							bumper = 1;
+							overshoot++;
+						}
+						else
+						{
+							bumper = 3;
+							overshoot--;
+						}
 						workerscore += (int)Math.Round((decimal)wt.workentries.Count * bumper,0);
 					}
 					//Now compare the two.
@@ -348,8 +357,9 @@ namespace Demoder.MapCompiler
 					int slicerPercent = math.Percent(total, imagescore);
 					int slicethreads = math.dePercent(MaxThreads, slicerPercent);
 					int workthreads = math.dePercent(MaxThreads, workerPercent);
+					int overshootthreads = math.dePercent(MaxThreads, overshoot);
 					this._CompilerConfig.MaxSlicerThreads = (slicethreads < 1) ? 1 : slicethreads;
-					this._CompilerConfig.MaxWorkerThreads = (workthreads < 1) ? 1 : workthreads;
+					this._CompilerConfig.MaxWorkerThreads = (workthreads + overshootthreads < 1) ? 1 : (workthreads + overshootthreads);
 					this._CompilerConfig.singlethreaded = false;
 					threaded = true;
 				} while (false);
