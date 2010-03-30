@@ -164,7 +164,7 @@ namespace Demoder.MapCompiler
 
 		public void Compile(MapConfig config)
 		{
-			bool threaded; //Should we run threaded or not? Debugging purposes.
+			bool threaded = this._CompilerConfig.singlethreaded == true ? false : true; //Should we run singlethreaded mode?
 			switch (this._CompilerConfig.singlethreaded) {
 				case true: threaded=false; break;
 				default:
