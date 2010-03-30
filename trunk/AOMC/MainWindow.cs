@@ -640,7 +640,7 @@ namespace AOMC
 					this._HelperBox.Text = Properties.Resources.help_Workertasks;
 					break;
 				case "tabPage_MapVersions":
-					this._HelperBox.Text = Properties.Resources.help_Mapversions
+					this._HelperBox.Text = Properties.Resources.help_Mapversions;
 					break;
 				case "tabPage_Compile":
 					this._HelperBox.Text = Properties.Resources.help_Compile;
