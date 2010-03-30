@@ -55,7 +55,7 @@ namespace AOMC
 			Program.Config_Compiler.MaxWorkerThreads = (int)_MaxWorkers.Value;
 			Program.Config_Compiler.singlethreaded = this._singleThread.Checked;
 			Program.Config_AOMC.show_compiler_debugmessages = this._showCompilerDebugMessages.Checked;
-			Program.Config_AOMC.show_compiler_debugmessages = this._showHelpsystem.Checked;
+			Program.Config_AOMC.show_helpsystem = this._showHelpsystem.Checked;
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
