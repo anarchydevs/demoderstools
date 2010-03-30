@@ -338,7 +338,7 @@ namespace Demoder.MapCompiler
 					{
 						int bumper;
 						if (wt.imageformat == ImageFormats.Png) bumper = 1;
-						else bumper = 2;
+						else bumper = 3;
 						workerscore += (int)Math.Round((decimal)wt.workentries.Count * bumper,0);
 					}
 					//Now compare the two.
