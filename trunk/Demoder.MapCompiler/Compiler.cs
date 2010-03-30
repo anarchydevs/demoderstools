@@ -156,6 +156,35 @@ namespace Demoder.MapCompiler
 			this.eventWorker = null;
 		}
 
+		/// <summary>
+		/// Clean out all references.
+		/// </summary>
+		public void Dispose() {
+			this.ClearEvents(); //clear out events
+			this._Data_Binfiles=null;
+			this._CompilerConfig=null;
+			this._Data_SlicedImages=null;
+			this._Data_TxtFiles=null;
+			this._Data_WorkerResults=null;
+			this._MapConfig=null;
+			this._MRE_imageSlicer=null;
+			this._MRE_WorkerDoWork=null;
+			this._MRE_WorkerThread=null;
+			this._outdir=null;
+			this._Queue_ImageLoader=null;
+			this._Queue_ImageSlicer=null;
+			this._Queue_Worker=null;
+			this._Thread_assembler=null;
+			this._Thread_imageLoader=null;
+			this._Thread_imageSlicer=null;
+			this._Thread_Worker=null;
+			this.slicerFinishedTasks=null;
+			this.slicerThreadPoolThreads=null;
+			this.workerFinishedTasks=null;
+			this.workerThreadPoolThreads=null;
+			this.workerTotalQueue=0;
+		}
+
 		public Compiler(xml.CompilerConfig cfg)
 		{
 			this._CompilerConfig = cfg;

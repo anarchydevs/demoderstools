@@ -62,7 +62,7 @@ namespace AOMC
 			compiler.eventWorker += new StatusReportEventHandler(this.handleWorkerEvent);
 			compiler.eventAssembler += new StatusReportEventHandler(this.handleAssemblerEvent);
 			compiler.Compile(mc);
-			compiler.ClearEvents();
+			compiler.Dispose();
 		}
 
 		#region worker events
