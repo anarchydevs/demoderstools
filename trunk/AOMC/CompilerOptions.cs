@@ -19,10 +19,10 @@ namespace AOMC
 		private void CompilerOptions_Load(object sender, EventArgs e)
 		{
 			//Load configuration.
-			//Max # Slicer threads
 			this._MaxSlicers.Value = Program.Config_Compiler.MaxSlicerThreads;
 			this._MaxWorkers.Value = Program.Config_Compiler.MaxWorkerThreads;
 			this._showHelpsystem.Checked = Program.Config_AOMC.show_helpsystem;
+			this._singleThread.Checked = Program.Config_Compiler.singlethreaded;
 			this._showCompilerDebugMessages.Checked = Program.Config_AOMC.show_compiler_debugmessages;
 			this._autoOptimizeThreads.Checked = Program.Config_Compiler.AutoOptimizeThreads;
 			this.EnableDisableStuff();
