@@ -192,8 +192,10 @@ namespace AOMC
 
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
+			//Adjust form mininumsize accordingly.
+			if (!Program.Config_AOMC.show_helpsystem) //If we ain't showing the help system, adjust form mininumsize accordingly.
+				this.MinimumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height - 75);
 			_map_assemblymethod.Items.Clear();
-
 			foreach (string am in Enum.GetNames(typeof(MapConfig.AssemblyMethod)))
 			{
 				_map_assemblymethod.Items.Add(am);
@@ -253,7 +255,17 @@ namespace AOMC
 			Program.Config_Map_Changed = true;
 		}
 
-		#region _images context menu
+		#region _images
+
+		private void _imagelist_DoubleClick(object sender, EventArgs e)
+		{
+			if (this._imagelist.SelectedItems.Count == 0)
+				this.imagesContextMenu_Add_Click(sender, e);
+			else
+				this.imagesContextMenu_Edit_Click(sender, e);
+			 
+		}
+
 		private void images_Contextmenu_Opening(object sender, CancelEventArgs e)
 		{
 			images_Contextmenu.Items[images_Contextmenu.Items.IndexOfKey("imagesContextMenu_Add")].Enabled = true;
@@ -360,7 +372,15 @@ namespace AOMC
 		}
 		#endregion
 
-		#region _worker taks context menu
+		#region _worker taks
+
+		private void _WorkerTasks_DoubleClick(object sender, EventArgs e)
+		{
+			if (this._WorkerTasks.SelectedItems.Count == 0)
+				this.workerTasks_ContextMenu_Add_Click(sender, e);
+			else
+				this.workerTasks_ContextMenu_Edit_Click(sender, e);
+		}
 
 		private void workerTasks_ContextMenu_Opening(object sender, CancelEventArgs e)
 		{
@@ -465,7 +485,15 @@ namespace AOMC
 		
 		#endregion
 
-		#region Map Versions context menu
+		#region Map Versions
+		private void _MapVersions_DoubleClick(object sender, EventArgs e)
+		{
+			if (this._MapVersions.SelectedItems.Count == 0)
+				this.mapVersions_ContextMenu_Add_Click(sender, e);
+			else
+				this.mapVersions_ContextMenu_Edit_Click(sender, e);
+		}
+
 		private void mapVersions_ContextMenu_Opening(object sender, CancelEventArgs e)
 		{
 			mapVersions_ContextMenu.Items[mapVersions_ContextMenu.Items.IndexOfKey("mapVersions_ContextMenu_Add")].Enabled = true;
@@ -657,6 +685,7 @@ namespace AOMC
 		}
 		#endregion
 
+		#region Map config change & saving
 		private void _MapInfoChanged(object sender, EventArgs e)
 		{
 			Program.Config_Map_Changed = true;
@@ -749,10 +778,6 @@ namespace AOMC
 				}
 			}
 		}
-
-		private void toolStripMenuItem_ToggleHelpsystem_Click(object sender, EventArgs e)
-		{
-			
-		}
+		#endregion
 	}
 }

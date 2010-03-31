@@ -91,6 +91,7 @@
 			this._layers.Name = "_layers";
 			this._layers.Size = new System.Drawing.Size(105, 121);
 			this._layers.TabIndex = 4;
+			this._layers.DoubleClick += new System.EventHandler(this._layers_DoubleClick);
 			// 
 			// _name
 			// 
@@ -193,6 +194,7 @@
 			this._availableLayers.Name = "_availableLayers";
 			this._availableLayers.Size = new System.Drawing.Size(105, 121);
 			this._availableLayers.TabIndex = 8;
+			this._availableLayers.DoubleClick += new System.EventHandler(this._availableLayers_DoubleClick);
 			// 
 			// button_addlayer
 			// 
