@@ -52,10 +52,10 @@ namespace AOMC
 			//Default config directory.
 			if (Program.cmdParams.Flag("portable"))
 			{
-				Program.ConfigPath="cfg/";
+				Program.ConfigPath = "cfg" + Path.DirectorySeparatorChar;
 			}
 			else {
-				Program.ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"/"+System.Reflection.Assembly.GetExecutingAssembly().GetName().Name+"/";
+				Program.ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + Path.DirectorySeparatorChar;
 			}
 
 			if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath);

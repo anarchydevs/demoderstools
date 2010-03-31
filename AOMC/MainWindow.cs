@@ -241,6 +241,9 @@ namespace AOMC
 			this._map_version_minor.Value = Program.Config_Map.Version.Minor;
 			this._map_version_build.Value = Program.Config_Map.Version.Build;
 
+			this._map_shortname.Text = Program.Config_Map.ShortName;
+			this._map_OutFolder.Text = Program.Config_Map.OutputDirectory;
+
 			this._map_subdirectory.Text = Program.Config_Map.MapDir;
 			this._map_assemblymethod.SelectedIndex = _map_assemblymethod.Items.IndexOf(Program.Config_Map.Assembler.ToString());
 			this._map_texturesize.Value = Program.Config_Map.TextureSize;
@@ -271,6 +274,28 @@ namespace AOMC
 			}
 			Program.Config_Map_Changed = true;
 		}
+
+
+		#region General
+		private void _map_OutFolder_Click(object sender, EventArgs e)
+		{
+			if (this._map_OutFolder.Text.Length == 0)
+				this._map_OutFolder_DoubleClick(sender, e);
+		}
+
+		private void _map_OutFolder_DoubleClick(object sender, EventArgs e)
+		{
+			this.folderBrowserDialog1.Description = "Select where to save the compiled map.";
+			DialogResult dr = this.folderBrowserDialog1.ShowDialog();
+			switch (dr)
+			{
+				case DialogResult.OK:
+					this._map_OutFolder.Text = this.folderBrowserDialog1.SelectedPath;
+					break;
+			}
+			this.folderBrowserDialog1.Description = "";
+		}
+		#endregion
 
 		#region _images
 
@@ -810,13 +835,15 @@ namespace AOMC
 		private void _MapInfoChanged(object sender, EventArgs e)
 		{
 			Program.Config_Map_Changed = true;
-			if (this._map_assemblymethod == sender) Program.Config_Map.Assembler = (MapConfig.AssemblyMethod)Enum.Parse(typeof(MapConfig.AssemblyMethod), this._map_assemblymethod.Text);
-			else if (this._map_name == sender) Program.Config_Map.Name = this._map_name.Text;
-			else if (this._map_subdirectory == sender) Program.Config_Map.MapDir = this._map_subdirectory.Text;
-			else if (this._map_texturesize == sender) Program.Config_Map.TextureSize = (int)this._map_texturesize.Value;
+			if (this._map_assemblymethod == sender)		Program.Config_Map.Assembler = (MapConfig.AssemblyMethod)Enum.Parse(typeof(MapConfig.AssemblyMethod), this._map_assemblymethod.Text);
+			else if (this._map_name == sender)			Program.Config_Map.Name = this._map_name.Text;
+			else if (this._map_subdirectory == sender)	Program.Config_Map.MapDir = this._map_subdirectory.Text;
+			else if (this._map_texturesize == sender)	Program.Config_Map.TextureSize = (int)this._map_texturesize.Value;
 			else if (this._map_version_major == sender) Program.Config_Map.Version.Major = (uint)this._map_version_major.Value;
 			else if (this._map_version_minor == sender) Program.Config_Map.Version.Minor = (uint)this._map_version_minor.Value;
 			else if (this._map_version_build == sender) Program.Config_Map.Version.Build = (uint)this._map_version_build.Value;
+			else if (this._map_shortname == sender)		Program.Config_Map.ShortName = this._map_shortname.Text;
+			else if (this._map_OutFolder == sender)		Program.Config_Map.OutputDirectory = this._map_OutFolder.Text;
 		}
 
 		private DialogResult SaveMapConfig()
@@ -900,6 +927,5 @@ namespace AOMC
 			}
 		}
 		#endregion
-
 	}
 }

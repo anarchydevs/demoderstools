@@ -202,7 +202,6 @@ namespace Demoder.MapCompiler
 			this._MRE_imageSlicer=null;
 			this._MRE_WorkerDoWork=null;
 			this._MRE_WorkerThread=null;
-			this._outdir=null;
 			this._Queue_ImageLoader=null;
 			this._Queue_ImageSlicer=null;
 			this._Queue_Worker=null;
@@ -684,7 +683,6 @@ namespace Demoder.MapCompiler
 			this._MRE_WorkerDoWork.Set();
 		}
 
-		string _outdir = "tmp/";
 		private void __threaded_Assembler()
 		{
 			this.debug("A", "Started");
@@ -828,13 +826,13 @@ namespace Demoder.MapCompiler
 			this.reportAssemblerStatus(75, "Binfiles prepared.");
 					
 			this.debug("A", string.Format("Writing {0} binfiles.", this._Data_Binfiles.Count));
-			if (!Directory.Exists(this._outdir)) Directory.CreateDirectory(this._outdir);
+			if (!Directory.Exists(this._MapConfig.OutputDirectory)) Directory.CreateDirectory(this._MapConfig.OutputDirectory);
 			//Write the bin files.
 			foreach (KeyValuePair<string, MemoryStream> kvp in this._Data_Binfiles)
 			{
 				try
 				{
-					FileStream fs = File.Open(this._outdir + kvp.Key + ".bin", FileMode.Append);
+					FileStream fs = File.Open(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + kvp.Key + ".bin", FileMode.Append);
 					byte[] b = kvp.Value.ToArray();
 					kvp.Value.Close();
 					fs.Write(b, 0, b.Length);
@@ -879,7 +877,7 @@ namespace Demoder.MapCompiler
 							txtfile += string.Format("FilePos {0}\r\n", filepos);
 						}
 					}
-					File.WriteAllText(this._outdir + tf.File, txtfile);
+					File.WriteAllText(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + tf.File, txtfile);
 				}
 			} while (tf != null);
 			DateTime dt2 = DateTime.Now;
