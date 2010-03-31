@@ -69,5 +69,15 @@ namespace AOMC.contextmenuWindows
 				this._layers.Items.Add(selectedLayer);
 			}
 		}
+
+		private void _layers_DoubleClick(object sender, EventArgs e)
+		{
+			this.button_remlayer_Click(sender, e);
+		}
+
+		private void _availableLayers_DoubleClick(object sender, EventArgs e)
+		{
+			this.button_addlayer_Click(sender, e);
+		}
 	}
 }

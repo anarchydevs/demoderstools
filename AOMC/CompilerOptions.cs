@@ -15,9 +15,10 @@ namespace AOMC
 		{
 			InitializeComponent();
 		}
-
+		Form senderform;
 		private void CompilerOptions_Load(object sender, EventArgs e)
 		{
+			senderform = (Form)sender;
 			//Load configuration.
 			this._MaxSlicers.Value = Program.Config_Compiler.MaxSlicerThreads;
 			this._MaxWorkers.Value = Program.Config_Compiler.MaxWorkerThreads;
@@ -56,6 +57,12 @@ namespace AOMC
 			Program.Config_Compiler.singlethreaded = this._singleThread.Checked;
 			Program.Config_Compiler.AutoOptimizeThreads = this._autoOptimizeThreads.Checked;
 			Program.Config_AOMC.show_compiler_debugmessages = this._showCompilerDebugMessages.Checked;
+			//Adjust form mininumsize accordingly.
+			if (Program.Config_AOMC.show_helpsystem && !this._showHelpsystem.Checked)
+				this.senderform.MinimumSize = new Size(this.senderform.MinimumSize.Width, this.senderform.MinimumSize.Height - 75);
+			else if (!Program.Config_AOMC.show_helpsystem && this._showHelpsystem.Checked)
+				this.senderform.MinimumSize = new Size(this.senderform.MinimumSize.Width, this.senderform.MinimumSize.Height + 75);
+
 			Program.Config_AOMC.show_helpsystem = this._showHelpsystem.Checked;
 			this.DialogResult = DialogResult.OK;
 			this.Close();

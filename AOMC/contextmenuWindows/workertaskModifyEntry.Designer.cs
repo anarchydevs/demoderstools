@@ -102,6 +102,7 @@
 			this._addedImages.Name = "_addedImages";
 			this._addedImages.Size = new System.Drawing.Size(120, 82);
 			this._addedImages.TabIndex = 5;
+			this._addedImages.DoubleClick += new System.EventHandler(this._addedImages_DoubleClick);
 			// 
 			// _availImages
 			// 
@@ -110,6 +111,8 @@
 			this._availImages.Name = "_availImages";
 			this._availImages.Size = new System.Drawing.Size(120, 82);
 			this._availImages.TabIndex = 6;
+			this._availImages.SelectedIndexChanged += new System.EventHandler(this._availImages_SelectedIndexChanged);
+			this._availImages.DoubleClick += new System.EventHandler(this._availImages_DoubleClick);
 			// 
 			// button_addImg
 			// 
