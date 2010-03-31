@@ -41,6 +41,14 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AOMP Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\AOMP Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -64,9 +72,9 @@
       <Project>{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}</Project>
       <Name>Demoder.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Demoder.MapCompiler\Demoder.MapCompiler.csproj">
-      <Project>{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}</Project>
-      <Name>Demoder.MapCompiler</Name>
+    <ProjectReference Include="..\Demoder.Patcher\Demoder.Patcher.csproj">
+      <Project>{F8ABD54F-E4D4-4990-814F-5934D715ADDA}</Project>
+      <Name>Demoder.Patcher</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

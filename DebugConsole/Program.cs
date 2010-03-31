@@ -27,11 +27,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-using Demoder.MapCompiler;
-using Demoder.MapCompiler.xml;
-
 using System.Diagnostics;
-
+using Demoder.Common;
+using Demoder.Patcher;
+using Demoder.Patcher.xml;
 namespace DebugConsole
 {
 	class Program
@@ -39,28 +38,32 @@ namespace DebugConsole
 		static void Main(string[] args)
 		{
 			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
-			Demoder.MapCompiler.xml.CompilerConfig compconf = new Demoder.MapCompiler.xml.CompilerConfig();
-			compconf.MaxSlicerThreads = 2;
-			compconf.MaxWorkerThreads = 1;
-			
-			Demoder.MapCompiler.Compiler comp = new Demoder.MapCompiler.Compiler(compconf);
-			//comp.Compile(Demoder.Common.Xml.Deserialize.file<Demoder.MapCompiler.xml.MapConfig>(@"E:\Development\games\AO\maps\AoSL\test.xml"));
-			//comp.Compile(Demoder.Common.Xml.Deserialize.file<Demoder.MapCompiler.xml.MapConfig>(@"E:\Development\games\AO\maps\AoRK\test.xml"));
-			comp.Compile(Demoder.Common.Xml.Deserialize.file<Demoder.MapCompiler.xml.MapConfig>(@"E:\Development\games\AO\maps\combine.xml"));
-
-			
-			//Compiler comp = new Compiler(new MapConfig());
-			/*
-			Stream stream = new FileStream(@"C:\Users\Demoder\Pictures\Mapcompiler\normal_test2.png", FileMode.Open);
-			Demoder.MapCompiler.Worker mc = new Demoder.MapCompiler.Worker(stream);
-			FileStream fs = new FileStream("e:/tmp/blah.png", FileMode.Create);
-			foreach (MemoryStream ms in mc.Slices)
-			{
-				ms.WriteTo(fs);
-			}
-			fs.Close();
-			 */
-
+			distinfo DistInfo = new distinfo();
+			DistInfo.DistributionType = "map";
+			DistInfo.download_locations = new List<string>();
+			DistInfo.download_locations.Add("http://aork.flw.nu");
+			DistInfo.download_locations.Add("http://aosl.flw.nu");
+			DistInfo.content = new List<distinfo_directory>();
+			distinfo_directory dir = new distinfo_directory();
+			distinfo_directory dir2 = new distinfo_directory();
+			dir.name = "AoRK";
+			dir.files = new List<distinfo_fileinfo>();
+			dir2.files = new List<distinfo_fileinfo>();
+			dir2.name = "help";
+			distinfo_fileinfo file = new distinfo_fileinfo();
+			file.md5 = "dfsgdsfhhSHFGs";
+			file.sha1 = "dsfsfdsfsdh";
+			file.name = "Test.txt";
+			file.size = 56;
+			file.type = "file";
+			dir.files.Add(file);
+			dir.directories = new List<distinfo_directory>();
+			dir2.files = new List<distinfo_fileinfo>();
+			dir2.files.Add(file);
+			dir.directories.Add(dir2);
+			DistInfo.content.Add(dir);
+			Console.ReadLine();
+			Xml.Serialize.file<distinfo>("e:/test.xml", DistInfo);
 			Console.ReadLine();
 		}
 	}
