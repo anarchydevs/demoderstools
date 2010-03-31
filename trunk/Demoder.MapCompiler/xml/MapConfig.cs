@@ -23,7 +23,7 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -46,7 +46,14 @@ namespace Demoder.MapCompiler.xml
 		/// Map name
 		/// </summary>
 		public string Name = "Some name longer than Map";
+		/// <summary>
+		/// Short map name - used when assembling into multiple binfiles.
+		/// </summary>
 		public string ShortName = "Map";
+		/// <summary>
+		/// Where to store the assembler result?
+		/// </summary>
+		public string OutputDirectory = "tmp" + Path.DirectorySeparatorChar;
 		/// <summary>
 		/// Version information
 		/// </summary>
@@ -229,11 +236,11 @@ namespace Demoder.MapCompiler.xml
 			MapConfig o = new MapConfig();
 			lock (this)
 			{
-				
 				o.Assembler = this.Assembler;
 				o.MapDir = this.MapDir;
 				o.Name = this.Name;
 				o.ShortName = this.ShortName;
+				o.OutputDirectory = this.OutputDirectory;
 				o.TextureSize = this.TextureSize;
 				//Version
 				o.Version.Major = this.Version.Major;
