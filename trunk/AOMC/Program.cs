@@ -22,7 +22,7 @@ THE SOFTWARE.
 */
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 using Demoder.Common;
 using Demoder.MapCompiler;
@@ -39,12 +39,28 @@ namespace AOMC
 		internal static bool Config_Map_Changed = false;
 		internal static string ConfigPath = "";
 		internal static string MapConfigSavePath = string.Empty;
+		internal static cmdParams cmdParams;
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
+			//Load commandline arguments.
+			Program.cmdParams = new cmdParams(args);
+
+			//Default config directory.
+			if (Program.cmdParams.Flag("portable"))
+			{
+				Program.ConfigPath="cfg/";
+			}
+			else {
+				Program.ConfigPath = Environment.SpecialFolder.ApplicationData+"/"+System.Reflection.Assembly.GetExecutingAssembly().GetName().Name+"/";
+			}
+
+			if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath)
+
+
 			//Initialize variables
 			Program.Config_Compiler = Xml.Deserialize.file<CompilerConfig>(string.Format("{0}compiler_config.xml", Program.ConfigPath));
 			Program.Config_AOMC = Xml.Deserialize.file<AOMC_Config>(string.Format("{0}aomc_config.xml", Program.ConfigPath));

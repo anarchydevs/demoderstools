@@ -97,6 +97,10 @@ namespace Demoder.MapCompiler
 
 		#region Events
 		public event DebugEventHandler eventDebug;
+		/// <summary>
+		/// Called when the compiler aborts work
+		/// </summary>
+		public event StatusReportEventHandler eventStatus;
 		public event StatusReportEventHandler eventImageLoader;
 		public event StatusReportEventHandler eventImageSlicer;
 		public event StatusReportEventHandler eventWorker;
@@ -119,6 +123,18 @@ namespace Demoder.MapCompiler
 					this.eventDebug(this, new DebugEventArgs(source, text));
 			}
 		}
+		/// <summary>
+		/// Used to report overall status.
+		/// </summary>
+		/// <param name="message"></param>
+		private void reportStatus(int percent, string message)
+		{
+			if (this.eventStatus != null)
+				lock (this.eventStatus)
+					this.eventStatus(this, new StatusReportEventArgs(percent, message));
+		}
+
+			
 
 		private void reportImageLoaderStatus(int percent, string message)
 		{
@@ -165,6 +181,7 @@ namespace Demoder.MapCompiler
 		//Clear all event references
 		public void ClearEvents() {
 			this.eventDebug = null;
+			this.eventStatus = null;
 			this.eventImageLoader = null;
 			this.eventAssembler = null;
 			this.eventImageSlicer = null;
@@ -234,6 +251,7 @@ namespace Demoder.MapCompiler
 			#region Sanitize map configuration
 			//Add work. Don't add nonexisting images to queue. Don't add worktasks using nonexisting images.
 			bool changed;
+			int totalnumworks = 0;
 			do
 			{
 				changed = false;
@@ -276,12 +294,19 @@ namespace Demoder.MapCompiler
 					{ //If there's work to do
 						if (!this._Queue_Worker.Contains(wt)) //Prevent adding the same task twice.
 							this._Queue_Worker.Enqueue(wt);
+						totalnumworks++;
 					}
 				}
 			} while (changed == true);
 
 			//Check config syntax.
-
+			if (totalnumworks == 0 || this._Queue_ImageLoader.Count == 0)
+			{
+				this.debug("compiler", "There's nothing to do.");
+				this.reportStatus(0, "There's nothing to do");
+				this.Dispose();
+				return;
+			}
 			//MapDir
 			if (true)
 			{
@@ -381,6 +406,10 @@ namespace Demoder.MapCompiler
 				this.debug("Initializing", "Starting in singlethreaded mode.");
 			#endregion
 
+			//Check if there's anything to do.
+
+
+			this.reportStatus(0, "Working...");
 			//Start threads.
 			//Image loader
 			this._Thread_imageLoader = new Thread(new ThreadStart(this.__threaded_ImageLoader));
@@ -407,12 +436,14 @@ namespace Demoder.MapCompiler
 			if (threaded) this._Thread_assembler.Start();
 			else this.__threaded_Assembler();
 
-
+			
 			//Wait for the assembler thread to finish.
 			while (this._Thread_assembler.IsAlive)
 			{
 				Thread.Sleep(100);
 			}
+			this.reportStatus(100, "Done.");
+			this.Dispose(); //Dispose resources.
 		}
 
 
@@ -652,7 +683,6 @@ namespace Demoder.MapCompiler
 				this.workerThreadPoolThreads.RemoveAt(0);
 			this._MRE_WorkerDoWork.Set();
 		}
-
 
 		string _outdir = "tmp/";
 		private void __threaded_Assembler()

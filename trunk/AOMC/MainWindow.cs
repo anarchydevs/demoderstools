@@ -59,6 +59,7 @@ namespace AOMC
 			Compiler compiler = new Compiler(cc);
 			if (Program.Config_AOMC.show_compiler_debugmessages)
 				compiler.eventDebug += new DebugEventHandler(this.handleDebugEvent);
+			compiler.eventStatus += new StatusReportEventHandler(this.handleStatusEvent);
 			compiler.eventImageLoader += new StatusReportEventHandler(this.handleImageLoaderEvent);
 			compiler.eventImageSlicer += new StatusReportEventHandler(this.handleImageSlicerEvent);
 			compiler.eventWorker += new StatusReportEventHandler(this.handleWorkerEvent);
@@ -73,6 +74,13 @@ namespace AOMC
 			KeyValuePair<BWReportProgress, string> kvp;
 			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.Debug, String.Format("[{0}] {1}", e.Source, e.Message));
 			this._bw_Compiler.ReportProgress(0, kvp);
+		}
+
+		private void handleStatusEvent(Compiler compiler, StatusReportEventArgs e)
+		{
+			KeyValuePair<BWReportProgress, string> kvp;
+			kvp = new KeyValuePair<BWReportProgress, string>(BWReportProgress.Statusmsg, e.Message);
+			this._bw_Compiler.ReportProgress(e.Percent, kvp);
 		}
 
 		private void handleImageLoaderEvent(Compiler compiler, StatusReportEventArgs e)
@@ -109,6 +117,7 @@ namespace AOMC
 		public enum BWReportProgress
 		{
 			Debug,
+			Statusmsg,
 			ImageLoader,
 			ImageSlicer,
 			Worker,
@@ -134,6 +143,9 @@ namespace AOMC
 			{
 				case BWReportProgress.Debug:
 					this._compiler_debugmessages.AppendText((string)kvp.Value + "\r\n");
+					break;
+				case BWReportProgress.Statusmsg:
+					this._label_compilestatusmsg.Text = kvp.Value;
 					break;
 				case BWReportProgress.ImageLoader:
 					this.progressBar_imageloader.Value = e.ProgressPercentage;
