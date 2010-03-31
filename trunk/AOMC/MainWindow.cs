@@ -343,6 +343,26 @@ namespace AOMC
 							}
 							if (!showagain)
 							{
+								if (ime._name.Text != lvi.Text)
+								{
+									//Update work layers with new name
+									foreach (WorkTask wt in Program.Config_Map.WorkerTasks)
+									{
+										if (wt.workentries.Contains(lvi.Text))
+										{
+											wt.workentries.Insert(wt.workentries.IndexOf(lvi.Text), ime._name.Text);
+											wt.workentries.Remove(lvi.Text);
+										}
+									}
+									//Update text files with new name
+									foreach (TxtFile txt in Program.Config_Map.TxtFiles) {
+										if (txt.Layers.Contains(lvi.Text))
+										{
+											txt.Layers.Insert(txt.Layers.IndexOf(lvi.Text), ime._name.Text);
+											txt.Layers.Remove(lvi.Text);
+										}
+									}
+								}
 								foreach (LoadImage li in Program.Config_Map.Images)
 									if (li.name == lvi.Text)
 									{
