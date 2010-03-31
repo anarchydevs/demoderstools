@@ -95,7 +95,6 @@ namespace Demoder.Common
 			public static T stream<T>(Stream stream, bool closestream)
 			{
 				if (stream == null) throw new ArgumentNullException("stream");
-				if (closestream == null) throw new ArgumentNullException("closestream");
 				try
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(T));

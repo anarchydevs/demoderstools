@@ -58,7 +58,7 @@ namespace AOMC
 				Program.ConfigPath = Environment.SpecialFolder.ApplicationData+"/"+System.Reflection.Assembly.GetExecutingAssembly().GetName().Name+"/";
 			}
 
-			if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath)
+			if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath);
 
 
 			//Initialize variables
