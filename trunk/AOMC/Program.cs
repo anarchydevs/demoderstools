@@ -34,7 +34,7 @@ namespace AOMC
 	{
 #warning fixme: Make this load from appdata or something.
 		internal static CompilerConfig Config_Compiler;
-		internal static MapConfig Config_Map = new MapConfig();
+		internal static MapConfig Config_Map;
 		internal static AOMC_Config Config_AOMC = new AOMC_Config();
 		internal static bool Config_Map_Changed = false;
 		internal static string ConfigPath = "";
@@ -71,6 +71,30 @@ namespace AOMC
 			{
 				Program.Config_AOMC = new AOMC_Config();
 			}
+
+			//Load map configuration
+			do
+			{
+				string mapconfig = Program.cmdParams.Argument("mapconfig");
+				if (mapconfig == null)
+					Program.Config_Map = new MapConfig();
+				else
+				{
+					if (!File.Exists(mapconfig))
+					{
+						MessageBox.Show("The specified map configuration file does not exist. Loading default.");
+						break;
+					}
+					Program.Config_Map = Xml.Deserialize.file<MapConfig>(mapconfig);
+					if (Program.Config_Map == null)
+					{
+						MessageBox.Show("The provided map configuration file has syntax errors. Loading default.");
+						break;
+					}
+				}
+			} while (false);
+			if (Program.Config_Map == null) Program.Config_Map = new MapConfig();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());
