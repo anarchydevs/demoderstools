@@ -1,6 +1,5 @@
 ﻿When renaming image names:
 	update image references in worktask layers.
-When renaming layer names:
 	update layer references in text files.
 	
 When loading a map config, check:
@@ -10,21 +9,8 @@ When loading a map config, check:
 	duplicate worker names
 	duplicate textfile names
 	
-When tossing map configuration to compiler, toss a copy - not a reference.
-	We don't want the compiling library to modify the original map configuration.
-
 contextmenuWindows:
 	Check all OK/Cancel buttons, and make sure they are all the same size. OK-button should be larger than cancel button.
 	
-Help system
-	webpage?
-
-Wizard
-	SplitView main window and have the wizard show up in the bottom?
-	
 General checkup
 	Check that all enums are returned correctly by the various windows.
-	
-WorkerTask:
-	Change to same style as mapversions; show a list of images, add images to list.
-	Set layer name to be the same as image name.
