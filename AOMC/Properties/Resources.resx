@@ -121,11 +121,11 @@
   <data name="help_Compile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\help_compile.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="help_General" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\help_general.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="help_Images" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\help_images.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="help_MapInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\help_mapinfo.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="help_Mapversions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\help_mapversions.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
