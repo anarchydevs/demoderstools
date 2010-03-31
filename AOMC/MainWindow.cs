@@ -219,6 +219,11 @@ namespace AOMC
 			this.ApplyViewSettings();
 			Program.Config_Map_Changed = false;
 			this._HelperBox.Text = Properties.Resources.help_General;
+			if (Program.cmdParams.Flag("compile"))
+			{
+				this.tabControl1.SelectedIndex = this.tabControl1.TabPages.IndexOfKey("tabPage_Compile");
+				this.button_docompile_Click(button_docompile, new EventArgs());
+			}
 		}
 
 		private void ApplyViewSettings()
