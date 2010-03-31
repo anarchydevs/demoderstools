@@ -55,7 +55,7 @@ namespace AOMC
 				Program.ConfigPath="cfg/";
 			}
 			else {
-				Program.ConfigPath = Environment.SpecialFolder.ApplicationData+"/"+System.Reflection.Assembly.GetExecutingAssembly().GetName().Name+"/";
+				Program.ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"/"+System.Reflection.Assembly.GetExecutingAssembly().GetName().Name+"/";
 			}
 
 			if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath);
