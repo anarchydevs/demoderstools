@@ -76,7 +76,6 @@
     <Compile Include="contextmenuWindows\workertaskModifyEntry.Designer.cs">
       <DependentUpon>workertaskModifyEntry.cs</DependentUpon>
     </Compile>
-    <Compile Include="delegates.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,7 +136,7 @@
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\help_MapInfo.txt" />
+    <None Include="Resources\help_General.txt" />
     <None Include="Resources\help_Images.txt" />
     <None Include="Resources\help_Workertasks.txt" />
     <Content Include="Resources\help_Compile.txt" />

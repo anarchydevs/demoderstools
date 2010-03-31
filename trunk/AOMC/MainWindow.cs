@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -218,7 +218,7 @@ namespace AOMC
 			this.LoadMapConfigValues();
 			this.ApplyViewSettings();
 			Program.Config_Map_Changed = false;
-			this._HelperBox.Text = Properties.Resources.help_MapInfo;
+			this._HelperBox.Text = Properties.Resources.help_General;
 		}
 
 		private void ApplyViewSettings()
@@ -275,8 +275,89 @@ namespace AOMC
 				this.imagesContextMenu_Add_Click(sender, e);
 			else
 				this.imagesContextMenu_Edit_Click(sender, e);
-			 
+
 		}
+		#region drag&drop support
+		private void _imagelist_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] arr = (string[])e.Data.GetData(DataFormats.FileDrop);
+				if (arr != null)
+				{
+					bool accept = false;
+#warning fixme: Should define a list of accepted extensions somewhere, preferably in compiler.
+					foreach (string name in arr)
+					{ //Only accept if input is of an accepted format.
+						FileInfo fi = new FileInfo(name);
+						if (fi.Extension.ToLower() != ".png") continue;
+						else accept = true;
+					}
+					if (accept)
+						e.Effect = DragDropEffects.Copy;
+					else
+						e.Effect = DragDropEffects.None;
+				}
+				else e.Effect = DragDropEffects.None;
+			}
+			else
+				e.Effect = DragDropEffects.None;
+		}
+		private void _imagelist_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] arr = (string[])e.Data.GetData(DataFormats.FileDrop);
+			if (arr != null)
+			{
+				foreach (string name in arr)
+				{
+					this._imagelist_DragDrop_AddImage(name);
+				}
+				this.LoadMapConfigValues();
+			}
+		}
+
+		private void _imagelist_DragDrop_AddImage(string file)
+		{
+			/*
+			int lastslash = file.LastIndexOfAny("/\\".ToCharArray());
+			string path = file.Substring(0, lastslash);
+			string filename = file.Substring(lastslash + 1);
+			string orgimgname;
+			string imgname;
+			orgimgname = imgname = filename.Substring(0, filename.LastIndexOf("."));
+			string ext = imgname = filename.Substring(filename.LastIndexOf(".") + 1);
+			if (ext.ToLower() != "png") return;
+			 */
+
+			bool doagain = false;
+			int donumber=0;
+			
+			FileInfo fi = new FileInfo(file);
+#warning fixme: Should define a list of accepted extensions somewhere, preferably in compiler.
+			if (fi.Extension.ToLower() != ".png") return;
+			string imgname = fi.Name; string orgimgname = imgname;
+			do
+			{
+				doagain=false;
+				foreach (LoadImage li in Program.Config_Map.Images)
+				{
+					if (li.path == file)
+					{
+						MessageBox.Show("Image path already in list", string.Format("Name: {0}", li.name), MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
+					else if (li.name == imgname)
+					{
+						if (donumber != 0)
+							imgname = orgimgname + donumber.ToString();
+						donumber++;
+						doagain = true;
+					}
+				}
+			} while (doagain);
+			Program.Config_Map.Images.Add(new LoadImage(imgname, file));
+		}
+		#endregion
 
 		private void images_Contextmenu_Opening(object sender, CancelEventArgs e)
 		{
@@ -293,6 +374,9 @@ namespace AOMC
 			}
 
 		}
+
+		
+
 		private void imagesContextMenu_Add_Click(object sender, EventArgs e)
 		{
 			contextmenuWindows.imagelistModifyEntry ime = new contextmenuWindows.imagelistModifyEntry();
@@ -699,7 +783,7 @@ namespace AOMC
 			switch (((TabControl)sender).TabPages[index].Name)
 			{
 				case "tabPage_MapInfo":
-					this._HelperBox.Text = Properties.Resources.help_MapInfo;
+					this._HelperBox.Text = Properties.Resources.help_General;
 					break;
 				case "tabPage_Images":
 					this._HelperBox.Text = Properties.Resources.help_Images;
@@ -811,5 +895,6 @@ namespace AOMC
 			}
 		}
 		#endregion
+
 	}
 }
