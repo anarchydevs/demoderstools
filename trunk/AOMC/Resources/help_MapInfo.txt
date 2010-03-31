@@ -1,5 +1,0 @@
-Here you may provide general information about the map.
-"Map directory" is the subfolder in the AO planetmap directory where your map will be stored.
-Assembly method: 
-  Multi:  One binfile per worker
-  Single: One binfile for entire map
