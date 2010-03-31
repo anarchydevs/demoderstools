@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormatString.cs" />
     <Compile Include="math.cs" />
     <Compile Include="md5.cs" />
     <Compile Include="Xml.cs" />

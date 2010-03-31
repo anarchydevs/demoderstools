@@ -90,9 +90,6 @@ namespace Demoder.MapCompiler
 		int workerTotalQueue;
 		List<bool> workerFinishedTasks;
 
-
-
-
 		//Debug stuff
 		DateTime starttime = DateTime.Now;
 		DateTime WorkerEndTime;
@@ -112,7 +109,6 @@ namespace Demoder.MapCompiler
 		DateTime antispamEventWorker = DateTime.Now;
 		DateTime antispamEventAssembler = DateTime.Now;
 		#endregion
-
 
 		#region Event methods
 		private void debug(string source, string text)
@@ -302,7 +298,7 @@ namespace Demoder.MapCompiler
 
 			#endregion
 
-			#region Sanitize compiler configuration based on map configuration
+			#region Optimize compiler configuration based on map configuration
 			//Don't spawn more slicer threads than there are images to slice. (unnessecary overhead)
 			if (this._CompilerConfig.MaxSlicerThreads > this._Queue_ImageLoader.Count)
 				this._CompilerConfig.MaxSlicerThreads = this._Queue_ImageLoader.Count;
@@ -397,8 +393,6 @@ namespace Demoder.MapCompiler
 			this._Thread_imageSlicer.IsBackground = true;
 			if (threaded) this._Thread_imageSlicer.Start();
 			else this.__threaded_ImageSlicer();
-
-
 
 			//Worker thread (the one that actually compiles the map)
 			this._Thread_Worker = new Thread(new ThreadStart(this.__threaded_Worker));
@@ -822,6 +816,15 @@ namespace Demoder.MapCompiler
 			this.debug("A", string.Format("Writing {0} text files.", this._Data_TxtFiles.Count()));
 			//Write the text files.
 			TxtFile tf = null;
+			FormatString sf;
+			if (true)
+			{
+				Dictionary<string, object> dict = new Dictionary<string, object>();
+				dict.Add("name", this._MapConfig.Name);
+				dict.Add("version", this._MapConfig.Version.ToString());
+				dict.Add("subfolder", this._MapConfig.MapDir);
+				sf = new FormatString(dict);
+			}
 			do
 			{
 				if (this._Data_TxtFiles.Count() > 0)
@@ -830,9 +833,9 @@ namespace Demoder.MapCompiler
 				if (tf != null)
 				{
 					string txtfile = String.Format("Name \"{0}\"\r\nType {1}\r\nCoordsFile {2}\r\n",
-						string.Format(tf.Name, this._MapConfig.Name ,this._MapConfig.Version.ToString()),
+						sf.Format(tf.Name),
 						tf.Type,
-						string.Format(tf.CoordsFile, this._MapConfig.MapDir));
+						sf.Format(tf.CoordsFile));
 					foreach (string layer in tf.Layers)
 					{
 						LayerInfo li = layerInfo[layer];
