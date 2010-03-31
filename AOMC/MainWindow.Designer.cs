@@ -159,6 +159,7 @@ namespace AOMC
 			this.splitContainer_Main = new System.Windows.Forms.SplitContainer();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this._label_compilestatusmsg = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_minor)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_build)).BeginInit();
@@ -453,7 +454,7 @@ namespace AOMC
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(627, 289);
+			this.tabControl1.Size = new System.Drawing.Size(627, 237);
 			this.tabControl1.TabIndex = 2;
 			this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
 			// 
@@ -723,6 +724,7 @@ namespace AOMC
 			// 
 			// tabPage_Compile
 			// 
+			this.tabPage_Compile.Controls.Add(this._label_compilestatusmsg);
 			this.tabPage_Compile.Controls.Add(this.tableLayoutPanel1);
 			this.tabPage_Compile.Controls.Add(this._compiler_debugmessages);
 			this.tabPage_Compile.Controls.Add(this._label_DebugMessages);
@@ -730,7 +732,7 @@ namespace AOMC
 			this.tabPage_Compile.Location = new System.Drawing.Point(4, 22);
 			this.tabPage_Compile.Name = "tabPage_Compile";
 			this.tabPage_Compile.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage_Compile.Size = new System.Drawing.Size(619, 263);
+			this.tabPage_Compile.Size = new System.Drawing.Size(619, 211);
 			this.tabPage_Compile.TabIndex = 4;
 			this.tabPage_Compile.Text = "Compile";
 			this.tabPage_Compile.UseVisualStyleBackColor = true;
@@ -761,7 +763,7 @@ namespace AOMC
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(455, 71);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(455, 69);
 			this.tableLayoutPanel1.TabIndex = 5;
 			// 
 			// progressBar_assembler
@@ -862,17 +864,17 @@ namespace AOMC
 			// 
 			// _compiler_debugmessages
 			// 
-			this._compiler_debugmessages.Location = new System.Drawing.Point(40, 121);
+			this._compiler_debugmessages.Location = new System.Drawing.Point(36, 107);
 			this._compiler_debugmessages.Multiline = true;
 			this._compiler_debugmessages.Name = "_compiler_debugmessages";
 			this._compiler_debugmessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this._compiler_debugmessages.Size = new System.Drawing.Size(455, 133);
+			this._compiler_debugmessages.Size = new System.Drawing.Size(455, 99);
 			this._compiler_debugmessages.TabIndex = 3;
 			// 
 			// _label_DebugMessages
 			// 
 			this._label_DebugMessages.AutoSize = true;
-			this._label_DebugMessages.Location = new System.Drawing.Point(48, 105);
+			this._label_DebugMessages.Location = new System.Drawing.Point(44, 91);
 			this._label_DebugMessages.Name = "_label_DebugMessages";
 			this._label_DebugMessages.Size = new System.Drawing.Size(89, 13);
 			this._label_DebugMessages.TabIndex = 2;
@@ -880,7 +882,7 @@ namespace AOMC
 			// 
 			// button_docompile
 			// 
-			this.button_docompile.Location = new System.Drawing.Point(187, 83);
+			this.button_docompile.Location = new System.Drawing.Point(187, 81);
 			this.button_docompile.Name = "button_docompile";
 			this.button_docompile.Size = new System.Drawing.Size(75, 23);
 			this.button_docompile.TabIndex = 0;
@@ -917,8 +919,8 @@ namespace AOMC
 			// 
 			this.splitContainer_Secondary.Panel2.Controls.Add(this._HelperBox);
 			this.splitContainer_Secondary.Panel2MinSize = 75;
-			this.splitContainer_Secondary.Size = new System.Drawing.Size(627, 365);
-			this.splitContainer_Secondary.SplitterDistance = 289;
+			this.splitContainer_Secondary.Size = new System.Drawing.Size(627, 313);
+			this.splitContainer_Secondary.SplitterDistance = 237;
 			this.splitContainer_Secondary.SplitterWidth = 1;
 			this.splitContainer_Secondary.TabIndex = 3;
 			// 
@@ -1101,7 +1103,7 @@ namespace AOMC
 			// splitContainer_Main.Panel2
 			// 
 			this.splitContainer_Main.Panel2.Controls.Add(this.splitContainer_Secondary);
-			this.splitContainer_Main.Size = new System.Drawing.Size(627, 391);
+			this.splitContainer_Main.Size = new System.Drawing.Size(627, 339);
 			this.splitContainer_Main.SplitterDistance = 25;
 			this.splitContainer_Main.SplitterWidth = 1;
 			this.splitContainer_Main.TabIndex = 5;
@@ -1136,13 +1138,21 @@ namespace AOMC
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Map Layout";
 			// 
+			// _label_compilestatusmsg
+			// 
+			this._label_compilestatusmsg.AutoSize = true;
+			this._label_compilestatusmsg.Location = new System.Drawing.Point(282, 86);
+			this._label_compilestatusmsg.Name = "_label_compilestatusmsg";
+			this._label_compilestatusmsg.Size = new System.Drawing.Size(0, 13);
+			this._label_compilestatusmsg.TabIndex = 6;
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(627, 391);
+			this.ClientSize = new System.Drawing.Size(627, 339);
 			this.Controls.Add(this.splitContainer_Main);
-			this.MinimumSize = new System.Drawing.Size(643, 429);
+			this.MinimumSize = new System.Drawing.Size(643, 377);
 			this.Name = "MainWindow";
 			this.Text = "Anarchy Online Map Compiler (C#)";
 			this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -1290,6 +1300,7 @@ namespace AOMC
 		private System.Windows.Forms.ColumnHeader workerColumn_Imageformat;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label _label_compilestatusmsg;
 	}
 }
 
