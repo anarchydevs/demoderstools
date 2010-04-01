@@ -46,6 +46,7 @@ namespace Demoder.Common
 			{
 				sb.Append(hash[i].ToString("X2"));
 			}
+			_md5.Clear();
 			return sb.ToString();
 		}
 
@@ -64,6 +65,7 @@ namespace Demoder.Common
 			{
 				sb.Append(hash[i].ToString("X2"));
 			}
+			_md5.Clear();
 			return sb.ToString();
 		}
 		/// <summary>
@@ -118,13 +120,14 @@ namespace Demoder.Common
 		/// <returns></returns>
 		public static string sha1(byte[] data)
 		{
-			SHA1 sha1 = new SHA1CryptoServiceProvider();
-			byte[] hash = sha1.ComputeHash(data);
+			SHA1 _sha1 = new SHA1CryptoServiceProvider();
+			byte[] hash = _sha1.ComputeHash(data);
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < hash.Length; i++)
 			{
 				sb.Append(hash[i].ToString("X2"));
 			}
+			_sha1.Clear();
 			return sb.ToString();
 		}
 		/// <summary>
@@ -134,13 +137,14 @@ namespace Demoder.Common
 		/// <returns></returns>
 		public static string sha1(Stream data)
 		{
-			SHA1 sha1 = new SHA1CryptoServiceProvider();
-			byte[] hash = sha1.ComputeHash(data);
+			SHA1 _sha1 = new SHA1CryptoServiceProvider();
+			byte[] hash = _sha1.ComputeHash(data);
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < hash.Length; i++)
 			{
 				sb.Append(hash[i].ToString("X2"));
 			}
+			_sha1.Clear();
 			return sb.ToString();
 		}
 
