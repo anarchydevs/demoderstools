@@ -105,9 +105,10 @@ namespace Demoder.Common
 		/// Generates a hexadecimal string representing the MD5 hash of the file located at path
 		/// </summary>
 		/// <param name="path">Full path to the file we should generate a MD5 hash of</param>
+		/// <exception cref="FileNotFoundException">File does not exist</exception>
 		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided file</returns>
 		public static string md5_file(string path) {
-			if (!File.Exists(path)) return string.Empty;
+			if (!File.Exists(path)) throw new FileNotFoundException("File does not exist");
 			return md5(File.ReadAllBytes(path));
 		}
 
@@ -173,10 +174,11 @@ namespace Demoder.Common
 		/// Get SHA1 hash of file
 		/// </summary>
 		/// <param name="path">path to file</param>
+		/// <exception cref="FileNotFoundException">File does not exist</exception>
 		/// <returns></returns>
 		public static string sha1_file(string path)
 		{
-			if (!File.Exists(path)) return string.Empty;
+			if (!File.Exists(path)) throw new FileNotFoundException("File does not exist");
 			return sha1(File.ReadAllBytes(path));
 		}
 
