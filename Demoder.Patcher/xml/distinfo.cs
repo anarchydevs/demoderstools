@@ -30,7 +30,7 @@ using Demoder.Common;
 
 namespace Demoder.Patcher.xml
 {
-
+	#region might be moved into application
 	public class DistInfo
 	{
 		public DistInfo() {
@@ -65,43 +65,88 @@ namespace Demoder.Patcher.xml
 		public List<DistInfo_Directory> content;
 	}
 
+	public enum DistributionType
+	{
+		GUI,
+		Map,
+		Script,
+		Other
+	}
+	#endregion
+
 	public class DistInfo_Directory
 	{
-		public DistInfo_Directory() {
-			files = new List<DistInfo_FileInfo>();
-			directories=new List<DistInfo_Directory>()
-		}
-		public DistInfo_Directory(string path)
-		{
-			files = new List<DistInfo_FileInfo>();
-			directories=new List<DistInfo_Directory>();
-			foreach (string file in Directory.GetFiles(path))
-				this.files.Add(new DistInfo_FileInfo(path + Path.DirectorySeparatorChar + file));
-			foreach (string directory in Directory.GetDirectories(path))
-				this.directories.Add(new DistInfo_Directory(path + Path.DirectorySeparatorChar + directory);
-		}
+		#region members
 		[XmlAttribute("name")]
 		public string name;
 		[XmlElement("file")]
 		public List<DistInfo_FileInfo> files;
 		[XmlElement("directory")]
 		public List<DistInfo_Directory> directories;
+		#endregion
+		#region constructors
+		public DistInfo_Directory()
+		{
+			files = new List<DistInfo_FileInfo>();
+			directories = new List<DistInfo_Directory>();
+		}
+		public DistInfo_Directory(string path)
+		{
+			files = new List<DistInfo_FileInfo>();
+			directories = new List<DistInfo_Directory>();
+			foreach (string file in Directory.GetFiles(path))
+				this.files.Add(new DistInfo_FileInfo(path + Path.DirectorySeparatorChar + file));
+			foreach (string directory in Directory.GetDirectories(path))
+				this.directories.Add(new DistInfo_Directory(path + Path.DirectorySeparatorChar + directory));
+		}
+		#endregion
+		#region Operator overrides
+		public static bool operator ==(DistInfo_Directory dir1, DistInfo_Directory dir2)
+		{
+			if (dir1.name != dir2.name) return false;
+			//Compare files.
+			foreach (DistInfo_FileInfo file in dir1.files)
+				if (!dir2.files.Contains(file)) return false;
+			foreach (DistInfo_FileInfo file in dir2.files)
+				if (!dir1.files.Contains(file)) return false;
+			
+			//Compare directories
+			bool found = false;
+			foreach (DistInfo_Directory d1 in dir1.directories) {
+				foreach (DistInfo_Directory d2 in dir2.directories)
+				{
+					if (d1 == d2)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (found) break;
+			}
+			if (!found) return false;
+			found = false;
+			foreach (DistInfo_Directory d2 in dir2.directories)
+			{
+				foreach (DistInfo_Directory d1 in dir1.directories)
+				{
+					if (d1 == d2)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (found) break;
+			}
+			if (!found) return false;
+
+			return true;
+		}
+		#endregion
 	}
 
 	public class DistInfo_FileInfo
 	{
-		public DistInfo_FileInfo() {	}
-
-		public DistInfo_FileInfo(string path)
-		{
-			FileInfo fi = new FileInfo(path);
-			this.name = fi.Name+"."+fi.Extension;
-			this.size=fi.Length;
-			this.md5 = GenerateHash.md5_file(path);
-			this.sha1 = GenerateHash.sha1_file(path);
-			this.type = "file"; //Replace or remove this.. not sure yet.
-		}
-
+		#region members
 		[XmlAttribute("name")]
 		/// <summary>
 		/// Filename
@@ -125,11 +170,31 @@ namespace Demoder.Patcher.xml
 		/// Filesize in bytes
 		/// </summary>
 		public long size;
+		#endregion
+		#region constructors
+		public DistInfo_FileInfo() {	}
 
-		[XmlAttribute("type")]
-		/// <summary>
-		/// Type. file, bin
-		/// </summary>
-		public string type;
+		public DistInfo_FileInfo(string path)
+		{
+			FileInfo fi = new FileInfo(path);
+			this.name = fi.Name+"."+fi.Extension;
+			this.size=fi.Length;
+			this.md5 = GenerateHash.md5_file(path);
+			this.sha1 = GenerateHash.sha1_file(path);
+		}
+		#endregion
+
+		#region operator overrides
+		public static bool operator ==(DistInfo_FileInfo file1, DistInfo_FileInfo file2)
+		{
+			if (file1.md5 != file2.md5) return false;
+			if (file1.sha1 != file2.sha1) return false;
+			if (file1.name != file2.name) return false;
+			if (file1.size != file2.size) return false;
+			return true;
+		}
+		#endregion
+
+
 	}
 }
