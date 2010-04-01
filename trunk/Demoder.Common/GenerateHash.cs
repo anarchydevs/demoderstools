@@ -20,19 +20,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
-/* Contributor notes:
- * 2009-12-15: Created by Demoder.
- */
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Security.Cryptography;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Demoder.Common
 {
-	public static class GenerateMD5Hash
+	#region MD5
+	public static class GenerateHash
 	{
 		/// <summary>
 		/// Generates a hexadecimal string representing the MD5 hash of the provided data.
@@ -40,24 +37,6 @@ namespace Demoder.Common
 		/// <param name="input">byte[] array representing data</param>
 		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
 		public static string md5(byte[] input)
-		{
-			MD5 _md5 = System.Security.Cryptography.MD5.Create();
-			byte[] hash =_md5.ComputeHash(input);
-			//Generate a hexadecimal string
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < hash.Length; i++)
-			{
-				sb.Append(hash[i].ToString("X2"));
-			}
-			return sb.ToString();
-		}
-
-		/// <summary>
-		/// Generates a hexadecimal string representing the MD5 hash of the provided data.
-		/// </summary>
-		/// <param name="input">stream input</param>
-		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
-		public static string md5(MemoryStream input)
 		{
 			MD5 _md5 = System.Security.Cryptography.MD5.Create();
 			byte[] hash = _md5.ComputeHash(input);
@@ -73,6 +52,33 @@ namespace Demoder.Common
 		/// <summary>
 		/// Generates a hexadecimal string representing the MD5 hash of the provided data.
 		/// </summary>
+		/// <param name="input">stream input</param>
+		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
+		public static string md5(Stream input)
+		{
+			MD5 _md5 = System.Security.Cryptography.MD5.Create();
+			byte[] hash = _md5.ComputeHash(input);
+			//Generate a hexadecimal string
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+			{
+				sb.Append(hash[i].ToString("X2"));
+			}
+			return sb.ToString();
+		}
+		/// <summary>
+		/// Generates a hexadecimal string representing the MD5 hash of the provided data
+		/// </summary>
+		/// <param name="ms">MemoryStream input</param>
+		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
+		public static string md5(MemoryStream ms)
+		{
+			return md5(ms.ToArray());
+		}
+
+		/// <summary>
+		/// Generates a hexadecimal string representing the MD5 hash of the provided data.
+		/// </summary>
 		/// <param name="input">char[] array representing data</param>
 		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
 		public static string md5(char[] input)
@@ -81,7 +87,7 @@ namespace Demoder.Common
 			byte[] b = new byte[input.Length];
 			for (int i = 0; i < input.Length; i++)
 			{
-				b[i]=byte.Parse(input[i].ToString());
+				b[i] = byte.Parse(input[i].ToString());
 			}
 			return md5(b);
 		}
@@ -91,13 +97,87 @@ namespace Demoder.Common
 		/// </summary>
 		/// <param name="input">string input representing data</param>
 		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided data</returns>
-		public static string md5(string input) { return md5(input.ToCharArray()); }
+		public static string md5(string input) { return md5(Encoding.Default.GetBytes(input)); }
 
 		/// <summary>
 		/// Generates a hexadecimal string representing the MD5 hash of the file located at path
 		/// </summary>
 		/// <param name="path">Full path to the file we should generate a MD5 hash of</param>
 		/// <returns>a hexadecimal string of 32 characters representing the MD5 hash of the provided file</returns>
-		public static string md5_file(string path)	{ return md5(System.IO.File.ReadAllBytes(path)); }
+		public static string md5_file(string path) {
+			if (!File.Exists(path)) return string.Empty;
+			return md5(File.ReadAllBytes(path));
+		}
+
+		#endregion
+		#region SHA1
+		/// <summary>
+		/// Get SHA1 hash of byte array
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public static string sha1(byte[] data)
+		{
+			SHA1 sha1 = new SHA1CryptoServiceProvider();
+			byte[] hash = sha1.ComputeHash(data);
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+			{
+				sb.Append(hash[i].ToString("X2"));
+			}
+			return sb.ToString();
+		}
+		/// <summary>
+		/// Get SHA1 hash of Stream input.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public static string sha1(Stream data)
+		{
+			SHA1 sha1 = new SHA1CryptoServiceProvider();
+			byte[] hash = sha1.ComputeHash(data);
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+			{
+				sb.Append(hash[i].ToString("X2"));
+			}
+			return sb.ToString();
+		}
+
+
+		/// <summary>
+		/// Get SHA1 hash of text
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public static string sha1(string text)
+		{
+			return sha1(Encoding.Default.GetBytes(text));
+		}
+
+		/// <summary>
+		/// Get SHA1 hash of MemoryStream
+		/// </summary>
+		/// <param name="ms"></param>
+		/// <returns></returns>
+		public static string sha1(MemoryStream ms)
+		{
+			return sha1(ms.ToArray());
+		}
+
+		/// <summary>
+		/// Get SHA1 hash of file
+		/// </summary>
+		/// <param name="path">path to file</param>
+		/// <returns></returns>
+		public static string sha1_file(string path)
+		{
+			if (!File.Exists(path)) return string.Empty;
+			return sha1(File.ReadAllBytes(path));
+		}
+
+		
+
+		#endregion
 	}
 }

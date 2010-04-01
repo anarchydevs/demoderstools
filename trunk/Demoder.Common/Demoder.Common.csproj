@@ -65,8 +65,8 @@
   <ItemGroup>
     <Compile Include="cmdParams.cs" />
     <Compile Include="FormatString.cs" />
+    <Compile Include="GenerateHash.cs" />
     <Compile Include="math.cs" />
-    <Compile Include="md5.cs" />
     <Compile Include="Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

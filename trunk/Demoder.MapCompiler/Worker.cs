@@ -151,7 +151,7 @@ namespace Demoder.MapCompiler
 					byte[] simg_slice=simg.Slices[index].ToArray();
 					//File.WriteAllBytes(string.Format("e:/tmp/blah2/{0}_{1}.png", wl.layername, index), simg_slice);
 					#region Check md5
-					string md5 = Demoder.Common.GenerateMD5Hash.md5(simg_slice);
+					string md5 = Demoder.Common.GenerateHash.md5(simg_slice);
 					if (_md5s.ContainsKey(md5))
 					{
 						if (_LastPos.ContainsKey(wl))
