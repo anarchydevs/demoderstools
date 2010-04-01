@@ -33,24 +33,11 @@ namespace Demoder.Patcher.xml
 	#region might be moved into application
 	public class DistInfo
 	{
-		public DistInfo() {
-			this.content = new List<DistInfo_Directory>();
-			this.DistributionType = "";
-			this.download_locations = new List<string>();
-		}
-
-		public DistInfo(List<string> paths, string DistributionType, List<string> DownloadLocations)
-		{
-			this.content = new List<DistInfo_Directory>();
-			this.DistributionType = "";
-			this.download_locations = new List<string>();
-			foreach (string path in paths)
-				this.content.Add(new DistInfo_Directory(path));
-		}
+		#region members
 		/// <summary>
 		/// What distribution type is this?
 		/// </summary>
-		public string DistributionType;
+		public DistributionType DistributionType;
 
 		[XmlElement("download_location")]
 		/// <summary>
@@ -63,6 +50,29 @@ namespace Demoder.Patcher.xml
 		/// Distribution content
 		/// </summary>
 		public List<DistInfo_Directory> content;
+		#endregion
+		#region constructors
+		public DistInfo() {
+			this.content = new List<DistInfo_Directory>();
+			this.DistributionType = DistributionType.Other;
+			this.download_locations = new List<string>();
+		}
+
+		/// <summary>
+		/// Creates an overview of a distribution.
+		/// </summary>
+		/// <param name="paths">Paths to index</param>
+		/// <param name="DistributionType">Distribution type</param>
+		/// <param name="DownloadLocations">Location to download updates</param>
+		public DistInfo(List<string> paths, DistributionType DistributionType, List<string> DownloadLocations)
+		{
+			this.content = new List<DistInfo_Directory>();
+			this.DistributionType = DistributionType;
+			this.download_locations = new List<string>();
+			foreach (string path in paths)
+				this.content.Add(new DistInfo_Directory(path));
+		}
+		#endregion
 	}
 
 	public enum DistributionType
@@ -141,6 +151,16 @@ namespace Demoder.Patcher.xml
 
 			return true;
 		}
+		public static bool operator !=(DistInfo_Directory dir1, DistInfo_Directory dir2)
+		{
+			return dir1 == dir2 ? false : true;
+		}
+		#endregion
+		#region default overrides
+		public override string ToString()
+		{
+			return this.name;
+		}
 		#endregion
 	}
 
@@ -193,8 +213,17 @@ namespace Demoder.Patcher.xml
 			if (file1.size != file2.size) return false;
 			return true;
 		}
+		public static bool operator !=(DistInfo_FileInfo file1, DistInfo_FileInfo file2)
+		{
+			return file1 == file2 ? false : true;
+		}
 		#endregion
 
-
+		#region default overides
+		public override string ToString()
+		{
+			return this.name;
+		}
+		#endregion
 	}
 }
