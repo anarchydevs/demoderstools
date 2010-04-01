@@ -25,12 +25,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Demoder.Common;
 
 namespace Demoder.Patcher
 {
 	public class DistributionIndex
 	{
-		public class Directory
+		public class Dir
 		{
 			#region members
 			[XmlAttribute("name")]
@@ -38,28 +39,28 @@ namespace Demoder.Patcher
 			[XmlElement("file")]
 			public List<File> files;
 			[XmlElement("directory")]
-			public List<Directory> directories;
+			public List<Dir> directories;
 			#endregion
 			#region constructors
-			public Directory()
+			public Dir()
 			{
 				files = new List<File>();
-				directories = new List<Directory>();
+				directories = new List<Dir>();
 			}
-			public Directory(string path)
+			public Dir(string path)
 			{
 				DirectoryInfo di = new DirectoryInfo(path);
 				this.name = di.Name;
 				files = new List<File>();
-				directories = new List<Directory>();
+				directories = new List<Dir>();
 				foreach (string file in Directory.GetFiles(path))
 					this.files.Add(new File(file));
 				foreach (string directory in Directory.GetDirectories(path))
-					this.directories.Add(new Directory(directory));
+					this.directories.Add(new Dir(directory));
 			}
 			#endregion
 			#region Operator overrides
-			public static bool operator ==(Directory dir1, Directory dir2)
+			public static bool operator ==(Dir dir1, Dir dir2)
 			{
 				if (dir1.name != dir2.name) return false;
 				//Compare files.
@@ -73,9 +74,9 @@ namespace Demoder.Patcher
 				if (dir1.directories.Count != 0)
 				{
 					bool found = false;
-					foreach (Directory d1 in dir1.directories)
+					foreach (Dir d1 in dir1.directories)
 					{
-						foreach (Directory d2 in dir2.directories)
+						foreach (Dir d2 in dir2.directories)
 						{
 							if (d1 == d2)
 							{
@@ -87,9 +88,9 @@ namespace Demoder.Patcher
 					}
 					if (!found) return false;
 					found = false;
-					foreach (Directory d2 in dir2.directories)
+					foreach (Dir d2 in dir2.directories)
 					{
-						foreach (Directory d1 in dir1.directories)
+						foreach (Dir d1 in dir1.directories)
 						{
 							if (d1 == d2)
 							{
@@ -103,17 +104,32 @@ namespace Demoder.Patcher
 				}
 				return true;
 			}
-			public static bool operator !=(Directory dir1, Directory dir2)
+			public static bool operator !=(Dir dir1, Dir dir2)
 			{
 				return dir1 == dir2 ? false : true;
 			}
+			public static Dir operator -(Dir dir1, Dir dir2)
+			{
+				//Remove directories.
+				foreach (Dir d2 in dir2.directories)
+				{
+					dir1.directories.Remove(d2);
+				}
+				//Remove files.
+				foreach (File f2 in dir2.files)
+				{
+					dir1.files.Remove(f2);
+				}
+				return dir1;
+			}
+
 			#endregion
 			#region default overrides
 			public override bool Equals(object obj)
 			{
 				try
 				{
-					Directory compare = (Directory)obj;
+					Dir compare = (Dir)obj;
 					if (compare == this) return true;
 					else return false;
 				}
