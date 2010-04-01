@@ -102,12 +102,15 @@ namespace Demoder.Patcher.xml
 		}
 		public DistInfo_Directory(string path)
 		{
+#warning fixme: make these paths relative.
+			DirectoryInfo di = new DirectoryInfo(path);
+			this.name = di.Name;
 			files = new List<DistInfo_FileInfo>();
 			directories = new List<DistInfo_Directory>();
 			foreach (string file in Directory.GetFiles(path))
-				this.files.Add(new DistInfo_FileInfo(path + Path.DirectorySeparatorChar + file));
+				this.files.Add(new DistInfo_FileInfo(file));
 			foreach (string directory in Directory.GetDirectories(path))
-				this.directories.Add(new DistInfo_Directory(path + Path.DirectorySeparatorChar + directory));
+				this.directories.Add(new DistInfo_Directory(directory));
 		}
 		#endregion
 		#region Operator overrides
@@ -121,34 +124,38 @@ namespace Demoder.Patcher.xml
 				if (!dir1.files.Contains(file)) return false;
 			
 			//Compare directories
-			bool found = false;
-			foreach (DistInfo_Directory d1 in dir1.directories) {
-				foreach (DistInfo_Directory d2 in dir2.directories)
-				{
-					if (d1 == d2)
-					{
-						found = true;
-						break;
-					}
-				}
-				if (found) break;
-			}
-			if (!found) return false;
-			found = false;
-			foreach (DistInfo_Directory d2 in dir2.directories)
+			if (dir1.directories.Count != dir2.directories.Count) return false;
+			if (dir1.directories.Count != 0)
 			{
+				bool found = false;
 				foreach (DistInfo_Directory d1 in dir1.directories)
 				{
-					if (d1 == d2)
+					foreach (DistInfo_Directory d2 in dir2.directories)
 					{
-						found = true;
-						break;
+						if (d1 == d2)
+						{
+							found = true;
+							break;
+						}
 					}
+					if (found) break;
 				}
-				if (found) break;
+				if (!found) return false;
+				found = false;
+				foreach (DistInfo_Directory d2 in dir2.directories)
+				{
+					foreach (DistInfo_Directory d1 in dir1.directories)
+					{
+						if (d1 == d2)
+						{
+							found = true;
+							break;
+						}
+					}
+					if (found) break;
+				}
+				if (!found) return false;
 			}
-			if (!found) return false;
-
 			return true;
 		}
 		public static bool operator !=(DistInfo_Directory dir1, DistInfo_Directory dir2)
@@ -157,6 +164,20 @@ namespace Demoder.Patcher.xml
 		}
 		#endregion
 		#region default overrides
+		public override bool Equals(object obj)
+		{
+			try
+			{
+				DistInfo_Directory compare = (DistInfo_Directory)obj;
+				if (compare == this) return true;
+				else return false;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		public override string ToString()
 		{
 			return this.name;
@@ -197,7 +218,7 @@ namespace Demoder.Patcher.xml
 		public DistInfo_FileInfo(string path)
 		{
 			FileInfo fi = new FileInfo(path);
-			this.name = fi.Name+"."+fi.Extension;
+			this.name = fi.Name;
 			this.size=fi.Length;
 			this.md5 = GenerateHash.md5_file(path);
 			this.sha1 = GenerateHash.sha1_file(path);
@@ -217,9 +238,23 @@ namespace Demoder.Patcher.xml
 		{
 			return file1 == file2 ? false : true;
 		}
+
 		#endregion
 
 		#region default overides
+		public override bool Equals(object obj)
+		{
+			try
+			{
+				DistInfo_FileInfo compare = (DistInfo_FileInfo)obj;
+				if (compare == this) return true;
+				else return false;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 		public override string ToString()
 		{
 			return this.name;
