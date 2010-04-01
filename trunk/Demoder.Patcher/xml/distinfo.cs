@@ -22,15 +22,31 @@ THE SOFTWARE.
 */
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+
+using Demoder.Common;
 
 namespace Demoder.Patcher.xml
 {
 
-	public class distinfo
+	public class DistInfo
 	{
+		public DistInfo() {
+			this.content = new List<DistInfo_Directory>();
+			this.DistributionType = "";
+			this.download_locations = new List<string>();
+		}
+
+		public DistInfo(List<string> paths, string DistributionType, List<string> DownloadLocations)
+		{
+			this.content = new List<DistInfo_Directory>();
+			this.DistributionType = "";
+			this.download_locations = new List<string>();
+			foreach (string path in paths)
+				this.content.Add(new DistInfo_Directory(path));
+		}
 		/// <summary>
 		/// What distribution type is this?
 		/// </summary>
@@ -46,21 +62,46 @@ namespace Demoder.Patcher.xml
 		/// <summary>
 		/// Distribution content
 		/// </summary>
-		public List<distinfo_directory> content;
+		public List<DistInfo_Directory> content;
 	}
 
-	public class distinfo_directory
+	public class DistInfo_Directory
 	{
+		public DistInfo_Directory() {
+			files = new List<DistInfo_FileInfo>();
+			directories=new List<DistInfo_Directory>()
+		}
+		public DistInfo_Directory(string path)
+		{
+			files = new List<DistInfo_FileInfo>();
+			directories=new List<DistInfo_Directory>();
+			foreach (string file in Directory.GetFiles(path))
+				this.files.Add(new DistInfo_FileInfo(path + Path.DirectorySeparatorChar + file));
+			foreach (string directory in Directory.GetDirectories(path))
+				this.directories.Add(new DistInfo_Directory(path + Path.DirectorySeparatorChar + directory);
+		}
 		[XmlAttribute("name")]
 		public string name;
 		[XmlElement("file")]
-		public List<distinfo_fileinfo> files;
+		public List<DistInfo_FileInfo> files;
 		[XmlElement("directory")]
-		public List<distinfo_directory> directories;
+		public List<DistInfo_Directory> directories;
 	}
 
-	public class distinfo_fileinfo
+	public class DistInfo_FileInfo
 	{
+		public DistInfo_FileInfo() {	}
+
+		public DistInfo_FileInfo(string path)
+		{
+			FileInfo fi = new FileInfo(path);
+			this.name = fi.Name+"."+fi.Extension;
+			this.size=fi.Length;
+			this.md5 = GenerateHash.md5_file(path);
+			this.sha1 = GenerateHash.sha1_file(path);
+			this.type = "file"; //Replace or remove this.. not sure yet.
+		}
+
 		[XmlAttribute("name")]
 		/// <summary>
 		/// Filename
@@ -83,7 +124,7 @@ namespace Demoder.Patcher.xml
 		/// <summary>
 		/// Filesize in bytes
 		/// </summary>
-		public uint size;
+		public long size;
 
 		[XmlAttribute("type")]
 		/// <summary>
