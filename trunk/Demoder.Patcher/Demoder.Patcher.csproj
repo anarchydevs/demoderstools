@@ -61,8 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IndexDirectory.cs" />
-    <Compile Include="xml\distinfo.cs" />
+    <Compile Include="xml\DistInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
