@@ -90,6 +90,7 @@
 			this._layers.Location = new System.Drawing.Point(6, 34);
 			this._layers.Name = "_layers";
 			this._layers.Size = new System.Drawing.Size(105, 121);
+			this._layers.Sorted = true;
 			this._layers.TabIndex = 4;
 			this._layers.DoubleClick += new System.EventHandler(this._layers_DoubleClick);
 			// 
@@ -193,6 +194,7 @@
 			this._availableLayers.Location = new System.Drawing.Point(162, 35);
 			this._availableLayers.Name = "_availableLayers";
 			this._availableLayers.Size = new System.Drawing.Size(105, 121);
+			this._availableLayers.Sorted = true;
 			this._availableLayers.TabIndex = 8;
 			this._availableLayers.DoubleClick += new System.EventHandler(this._availableLayers_DoubleClick);
 			// 
