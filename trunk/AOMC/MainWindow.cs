@@ -814,6 +814,7 @@ namespace AOMC
 			if (Program.Config_Map_Changed)
 				this.AskToSave();
 			Program.Config_Map = new MapConfig();
+			Program.MapConfigSavePath = string.Empty;
 			this.LoadMapConfigValues();
 			Program.Config_Map_Changed = false;
 		}
@@ -828,6 +829,7 @@ namespace AOMC
 				case DialogResult.OK:
 					Program.Config_Map = Demoder.Common.Xml.Deserialize.file<MapConfig>(_OpenMapConfig.FileName);
 					this.LoadMapConfigValues();
+					Program.MapConfigSavePath = _OpenMapConfig.FileName;
 					Program.Config_Map_Changed = false;
 					break;
 			}
