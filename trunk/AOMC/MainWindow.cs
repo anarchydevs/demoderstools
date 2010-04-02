@@ -66,6 +66,7 @@ namespace AOMC
 			compiler.eventAssembler += new StatusReportEventHandler(this.handleAssemblerEvent);
 			compiler.Compile(mc);
 			compiler.Dispose();
+			compiler = null;
 		}
 
 		#region worker events
@@ -270,7 +271,7 @@ namespace AOMC
 			this._MapVersions.Items.Clear();
 			foreach (TxtFile tf in Program.Config_Map.TxtFiles)
 			{
-				this._MapVersions.Items.Add(new ListViewItem(new string[] { tf.File, tf.Type.ToString(), tf.Name, tf.CoordsFile, string.Join(", ",tf.Layers.ToArray()) }));
+				this._MapVersions.Items.Add(new ListViewItem(new string[] { tf.File, tf.Type.ToString(), tf.Name, tf.CoordsFile, string.Join(", ", tf.Layers.ToArray()) }));
 			}
 			Program.Config_Map_Changed = true;
 		}
@@ -360,15 +361,15 @@ namespace AOMC
 			 */
 
 			bool doagain = false;
-			int donumber=0;
-			
+			int donumber = 0;
+
 			FileInfo fi = new FileInfo(file);
 #warning fixme: Should define a list of accepted extensions somewhere, preferably in compiler.
 			if (fi.Extension.ToLower() != ".png") return;
 			string imgname = fi.Name; string orgimgname = imgname;
 			do
 			{
-				doagain=false;
+				doagain = false;
 				foreach (LoadImage li in Program.Config_Map.Images)
 				{
 					if (li.path == file)
@@ -405,7 +406,7 @@ namespace AOMC
 
 		}
 
-		
+
 
 		private void imagesContextMenu_Add_Click(object sender, EventArgs e)
 		{
@@ -481,7 +482,8 @@ namespace AOMC
 										}
 									}
 									//Update text files with new name
-									foreach (TxtFile txt in Program.Config_Map.TxtFiles) {
+									foreach (TxtFile txt in Program.Config_Map.TxtFiles)
+									{
 										if (txt.Layers.Contains(lvi.Text))
 										{
 											txt.Layers.Insert(txt.Layers.IndexOf(lvi.Text), ime._name.Text);
@@ -600,7 +602,7 @@ namespace AOMC
 						switch (dr)
 						{
 							case DialogResult.OK:
-								if ((wtme.workerTask.workname != oldtask.workname) 
+								if ((wtme.workerTask.workname != oldtask.workname)
 									&& Program.Config_Map.ContainsWorkTask(wtme.workerTask.workname))
 								{
 									MessageBox.Show(string.Format("Work name already exists: {0}", wtme.workerTask.workname), "Duplicate work name", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -628,7 +630,7 @@ namespace AOMC
 			}
 
 		}
-		
+
 		#endregion
 
 		#region Map Versions
@@ -657,38 +659,38 @@ namespace AOMC
 		private void mapVersions_ContextMenu_Add_Click(object sender, EventArgs e)
 		{
 			contextmenuWindows.mapversions_ModifyEntry ilme = new AOMC.contextmenuWindows.mapversions_ModifyEntry();
-				TxtFile txt = new TxtFile();
-				//Add layers
-				ilme._layers.Items.Clear();
-				foreach (string l in txt.Layers)
-					ilme._layers.Items.Add(l);
-				ilme._button_ok.Text = "Apply";
-				bool error;
-				do
+			TxtFile txt = new TxtFile();
+			//Add layers
+			ilme._layers.Items.Clear();
+			foreach (string l in txt.Layers)
+				ilme._layers.Items.Add(l);
+			ilme._button_ok.Text = "Apply";
+			bool error;
+			do
+			{
+				error = false;
+				DialogResult dr = ilme.ShowDialog();
+				switch (dr)
 				{
-					error = false;
-					DialogResult dr = ilme.ShowDialog();
-					switch (dr)
-					{
-						case DialogResult.OK:
-							if (Program.Config_Map.ContainsTxtFile(ilme._file.Text))
-							{
-								MessageBox.Show(string.Format("Text file already exists: {0}", ilme._file.Text), "Duplicate text file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-								error = true;
-								continue;
-							}
-							txt.CoordsFile = ilme._coordsfile.Text;
-							txt.File = ilme._file.Text;
-							txt.Name = ilme._name.Text;
-							txt.Layers = new List<string>();
-							txt.Type = ilme.mapType;
-							foreach (ListViewItem lvi2 in ilme._layers.Items)
-								txt.Layers.Add(lvi2.Text);
+					case DialogResult.OK:
+						if (Program.Config_Map.ContainsTxtFile(ilme._file.Text))
+						{
+							MessageBox.Show(string.Format("Text file already exists: {0}", ilme._file.Text), "Duplicate text file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							error = true;
+							continue;
+						}
+						txt.CoordsFile = ilme._coordsfile.Text;
+						txt.File = ilme._file.Text;
+						txt.Name = ilme._name.Text;
+						txt.Layers = new List<string>();
+						txt.Type = ilme.mapType;
+						foreach (ListViewItem lvi2 in ilme._layers.Items)
+							txt.Layers.Add(lvi2.Text);
 
-							break;
-					}
-					Program.Config_Map.TxtFiles.Add(txt);
-				} while (error);
+						break;
+				}
+				Program.Config_Map.TxtFiles.Add(txt);
+			} while (error);
 		}
 
 		private void mapVersions_ContextMenu_Edit_Click(object sender, EventArgs e)
@@ -729,7 +731,7 @@ namespace AOMC
 									txt.CoordsFile = ilme._coordsfile.Text;
 									txt.File = ilme._file.Text;
 									txt.Name = ilme._name.Text;
-									txt.Layers=new List<string>();
+									txt.Layers = new List<string>();
 									txt.Type = ilme.mapType;
 									foreach (string lvi2 in ilme._layers.Items)
 										txt.Layers.Add(lvi2);
@@ -781,7 +783,7 @@ namespace AOMC
 					break;
 			}
 		}
-				
+
 		//save
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -797,8 +799,8 @@ namespace AOMC
 		{
 			this.Close();
 		}
-		
-		#endregion		
+
+		#endregion
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -835,15 +837,15 @@ namespace AOMC
 		private void _MapInfoChanged(object sender, EventArgs e)
 		{
 			Program.Config_Map_Changed = true;
-			if (this._map_assemblymethod == sender)		Program.Config_Map.Assembler = (MapConfig.AssemblyMethod)Enum.Parse(typeof(MapConfig.AssemblyMethod), this._map_assemblymethod.Text);
-			else if (this._map_name == sender)			Program.Config_Map.Name = this._map_name.Text;
-			else if (this._map_subdirectory == sender)	Program.Config_Map.MapDir = this._map_subdirectory.Text;
-			else if (this._map_texturesize == sender)	Program.Config_Map.TextureSize = (int)this._map_texturesize.Value;
+			if (this._map_assemblymethod == sender) Program.Config_Map.Assembler = (MapConfig.AssemblyMethod)Enum.Parse(typeof(MapConfig.AssemblyMethod), this._map_assemblymethod.Text);
+			else if (this._map_name == sender) Program.Config_Map.Name = this._map_name.Text;
+			else if (this._map_subdirectory == sender) Program.Config_Map.MapDir = this._map_subdirectory.Text;
+			else if (this._map_texturesize == sender) Program.Config_Map.TextureSize = (int)this._map_texturesize.Value;
 			else if (this._map_version_major == sender) Program.Config_Map.Version.Major = (uint)this._map_version_major.Value;
 			else if (this._map_version_minor == sender) Program.Config_Map.Version.Minor = (uint)this._map_version_minor.Value;
 			else if (this._map_version_build == sender) Program.Config_Map.Version.Build = (uint)this._map_version_build.Value;
-			else if (this._map_shortname == sender)		Program.Config_Map.ShortName = this._map_shortname.Text;
-			else if (this._map_OutFolder == sender)		Program.Config_Map.OutputDirectory = this._map_OutFolder.Text;
+			else if (this._map_shortname == sender) Program.Config_Map.ShortName = this._map_shortname.Text;
+			else if (this._map_OutFolder == sender) Program.Config_Map.OutputDirectory = this._map_OutFolder.Text;
 		}
 
 		private DialogResult SaveMapConfig()
@@ -927,5 +929,73 @@ namespace AOMC
 			}
 		}
 		#endregion
+
+		private void _lv_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			ListView lv = (ListView)sender;
+			ListViewSorter lvs = new ListViewSorter();
+
+			if (!(lv.ListViewItemSorter is ListViewSorter))
+				lv.ListViewItemSorter = lvs;
+			else
+				lvs = (ListViewSorter)lv.ListViewItemSorter;
+			if (lvs.LastSort == e.Column)
+			{
+				if (lv.Sorting == SortOrder.Ascending)
+					lv.Sorting = SortOrder.Descending;
+				else
+					lv.Sorting = SortOrder.Ascending;
+			}
+			else
+			{
+				lv.Sorting = SortOrder.Descending;
+			}
+			lvs.ByColumn = e.Column;
+			lv.Sort();
+		}
+
+
+		#region This class is taken from http://www.java2s.com/Code/CSharp/GUI-Windows-Form/SortaListViewbyAnyColumn.htm
+		public class ListViewSorter : System.Collections.IComparer
+		{
+			public int Compare(object o1, object o2)
+			{
+				if (!(o1 is ListViewItem))
+					return (0);
+				if (!(o2 is ListViewItem))
+					return (0);
+
+				ListViewItem lvi1 = (ListViewItem)o2;
+				string str1 = lvi1.SubItems[ByColumn].Text;
+				ListViewItem lvi2 = (ListViewItem)o1;
+				string str2 = lvi2.SubItems[ByColumn].Text;
+
+				int result;
+				if (lvi1.ListView.Sorting == SortOrder.Ascending)
+					result = String.Compare(str1, str2);
+				else
+					result = String.Compare(str2, str1);
+
+				LastSort = ByColumn;
+
+				return (result);
+			}
+
+
+			public int ByColumn
+			{
+				get { return Column; }
+				set { Column = value; }
+			}
+			int Column = 0;
+
+			public int LastSort
+			{
+				get { return LastColumn; }
+				set { LastColumn = value; }
+			}
+			int LastColumn = 0;
+		}
+		#endregion this class is taken from http://www.java2s.com/Code/CSharp/GUI-Windows-Form/SortaListViewbyAnyColumn.htm
 	}
 }

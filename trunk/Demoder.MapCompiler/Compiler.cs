@@ -23,20 +23,16 @@ THE SOFTWARE.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Imaging;
-
-using System.Threading;
 using System.IO;
-
+using System.Linq;
+using System.Text;
+using System.Threading;
 using Demoder.Common;
-using Demoder.MapCompiler.xml;
 using Demoder.MapCompiler.Events;
+using Demoder.MapCompiler.xml;
 
 namespace Demoder.MapCompiler
 {
@@ -80,6 +76,8 @@ namespace Demoder.MapCompiler
 		ManualResetEvent _MRE_imageSlicer = null;
 		ManualResetEvent _MRE_WorkerThread = null;
 		ManualResetEvent _MRE_WorkerDoWork = null;
+		ManualResetEvent _MRE_Assembler_Start = null;
+		ManualResetEvent _MRE_Assembler_Done = null;
 		//Threadpool toggles
 		List<bool> slicerThreadPoolThreads;
 		List<bool> workerThreadPoolThreads;
@@ -112,6 +110,7 @@ namespace Demoder.MapCompiler
 		DateTime antispamEventImageSlicer = DateTime.Now;
 		DateTime antispamEventWorker = DateTime.Now;
 		DateTime antispamEventAssembler = DateTime.Now;
+		int AntiSpamTimeOut = 500;
 		#endregion
 
 		#region Event methods
@@ -139,7 +138,7 @@ namespace Demoder.MapCompiler
 		private void reportImageLoaderStatus(int percent, string message)
 		{
 			if (percent!=0 && percent!=100)
-				if ((DateTime.Now - this.antispamEventImageLoader).TotalMilliseconds < 250)
+				if ((DateTime.Now - this.antispamEventImageLoader).TotalMilliseconds < this.AntiSpamTimeOut)
 					return;
 			if (this.eventImageLoader != null)
 				lock (this.eventImageLoader)
@@ -149,7 +148,7 @@ namespace Demoder.MapCompiler
 		private void reportImageSlicerStatus(int percent, string message)
 		{
 			if (percent != 0 && percent != 100)
-				if ((DateTime.Now - this.antispamEventImageSlicer).TotalMilliseconds < 250)
+				if ((DateTime.Now - this.antispamEventImageSlicer).TotalMilliseconds < this.AntiSpamTimeOut)
 					return;
 			if (this.eventImageSlicer != null)
 				lock (this.eventImageSlicer)
@@ -159,7 +158,7 @@ namespace Demoder.MapCompiler
 		private void reportWorkerStatus(int percent, string message)
 		{
 			if (percent != 0 && percent != 100)
-				if ((DateTime.Now - this.antispamEventWorker).TotalMilliseconds < 250)
+				if ((DateTime.Now - this.antispamEventWorker).TotalMilliseconds < this.AntiSpamTimeOut)
 					return;
 			if (this.eventWorker != null)
 				lock (this.eventWorker)
@@ -169,7 +168,7 @@ namespace Demoder.MapCompiler
 		private void reportAssemblerStatus(int percent, string message)
 		{
 			if (percent != 0 && percent != 100)
-				if ((DateTime.Now - this.antispamEventAssembler).TotalMilliseconds < 250)
+				if ((DateTime.Now - this.antispamEventAssembler).TotalMilliseconds < this.AntiSpamTimeOut)
 					return;
 			if (this.eventAssembler != null)
 				lock (this.eventAssembler)
@@ -191,29 +190,40 @@ namespace Demoder.MapCompiler
 		/// <summary>
 		/// Clean out all references.
 		/// </summary>
-		public void Dispose() {
+		public void Dispose()
+		{
 			this.ClearEvents(); //clear out events
-			this._Data_Binfiles=null;
-			this._CompilerConfig=null;
-			this._Data_SlicedImages=null;
-			this._Data_TxtFiles=null;
-			this._Data_WorkerResults=null;
-			this._MapConfig=null;
-			this._MRE_imageSlicer=null;
-			this._MRE_WorkerDoWork=null;
-			this._MRE_WorkerThread=null;
-			this._Queue_ImageLoader=null;
-			this._Queue_ImageSlicer=null;
-			this._Queue_Worker=null;
-			this._Thread_assembler=null;
-			this._Thread_imageLoader=null;
-			this._Thread_imageSlicer=null;
-			this._Thread_Worker=null;
-			this.slicerFinishedTasks=null;
-			this.slicerThreadPoolThreads=null;
-			this.workerFinishedTasks=null;
-			this.workerThreadPoolThreads=null;
-			this.workerTotalQueue=0;
+			this._Data_Binfiles = null;
+			this._CompilerConfig = null;
+			if (this._Data_SlicedImages != null)
+				foreach (KeyValuePair<string, SlicedImage> kvp in this._Data_SlicedImages)
+					foreach (MemoryStream ms in kvp.Value.Slices)
+						ms.Dispose();
+			this._Data_SlicedImages = null;
+			this._Data_TxtFiles = null;
+			if (this._Data_WorkerResults != null)
+				foreach (KeyValuePair<string, WorkerResult> kvp in this._Data_WorkerResults)
+				{
+					kvp.Value.Data = null;
+				}
+			this._Data_WorkerResults = null;
+			this._MapConfig = null;
+			this._MRE_imageSlicer = null;
+			this._MRE_WorkerDoWork = null;
+			this._MRE_WorkerThread = null;
+			this._MRE_Assembler_Done = null;
+			this._Queue_ImageLoader = null;
+			this._Queue_ImageSlicer = null;
+			this._Queue_Worker = null;
+			this._Thread_assembler = null;
+			this._Thread_imageLoader = null;
+			this._Thread_imageSlicer = null;
+			this._Thread_Worker = null;
+			this.slicerFinishedTasks = null;
+			this.slicerThreadPoolThreads = null;
+			this.workerFinishedTasks = null;
+			this.workerThreadPoolThreads = null;
+			System.GC.Collect(15, GCCollectionMode.Forced); //Request garbage collection
 		}
 
 		public Compiler(xml.CompilerConfig cfg)
@@ -246,6 +256,8 @@ namespace Demoder.MapCompiler
 			this._MRE_WorkerThread = new ManualResetEvent(false);
 			this._MRE_imageSlicer = new ManualResetEvent(false);
 			this._MRE_WorkerDoWork = new ManualResetEvent(false);
+			this._MRE_Assembler_Start = new ManualResetEvent(false);
+			this._MRE_Assembler_Done = new ManualResetEvent(false);
 
 			#region Sanitize map configuration
 			//Add work. Don't add nonexisting images to queue. Don't add worktasks using nonexisting images.
@@ -437,12 +449,8 @@ namespace Demoder.MapCompiler
 
 			
 			//Wait for the assembler thread to finish.
-			while (this._Thread_assembler.IsAlive)
-			{
-				Thread.Sleep(100);
-			}
+			this._MRE_Assembler_Done.WaitOne();
 			this.reportStatus(100, "Done.");
-			this.Dispose(); //Dispose resources.
 		}
 
 
@@ -478,6 +486,7 @@ namespace Demoder.MapCompiler
 			}
 			this.debug("IL", "Stopped.");
 			this.reportImageLoaderStatus(100, "Done");
+			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
 		/// <summary>
@@ -545,6 +554,7 @@ namespace Demoder.MapCompiler
 			DateTime dt2 = DateTime.Now;
 			this.debug("IS", string.Format("Stopped after {0} seconds.", (dt2 - dt).TotalSeconds));
 			this.reportImageSlicerStatus(100, "Done");
+			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
 		private void __threaded_ImageSlicer_DoWork(object obj)
@@ -557,6 +567,7 @@ namespace Demoder.MapCompiler
 			//Add the result to the sliced images store.
 			lock (this._Data_SlicedImages)
 				this._Data_SlicedImages.Add(imgdata.name, si);
+			imgslicer.Dispose();
 			this._MRE_WorkerThread.Set(); //Tell the worker thread there's work available.
 			this.debug("IS", string.Format("Sliced {0}", imgdata.name));
 			lock (this.slicerThreadPoolThreads)
@@ -658,6 +669,8 @@ namespace Demoder.MapCompiler
 			this.debug("W", "Stopped");
 			this.WorkerEndTime = DateTime.Now;
 			this.reportWorkerStatus(100, "Done.");
+			this._MRE_Assembler_Start.Set();
+			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
 		private void __threaded_Worker_DoWork(object obj)
@@ -837,6 +850,8 @@ namespace Demoder.MapCompiler
 					kvp.Value.Close();
 					fs.Write(b, 0, b.Length);
 					fs.Close();
+					b = null;
+					this._Data_Binfiles[kvp.Key].Dispose();
 				}
 				catch { }
 			}
@@ -884,6 +899,8 @@ namespace Demoder.MapCompiler
 			this.reportAssemblerStatus(100, "Done.");
 			this.debug("A", String.Format("Stopped after {0} seconds.", (dt2 - this.WorkerEndTime).TotalSeconds));
 			this.debug("App", String.Format("Total runtime: {0} seconds.", (dt2 - this.starttime).TotalSeconds));
+			this._MRE_Assembler_Done.Set();
+			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 		#endregion
 	}

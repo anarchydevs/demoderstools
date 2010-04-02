@@ -133,12 +133,12 @@ namespace Demoder.MapCompiler
 				this.r1 = new ManualResetEvent(false);
 				this.t1 = new Thread(new ParameterizedThreadStart(this.slicer_threaded));
 				this.t1.IsBackground = true;
-				//this.t1.Priority = ThreadPriority.BelowNormal;
+				this.t1.Priority = ThreadPriority.BelowNormal;
 				
 				this.r2 = new ManualResetEvent(false);
 				this.t2 = new Thread(new ParameterizedThreadStart(this.slicer_threaded));
 				this.t2.IsBackground = true;
-				//this.t2.Priority = ThreadPriority.BelowNormal;
+				this.t2.Priority = ThreadPriority.BelowNormal;
 
 				this.t1.Start(1);
 				this.t2.Start(2);
@@ -158,6 +158,19 @@ namespace Demoder.MapCompiler
 			}
 		}
 
+		public void Dispose()
+		{
+			if (this.i1!=null) this.i1.Dispose();
+			if (this.i2 != null) this.i2.Dispose();
+			if (this.s1 != null) this.s1 = null;
+			if (this.s2 != null)this.s2 = null;
+			if (this.r1 != null) this.r1 = null;
+			if (this.r2 != null) this.r2 = null;
+			if (this.t1 != null) this.t1 = null;
+			if (this.t2 != null) this.t2 = null;
+			this._SliceStreams = null;
+			System.GC.Collect(1, GCCollectionMode.Optimized); //Request garbage collection
+		}
 
 		#region Multithreaded slicer
 		private void slicer_threaded(object obj)
@@ -173,14 +186,13 @@ namespace Demoder.MapCompiler
 			int swidth = srcimg.Width;
 			int sheight = srcimg.Height;
 			MemoryStream ms;
+			Image timg;
 			int pos_width = 0, pos_height = 0; //Track current position.
 			do
 			{
-				Image timg = this.copySlice(srcimg, pos_width, pos_height);
+				timg = this.copySlice(srcimg, pos_width, pos_height);
 				ms = new MemoryStream();
 				timg.Save(ms, ImageFormat.Png);
-
-				//File.WriteAllBytes(string.Format("e:/tmp/blah/{0}_{1}_{2}.png",source.name, pos_width, pos_height), ms.ToArray());
 				switch (worknum)
 				{
 					case 1: this.s1.Add(ms); break;
@@ -197,7 +209,7 @@ namespace Demoder.MapCompiler
 			switch (worknum)
 			{
 				case 1: this.r1.Set(); break;
-				case 2: this.r2.Set();  break;
+				case 2: this.r2.Set(); break;
 			}
 		}
 
@@ -209,10 +221,11 @@ namespace Demoder.MapCompiler
 			int swidth = srcimg.Width;
 			int sheight = srcimg.Height;
 			MemoryStream ms;
+			Image timg;
 			int pos_width = 0, pos_height = 0; //Track current position.
 			do
 			{
-				Image timg = this.copySlice(srcimg, pos_width, pos_height);
+				timg = this.copySlice(srcimg, pos_width, pos_height);
 				ms = new MemoryStream();
 				timg.Save(ms, ImageFormat.Png);
 				
