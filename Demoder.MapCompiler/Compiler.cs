@@ -864,6 +864,7 @@ namespace Demoder.MapCompiler
 			{
 				Dictionary<string, object> dict = new Dictionary<string, object>();
 				dict.Add("name", this._MapConfig.Name);
+				dict.Add("shortname", this._MapConfig.ShortName);
 				dict.Add("version", this._MapConfig.Version.ToString());
 				dict.Add("subfolder", this._MapConfig.MapDir);
 				sf = new FormatString(dict);
