@@ -84,6 +84,7 @@ namespace Demoder.MapCompiler
 
 		#endregion
 
+
 		/// <summary>
 		/// Slice up an image into several smaller pieces
 		/// </summary>
@@ -91,6 +92,7 @@ namespace Demoder.MapCompiler
 		/// <param name="texturesize">Size of each slice</param>
 		public ImageSlicer(ImageData source, int texturesize, bool singlethreaded)
 		{
+			//End of setting up PNG codec
 			bool threaded = false;
 			this._texturesize = texturesize;
 			MemoryStream ms = new MemoryStream(source.bytes);
@@ -123,15 +125,6 @@ namespace Demoder.MapCompiler
 				rect = new Rectangle(width, 0, newwidth, height);
 				g.DrawImage(srcimg, 0, 0, rect, GraphicsUnit.Pixel);
 				g.Dispose();
-				try
-				{
-					this.i1.Save("e:/1.png", ImageFormat.Png);
-					this.i2.Save("e:/2.png", ImageFormat.Png);
-				}
-				catch (Exception ex)
-				{
-					
-				}
 				#endregion
 				
 				//Memory streams

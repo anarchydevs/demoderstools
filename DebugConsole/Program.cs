@@ -23,28 +23,41 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Text;
-using System.IO;
 
-using System.Diagnostics;
-using Demoder.Common;
-using Demoder.Patcher;
-namespace DebugConsole
+public class MainClass
 {
-	class Program
+
+	public static void Main()
 	{
-		static void Main(string[] args)
+
+		/*
+		ImageCodecInfo[] availableCodecs;
+		availableCodecs = ImageCodecInfo.GetImageEncoders();
+		int numCodecs = availableCodecs.Length;
+
+		for (int i = 0; i < numCodecs; i++)
 		{
-			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
-			List<string> dl = new List<string>();
-			dl.Add("http://patchserver.flw.nu/AoSL/");
-			string mapdir = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoSL";
-			MapDist map = new MapDist(mapdir, dl);
-			
-			
-			Xml.Serialize.file<MapDist>("e:/test.xml", map);
+			Console.WriteLine("Codec Name = " + availableCodecs[i].CodecName);
+			Console.WriteLine("Class ID = " + availableCodecs[i].Clsid.ToString());
+			Console.WriteLine("Filename Extension = " +
+			  availableCodecs[i].FilenameExtension);
+			Console.WriteLine("Flags = " +
+			  availableCodecs[i].Flags.ToString());
+			Console.WriteLine("Format Description = " +
+			  availableCodecs[i].FormatDescription);
+			Console.WriteLine("Format ID = " +
+			  availableCodecs[i].FormatID.ToString());
+			Console.WriteLine("MimeType = " + availableCodecs[i].MimeType);
+			Console.WriteLine("Version = " +
+			  availableCodecs[i].Version.ToString());
+			Console.WriteLine();
 			Console.ReadLine();
-		}
+		}*/
 	}
 }

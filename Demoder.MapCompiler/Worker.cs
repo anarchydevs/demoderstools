@@ -157,7 +157,6 @@ namespace Demoder.MapCompiler
 					bool treated = false;
 					long curPos = this._ms.Length; //Offset is always length of stream, or we'd be overwriting the last byte.
 					byte[] simg_slice=simg.Slices[index].ToArray();
-					simg.Slices[index].Dispose(); //Dispose of the memory stream.
 					#region Check md5
 					string md5 = Demoder.Common.GenerateHash.md5(simg_slice);
 					if (_md5s.ContainsKey(md5))
@@ -211,6 +210,7 @@ namespace Demoder.MapCompiler
 						else 
 							this._ms.Write(simg_slice, 0, simg_slice.Length);
 						treated = true;
+						simg.Slices[index].Dispose(); //Dispose of the memory stream.
 					}
 					if (index < (simg.Slices.Count)) DoAgain = true;
 				}
