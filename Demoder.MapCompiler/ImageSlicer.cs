@@ -102,12 +102,13 @@ namespace Demoder.MapCompiler
 			//Only do slicer-threading on large slices, since the overhead is so big.
 			if (!singlethreaded && (this._slices_height * this._slices_width) > 512)
 				threaded = true;
-			
+			//threaded = false;
 			if (!threaded) this.slicer(srcimg);
 			else
 			{
 				#region Setup images
-				int width = (int)Math.Floor((double)(this._slices_width * texturesize / 2));
+				int width = (int)Math.Floor((double)(this._slices_width / 2));
+				width = (int)Math.Floor((double)(width * texturesize));
 				int height = (int)Math.Floor((double)(this._slices_height * texturesize));
 				//First image
 				this.i1 = new Bitmap(width,height);
@@ -122,6 +123,15 @@ namespace Demoder.MapCompiler
 				rect = new Rectangle(width, 0, newwidth, height);
 				g.DrawImage(srcimg, 0, 0, rect, GraphicsUnit.Pixel);
 				g.Dispose();
+				try
+				{
+					this.i1.Save("e:/1.png", ImageFormat.Png);
+					this.i2.Save("e:/2.png", ImageFormat.Png);
+				}
+				catch (Exception ex)
+				{
+					
+				}
 				#endregion
 				
 				//Memory streams
@@ -147,6 +157,7 @@ namespace Demoder.MapCompiler
 				this.r1.WaitOne();
 				this.r2.WaitOne();
 				//Assemble the slices.
+				this._SliceStreams = new List<MemoryStream>();
 				foreach (MemoryStream m in this.s1)
 				{
 					this._SliceStreams.Add(m);
@@ -155,6 +166,7 @@ namespace Demoder.MapCompiler
 				{
 					this._SliceStreams.Add(m);
 				}
+				int blah2 = this._SliceStreams.Count;
 			}
 		}
 
