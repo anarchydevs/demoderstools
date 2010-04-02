@@ -127,8 +127,9 @@ namespace Demoder.MapCompiler.xml
 				foreach (WorkTask wt in this.WorkerTasks)
 					if (wt.workname == name)
 					{
+						int index = this.WorkerTasks.IndexOf(wt);
 						this.WorkerTasks.Remove(wt);
-						this.WorkerTasks.Add(worktask);
+						this.WorkerTasks.Insert(index, worktask);
 						return;
 					}
 			this.WorkerTasks.Add(worktask);
