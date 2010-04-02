@@ -631,6 +631,55 @@ namespace AOMC
 
 		}
 
+		#region drag&drop
+		//Enable dragging&dropping of items
+		private void _WorkerTasks_ItemDrag(object sender, ItemDragEventArgs e)
+		{
+			this._WorkerTasks.DoDragDrop(this._WorkerTasks.SelectedItems, DragDropEffects.Move);
+		}
+		//Accept drag&drop actions
+
+		private void _WorkerTasks_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListView.SelectedListViewItemCollection)))
+			{
+				e.Effect = DragDropEffects.Move;
+			}
+		}
+		private void _WorkerTasks_DragDrop(object sender, DragEventArgs e)
+		{
+			Point position = this._WorkerTasks.PointToClient(new Point(e.X, e.Y));
+			if (e.Data.GetDataPresent(typeof(ListView.SelectedListViewItemCollection)))
+			{
+				WorkTask dropattask=null;
+				bool Append = false;
+				try
+				{
+					dropattask = Program.Config_Map.GetWorkTask((this._WorkerTasks.GetItemAt(position.X, position.Y)).Text);
+				}
+				catch { Append = true; }
+				var li = (ListView.SelectedListViewItemCollection)e.Data.GetData(typeof(ListView.SelectedListViewItemCollection));
+				foreach (ListViewItem lvi in li)
+				{
+					WorkTask wt = Program.Config_Map.GetWorkTask(lvi.Text);
+					Program.Config_Map.RemoveWorkTask(lvi.Text);
+					if (Append)
+					{
+						Program.Config_Map.WorkerTasks.Add(wt);
+					}
+					else
+					{
+						int insertat = Program.Config_Map.WorkerTasks.IndexOf(dropattask);
+						Program.Config_Map.WorkerTasks.Insert(insertat, wt);
+					}
+				}
+				this.LoadMapConfigValues();
+			}
+		}
+
+		#endregion
+
+
 		#endregion
 
 		#region Map Versions
@@ -930,6 +979,11 @@ namespace AOMC
 		}
 		#endregion
 
+		/// <summary>
+		/// Method to handle sorting of ListViews based on collumns
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void _lv_ColumnClick(object sender, ColumnClickEventArgs e)
 		{
 			ListView lv = (ListView)sender;
@@ -969,19 +1023,14 @@ namespace AOMC
 				string str1 = lvi1.SubItems[ByColumn].Text;
 				ListViewItem lvi2 = (ListViewItem)o1;
 				string str2 = lvi2.SubItems[ByColumn].Text;
-
 				int result;
 				if (lvi1.ListView.Sorting == SortOrder.Ascending)
 					result = String.Compare(str1, str2);
 				else
 					result = String.Compare(str2, str1);
-
 				LastSort = ByColumn;
-
 				return (result);
 			}
-
-
 			public int ByColumn
 			{
 				get { return Column; }
