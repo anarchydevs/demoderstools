@@ -41,6 +41,7 @@ namespace Demoder.Patcher
 			[XmlElement("directory")]
 			public List<Dir> directories;
 			#endregion
+
 			#region constructors
 			public Dir()
 			{
@@ -59,6 +60,7 @@ namespace Demoder.Patcher
 					this.directories.Add(new Dir(directory));
 			}
 			#endregion
+
 			#region Operator overrides
 			public static bool operator ==(Dir dir1, Dir dir2)
 			{
@@ -104,10 +106,17 @@ namespace Demoder.Patcher
 				}
 				return true;
 			}
+
 			public static bool operator !=(Dir dir1, Dir dir2)
 			{
 				return dir1 == dir2 ? false : true;
 			}
+			/// <summary>
+			/// To compare two distributions.
+			/// </summary>
+			/// <param name="dir1">Distribution we want</param>
+			/// <param name="dir2">Distribution we have</param>
+			/// <returns></returns>
 			public static Dir operator -(Dir dir1, Dir dir2)
 			{
 				//Remove directories.
@@ -124,6 +133,7 @@ namespace Demoder.Patcher
 			}
 
 			#endregion
+
 			#region default overrides
 			public override bool Equals(object obj)
 			{
@@ -144,6 +154,25 @@ namespace Demoder.Patcher
 				return this.name;
 			}
 			#endregion
+
+			//Ensure no harmfull paths are provided.
+			public void Sanitize()
+			{
+				this.name = this.Sanitize(this.name);
+
+				foreach (Dir d in this.directories)
+					d.Sanitize();
+				foreach (File f in this.files)
+					f.name = this.Sanitize(f.name);
+			}
+			private string Sanitize(string str)
+			{
+				str = str.Replace("..", "");
+				str = str.Replace("/", "");
+				str = str.Replace("\\", "");
+				str = str.Replace("\0", "");
+				return str;
+			}
 		}
 
 		public class File
@@ -173,6 +202,7 @@ namespace Demoder.Patcher
 			/// </summary>
 			public long size;
 			#endregion
+
 			#region constructors
 			public File() { }
 

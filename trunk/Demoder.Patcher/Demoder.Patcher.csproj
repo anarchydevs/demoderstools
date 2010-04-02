@@ -61,7 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="xml\DistInfo.cs" />
+    <Compile Include="BinDecompiler.cs" />
+    <Compile Include="DistributionIndex.cs" />
+    <Compile Include="MapDist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
