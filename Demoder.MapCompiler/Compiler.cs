@@ -845,7 +845,7 @@ namespace Demoder.MapCompiler
 			{
 				try
 				{
-					FileStream fs = File.Open(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + kvp.Key + ".bin", FileMode.Append);
+					FileStream fs = File.Open(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + kvp.Key + ".bin", FileMode.Create);
 					byte[] b = kvp.Value.ToArray();
 					kvp.Value.Close();
 					fs.Write(b, 0, b.Length);
