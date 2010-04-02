@@ -737,6 +737,7 @@ namespace AOMC
 				}
 				Program.Config_Map.TxtFiles.Add(txt);
 			} while (error);
+			this.LoadMapConfigValues();
 		}
 
 		private void mapVersions_ContextMenu_Edit_Click(object sender, EventArgs e)
