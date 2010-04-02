@@ -101,6 +101,7 @@
 			this._addedImages.Location = new System.Drawing.Point(8, 112);
 			this._addedImages.Name = "_addedImages";
 			this._addedImages.Size = new System.Drawing.Size(120, 82);
+			this._addedImages.Sorted = true;
 			this._addedImages.TabIndex = 5;
 			this._addedImages.DoubleClick += new System.EventHandler(this._addedImages_DoubleClick);
 			// 
@@ -110,6 +111,7 @@
 			this._availImages.Location = new System.Drawing.Point(176, 112);
 			this._availImages.Name = "_availImages";
 			this._availImages.Size = new System.Drawing.Size(120, 82);
+			this._availImages.Sorted = true;
 			this._availImages.TabIndex = 6;
 			this._availImages.DoubleClick += new System.EventHandler(this._availImages_DoubleClick);
 			// 
