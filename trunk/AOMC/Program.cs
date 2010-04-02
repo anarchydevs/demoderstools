@@ -85,6 +85,7 @@ namespace AOMC
 						break;
 					}
 					Program.Config_Map = Xml.Deserialize.file<MapConfig>(mapconfig);
+					Program.MapConfigSavePath = mapconfig;
 					if (Program.Config_Map == null)
 					{
 						MessageBox.Show("The provided map configuration file has syntax errors. Loading default.");
@@ -92,7 +93,11 @@ namespace AOMC
 					}
 				}
 			} while (false);
-			if (Program.Config_Map == null) Program.Config_Map = new MapConfig();
+			if (Program.Config_Map == null)
+			{
+				Program.Config_Map = new MapConfig();
+				Program.MapConfigSavePath = string.Empty;
+			}
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

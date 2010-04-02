@@ -213,9 +213,6 @@ namespace AOMC
 			{
 				_map_assemblymethod.Items.Add(am);
 			}
-			if (_map_assemblymethod.Items.Count > 0)
-				_map_assemblymethod.SelectedIndex = 0;
-
 			this.LoadMapConfigValues();
 			this.ApplyViewSettings();
 			Program.Config_Map_Changed = false;
