@@ -876,7 +876,7 @@ namespace Demoder.MapCompiler
 				else tf = null;
 				if (tf != null)
 				{
-					string txtfile = String.Format("Name \"{0}\"\r\nType {1}\r\nCoordsFile {2}\r\n",
+					string txtfile = String.Format("Name {0}\r\nType {1}\r\nCoordsFile {2}\r\n",
 						sf.Format(tf.Name),
 						tf.Type,
 						sf.Format(tf.CoordsFile));
