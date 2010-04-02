@@ -30,7 +30,6 @@ using System.IO;
 using System.Diagnostics;
 using Demoder.Common;
 using Demoder.Patcher;
-using Demoder.Patcher.xml;
 namespace DebugConsole
 {
 	class Program
@@ -38,32 +37,13 @@ namespace DebugConsole
 		static void Main(string[] args)
 		{
 			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
-			distinfo DistInfo = new distinfo();
-			DistInfo.DistributionType = "map";
-			DistInfo.download_locations = new List<string>();
-			DistInfo.download_locations.Add("http://aork.flw.nu");
-			DistInfo.download_locations.Add("http://aosl.flw.nu");
-			DistInfo.content = new List<distinfo_directory>();
-			distinfo_directory dir = new distinfo_directory();
-			distinfo_directory dir2 = new distinfo_directory();
-			dir.name = "AoRK";
-			dir.files = new List<distinfo_fileinfo>();
-			dir2.files = new List<distinfo_fileinfo>();
-			dir2.name = "help";
-			distinfo_fileinfo file = new distinfo_fileinfo();
-			file.md5 = "dfsgdsfhhSHFGs";
-			file.sha1 = "dsfsfdsfsdh";
-			file.name = "Test.txt";
-			file.size = 56;
-			file.type = "file";
-			dir.files.Add(file);
-			dir.directories = new List<distinfo_directory>();
-			dir2.files = new List<distinfo_fileinfo>();
-			dir2.files.Add(file);
-			dir.directories.Add(dir2);
-			DistInfo.content.Add(dir);
-			Console.ReadLine();
-			Xml.Serialize.file<distinfo>("e:/test.xml", DistInfo);
+			List<string> dl = new List<string>();
+			dl.Add("http://patchserver.flw.nu/AoSL/");
+			string mapdir = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoSL";
+			MapDist map = new MapDist(mapdir, dl);
+			
+			
+			Xml.Serialize.file<MapDist>("e:/test.xml", map);
 			Console.ReadLine();
 		}
 	}

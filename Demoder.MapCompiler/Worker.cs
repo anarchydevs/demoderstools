@@ -103,6 +103,9 @@ namespace Demoder.MapCompiler
 			string wl = this._worktask.workentries[0];
 			SlicedImage simg = this._slicedImages[wl];
 			long curPos;
+
+			Image img;
+			MemoryStream ms;
 			foreach (MemoryStream slice in simg.Slices)
 			{
 				curPos = this._ms.Length;
@@ -117,8 +120,8 @@ namespace Demoder.MapCompiler
 							imf = ImageFormat.Jpeg;
 							break;
 					}
-					Image img = Image.FromStream(slice);
-					MemoryStream ms = new MemoryStream();
+					img = Image.FromStream(slice);
+					ms = new MemoryStream();
 					img.Save(ms, imf);
 					ms.WriteTo(this._ms);
 				}
@@ -141,6 +144,11 @@ namespace Demoder.MapCompiler
 			Dictionary<string, long> _LastPos = new Dictionary<string, long>(); //Last position for a given layer
 			int index = 0;
 			bool DoAgain;
+
+			Image img;
+			MemoryStream ms;
+			byte[] msb;
+
 			do {
 				DoAgain = false;
 				foreach (string wl in this._worktask.workentries) {
@@ -149,7 +157,7 @@ namespace Demoder.MapCompiler
 					bool treated = false;
 					long curPos = this._ms.Length; //Offset is always length of stream, or we'd be overwriting the last byte.
 					byte[] simg_slice=simg.Slices[index].ToArray();
-					//File.WriteAllBytes(string.Format("e:/tmp/blah2/{0}_{1}.png", wl.layername, index), simg_slice);
+					simg.Slices[index].Dispose(); //Dispose of the memory stream.
 					#region Check md5
 					string md5 = Demoder.Common.GenerateHash.md5(simg_slice);
 					if (_md5s.ContainsKey(md5))
@@ -186,8 +194,8 @@ namespace Demoder.MapCompiler
 							_LastPos.Add(wl, curPos);
 						if (this._worktask.imageformat != ImageFormats.Png) //AFTER md5'ing to compare.. check if we should save in another format.
 						{
-							Image img = Image.FromStream(simg.Slices[index]);
-							MemoryStream ms = new MemoryStream();
+							img = Image.FromStream(simg.Slices[index]);
+							ms = new MemoryStream();
 							ImageFormat imf;
 							switch (this._worktask.imageformat)
 							{
@@ -197,7 +205,7 @@ namespace Demoder.MapCompiler
 									break;
 							}
 							img.Save(ms, imf);
-							byte[] msb = ms.ToArray();
+							msb = ms.ToArray();
 							this._ms.Write(msb, 0, msb.Length);
 						}
 						else 
@@ -224,6 +232,10 @@ namespace Demoder.MapCompiler
 			this._WorkResult.Data = this._ms.ToArray();
 			this._ms.Close();
 			this._WorkResult.LayerPositionInfo = this._StreamPos; //Layers positions within the stream.
+			//Clean up a bit.
+			this._ms = null;
+			this._slicedImages = null;
+			this._worktask = null;
 			return this._WorkResult;
 		}
 	}

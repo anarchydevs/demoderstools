@@ -32,7 +32,6 @@ namespace AOMC
 {
 	static internal class Program
 	{
-#warning fixme: Make this load from appdata or something.
 		internal static CompilerConfig Config_Compiler;
 		internal static MapConfig Config_Map;
 		internal static AOMC_Config Config_AOMC = new AOMC_Config();
