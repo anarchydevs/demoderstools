@@ -89,12 +89,12 @@ namespace AOMC.contextmenuWindows
 
 		private void _addedImages_DoubleClick(object sender, EventArgs e)
 		{
-			this.button_addImg_Click(sender, e);
+			this.button_remImg_Click(sender, e);
 		}
 
 		private void _availImages_DoubleClick(object sender, EventArgs e)
 		{
-			this.button_remImg_Click(sender, e);
+			this.button_addImg_Click(sender, e);
 		}
 	}
 }
