@@ -730,8 +730,8 @@ namespace AOMC
 						txt.Name = ilme._name.Text;
 						txt.Layers = new List<string>();
 						txt.Type = ilme.mapType;
-						foreach (ListViewItem lvi2 in ilme._layers.Items)
-							txt.Layers.Add(lvi2.Text);
+						foreach (string lvi2 in ilme._layers.Items)
+							txt.Layers.Add(lvi2);
 
 						break;
 				}
