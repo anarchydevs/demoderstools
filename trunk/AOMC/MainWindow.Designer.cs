@@ -621,6 +621,7 @@ namespace AOMC
 			// _WorkerTasks
 			// 
 			this._WorkerTasks.AllowColumnReorder = true;
+			this._WorkerTasks.AllowDrop = true;
 			this._WorkerTasks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.workerColumn_Name,
             this.workerColumn_Maprect,
@@ -633,11 +634,13 @@ namespace AOMC
 			this._WorkerTasks.Location = new System.Drawing.Point(3, 3);
 			this._WorkerTasks.Name = "_WorkerTasks";
 			this._WorkerTasks.Size = new System.Drawing.Size(599, 193);
-			this._WorkerTasks.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this._WorkerTasks.TabIndex = 0;
 			this._WorkerTasks.UseCompatibleStateImageBehavior = false;
 			this._WorkerTasks.View = System.Windows.Forms.View.Details;
 			this._WorkerTasks.DoubleClick += new System.EventHandler(this._WorkerTasks_DoubleClick);
+			this._WorkerTasks.DragDrop += new System.Windows.Forms.DragEventHandler(this._WorkerTasks_DragDrop);
+			this._WorkerTasks.DragEnter += new System.Windows.Forms.DragEventHandler(this._WorkerTasks_DragEnter);
+			this._WorkerTasks.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this._WorkerTasks_ItemDrag);
 			// 
 			// workerColumn_Name
 			// 
@@ -814,7 +817,7 @@ namespace AOMC
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.96916F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.03084F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 232F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 238F));
 			this.tableLayoutPanel1.Controls.Add(this._label_compilestatusmsg, 2, 4);
 			this.tableLayoutPanel1.Controls.Add(this.progressBar_assembler, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.label9, 0, 1);
@@ -843,16 +846,16 @@ namespace AOMC
 			// _label_compilestatusmsg
 			// 
 			this._label_compilestatusmsg.AutoSize = true;
-			this._label_compilestatusmsg.Location = new System.Drawing.Point(224, 69);
+			this._label_compilestatusmsg.Location = new System.Drawing.Point(218, 69);
 			this._label_compilestatusmsg.Name = "_label_compilestatusmsg";
 			this._label_compilestatusmsg.Size = new System.Drawing.Size(0, 13);
 			this._label_compilestatusmsg.TabIndex = 6;
 			// 
 			// progressBar_assembler
 			// 
-			this.progressBar_assembler.Location = new System.Drawing.Point(94, 55);
+			this.progressBar_assembler.Location = new System.Drawing.Point(92, 55);
 			this.progressBar_assembler.Name = "progressBar_assembler";
-			this.progressBar_assembler.Size = new System.Drawing.Size(123, 10);
+			this.progressBar_assembler.Size = new System.Drawing.Size(119, 10);
 			this.progressBar_assembler.TabIndex = 8;
 			// 
 			// label9
@@ -866,23 +869,23 @@ namespace AOMC
 			// 
 			// progressBar_worker
 			// 
-			this.progressBar_worker.Location = new System.Drawing.Point(94, 38);
+			this.progressBar_worker.Location = new System.Drawing.Point(92, 38);
 			this.progressBar_worker.Name = "progressBar_worker";
-			this.progressBar_worker.Size = new System.Drawing.Size(123, 10);
+			this.progressBar_worker.Size = new System.Drawing.Size(119, 10);
 			this.progressBar_worker.TabIndex = 7;
 			// 
 			// progressBar_imageloader
 			// 
-			this.progressBar_imageloader.Location = new System.Drawing.Point(94, 4);
+			this.progressBar_imageloader.Location = new System.Drawing.Point(92, 4);
 			this.progressBar_imageloader.Name = "progressBar_imageloader";
-			this.progressBar_imageloader.Size = new System.Drawing.Size(123, 10);
+			this.progressBar_imageloader.Size = new System.Drawing.Size(119, 10);
 			this.progressBar_imageloader.TabIndex = 4;
 			// 
 			// progressBar_imageslicer
 			// 
-			this.progressBar_imageslicer.Location = new System.Drawing.Point(94, 21);
+			this.progressBar_imageslicer.Location = new System.Drawing.Point(92, 21);
 			this.progressBar_imageslicer.Name = "progressBar_imageslicer";
-			this.progressBar_imageslicer.Size = new System.Drawing.Size(123, 10);
+			this.progressBar_imageslicer.Size = new System.Drawing.Size(119, 10);
 			this.progressBar_imageslicer.TabIndex = 6;
 			// 
 			// label10
@@ -915,7 +918,7 @@ namespace AOMC
 			// statuslabel_imageloader
 			// 
 			this.statuslabel_imageloader.AutoSize = true;
-			this.statuslabel_imageloader.Location = new System.Drawing.Point(224, 1);
+			this.statuslabel_imageloader.Location = new System.Drawing.Point(218, 1);
 			this.statuslabel_imageloader.Name = "statuslabel_imageloader";
 			this.statuslabel_imageloader.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageloader.TabIndex = 9;
@@ -923,7 +926,7 @@ namespace AOMC
 			// statuslabel_imageslicer
 			// 
 			this.statuslabel_imageslicer.AutoSize = true;
-			this.statuslabel_imageslicer.Location = new System.Drawing.Point(224, 18);
+			this.statuslabel_imageslicer.Location = new System.Drawing.Point(218, 18);
 			this.statuslabel_imageslicer.Name = "statuslabel_imageslicer";
 			this.statuslabel_imageslicer.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageslicer.TabIndex = 10;
@@ -931,7 +934,7 @@ namespace AOMC
 			// statuslabel_worker
 			// 
 			this.statuslabel_worker.AutoSize = true;
-			this.statuslabel_worker.Location = new System.Drawing.Point(224, 35);
+			this.statuslabel_worker.Location = new System.Drawing.Point(218, 35);
 			this.statuslabel_worker.Name = "statuslabel_worker";
 			this.statuslabel_worker.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_worker.TabIndex = 11;
@@ -939,7 +942,7 @@ namespace AOMC
 			// statuslabel_assembler
 			// 
 			this.statuslabel_assembler.AutoSize = true;
-			this.statuslabel_assembler.Location = new System.Drawing.Point(224, 52);
+			this.statuslabel_assembler.Location = new System.Drawing.Point(218, 52);
 			this.statuslabel_assembler.Name = "statuslabel_assembler";
 			this.statuslabel_assembler.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_assembler.TabIndex = 12;
