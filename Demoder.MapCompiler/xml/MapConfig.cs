@@ -164,6 +164,18 @@ namespace Demoder.MapCompiler.xml
 			return o.ToArray();
 		}
 
+		public void RemoveLayer(string name)
+		{
+			lock (this.WorkerTasks)
+			{
+				foreach (WorkTask wt in this.WorkerTasks)
+				{
+					wt.workentries.Remove(name);
+				}
+			}
+					
+		}
+
 		/// <summary>
 		/// Retrieve an array of work task names containing layer name
 		/// </summary>
