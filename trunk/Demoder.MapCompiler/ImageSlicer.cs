@@ -99,8 +99,10 @@ namespace Demoder.MapCompiler
 			Image srcimg = Image.FromStream(ms);
 			//Bitmap srcimg = Image.FromStream(ms) as Bitmap;
 			ms.Close();
-			this._slices_width = (int)Math.Ceiling((double)(srcimg.Width / texturesize));
-			this._slices_height = (int)Math.Ceiling((double)(srcimg.Height / texturesize));
+			double w = ((double)srcimg.Width / (double)texturesize); 
+			double h = ((double)srcimg.Height / (double)texturesize);
+			this._slices_width = (int)Math.Ceiling(w);
+			this._slices_height = (int)Math.Ceiling(h);
 			//Only do slicer-threading on large slices, since the overhead is so big.
 			if (!singlethreaded && (this._slices_height * this._slices_width) > 512)
 				threaded = true;
@@ -109,19 +111,23 @@ namespace Demoder.MapCompiler
 			else
 			{
 				#region Setup images
-				int width = (int)Math.Floor((double)(this._slices_width / 2));
-				width = (int)Math.Floor((double)(width * texturesize));
-				int height = (int)Math.Floor((double)(this._slices_height * texturesize));
+				int width = (int)Math.Floor((double)((double)this._slices_width / (double)2));
+				width = (int)Math.Floor((double)((double)width * (double)texturesize));
+				int height = (int)Math.Floor((double)((double)this._slices_height * (double)texturesize));
 				//First image
-				this.i1 = new Bitmap(width,height);
+				Bitmap bmp1 = new Bitmap(width,height);
+				bmp1.SetResolution(srcimg.HorizontalResolution, srcimg.VerticalResolution);
+				this.i1 = bmp1;
 				Graphics g = Graphics.FromImage(this.i1);
 				Rectangle rect = new Rectangle(0, 0, width, height);
 				g.DrawImage(srcimg, 0, 0, rect, GraphicsUnit.Pixel);
 				g.Dispose();
 				//Second image
-				this.i2 = new Bitmap(width, height);
-				g = Graphics.FromImage(this.i2);
 				int newwidth = srcimg.Width - width;
+				Bitmap bmp2 = new Bitmap(newwidth, height);
+				bmp2.SetResolution(srcimg.HorizontalResolution, srcimg.VerticalResolution);
+				this.i2 = bmp2;
+				g = Graphics.FromImage(this.i2);
 				rect = new Rectangle(width, 0, newwidth, height);
 				g.DrawImage(srcimg, 0, 0, rect, GraphicsUnit.Pixel);
 				g.Dispose();
@@ -256,7 +262,8 @@ namespace Demoder.MapCompiler
 			int tsize = this._texturesize;
 			int swidth = src.Width;
 			int sheight = src.Height;
-			Image tmpimg = new Bitmap(tsize, tsize,PixelFormat.Format24bppRgb);
+			Bitmap tmpimg = new Bitmap(tsize, tsize,PixelFormat.Format24bppRgb);
+			tmpimg.SetResolution(src.HorizontalResolution, src.VerticalResolution);
 			//tmpimg.PixelFormat;
 			Graphics g = Graphics.FromImage(tmpimg);
 			Rectangle rect = new Rectangle(start_x, start_y, tsize, tsize);
