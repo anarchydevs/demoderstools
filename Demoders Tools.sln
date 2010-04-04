@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapUpgrades", "MapUpgrades\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.Patcher", "Demoder.Patcher\Demoder.Patcher.csproj", "{F8ABD54F-E4D4-4990-814F-5934D715ADDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.PlanetMapLoader", "Demoder.PlanetMapLoader\Demoder.PlanetMapLoader.csproj", "{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AOMC Debug|Any CPU = AOMC Debug|Any CPU
@@ -30,6 +32,9 @@ Global
 		DebugConsole|Any CPU = DebugConsole|Any CPU
 		DebugConsole|Mixed Platforms = DebugConsole|Mixed Platforms
 		DebugConsole|x86 = DebugConsole|x86
+		PlanetMapViewer|Any CPU = PlanetMapViewer|Any CPU
+		PlanetMapViewer|Mixed Platforms = PlanetMapViewer|Mixed Platforms
+		PlanetMapViewer|x86 = PlanetMapViewer|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -59,6 +64,11 @@ Global
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.DebugConsole|Mixed Platforms.ActiveCfg = DebugConsole|Any CPU
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|Any CPU
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.DebugConsole|x86.ActiveCfg = DebugConsole|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.PlanetMapViewer|Any CPU.Build.0 = PlanetMapViewer|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -78,7 +88,6 @@ Global
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.AOMP Debug|Mixed Platforms.Build.0 = AOMP Debug|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.AOMP Debug|x86.ActiveCfg = AOMP Debug|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.DebugConsole|Any CPU.ActiveCfg = DebugConsole|Any CPU
@@ -86,6 +95,10 @@ Global
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.DebugConsole|Mixed Platforms.ActiveCfg = DebugConsole|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.DebugConsole|x86.ActiveCfg = DebugConsole|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A97EC303-835B-409D-B265-0EA16A9FD2F7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
@@ -105,7 +118,6 @@ Global
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.AOMP Debug|Mixed Platforms.Build.0 = AOMP Debug|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.AOMP Debug|x86.ActiveCfg = AOMP Debug|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -113,6 +125,10 @@ Global
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.DebugConsole|Mixed Platforms.ActiveCfg = DebugConsole|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.DebugConsole|x86.ActiveCfg = DebugConsole|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -133,7 +149,6 @@ Global
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.AOMP Debug|Mixed Platforms.Build.0 = AOMP Debug|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.AOMP Debug|x86.ActiveCfg = AOMP Debug|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -141,6 +156,10 @@ Global
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.DebugConsole|Mixed Platforms.ActiveCfg = DebugConsole|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.DebugConsole|x86.ActiveCfg = DebugConsole|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B1A7236-288F-4374-BE38-4DE98FFFFE9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -160,7 +179,6 @@ Global
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.AOMP Debug|Mixed Platforms.Build.0 = AOMP Debug|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.AOMP Debug|x86.ActiveCfg = AOMP Debug|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Debug|Any CPU.Build.0 = Debug|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Debug|x86.ActiveCfg = Debug|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Debug|x86.Build.0 = Debug|x86
@@ -169,6 +187,11 @@ Global
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.DebugConsole|x86.ActiveCfg = DebugConsole|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.DebugConsole|x86.Build.0 = DebugConsole|x86
+		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|x86
+		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|x86
+		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|x86
+		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|x86
+		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.PlanetMapViewer|x86.Build.0 = PlanetMapViewer|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Release|Any CPU.ActiveCfg = Release|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{88EA384A-E21B-40CE-BFBF-8832C47836A6}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -188,18 +211,56 @@ Global
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.AOMP Debug|Mixed Platforms.Build.0 = AOMP Debug|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.AOMP Debug|x86.ActiveCfg = AOMP Debug|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.DebugConsole|Any CPU.ActiveCfg = DebugConsole|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.DebugConsole|Mixed Platforms.ActiveCfg = DebugConsole|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.DebugConsole|Mixed Platforms.Build.0 = DebugConsole|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.DebugConsole|x86.ActiveCfg = DebugConsole|Any CPU
+		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F8ABD54F-E4D4-4990-814F-5934D715ADDA}.Release|x86.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Release|Any CPU.Build.0 = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMC Release|x86.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMP Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMP Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMP Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMP Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.AOMP Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.DebugConsole|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.DebugConsole|Any CPU.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.DebugConsole|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.DebugConsole|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.DebugConsole|x86.ActiveCfg = Debug|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.PlanetMapViewer|Any CPU.ActiveCfg = PlanetMapViewer|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.PlanetMapViewer|Any CPU.Build.0 = PlanetMapViewer|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.PlanetMapViewer|Mixed Platforms.ActiveCfg = PlanetMapViewer|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.PlanetMapViewer|Mixed Platforms.Build.0 = PlanetMapViewer|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.PlanetMapViewer|x86.ActiveCfg = PlanetMapViewer|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0A36E430-2FB5-4FAC-908F-05B2007D5A7F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
