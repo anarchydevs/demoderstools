@@ -36,7 +36,7 @@ namespace Planet_Map_Viewer
 		static internal List<PlanetMapDefinition> planetmaps;
 		static internal Configuration Config;
 		static internal string ConfigPath;
-		static internal List<Image> Layers = new List<Image>();
+		static internal List<LoadMapSlices.layer> Layers;
 		static internal int LayerPos = 0;
 
 		/// <summary>
@@ -53,7 +53,11 @@ namespace Planet_Map_Viewer
 			if (Program.Config == null) Program.Config = new Configuration();
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainWindow());
+			try { Application.Run(new MainWindow()); }
+			catch (Exception ex)
+			{
+				MessageBox.Show(string.Format("{0}", ex));
+			}
 		}
 	}
 }

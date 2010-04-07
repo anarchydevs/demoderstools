@@ -33,7 +33,7 @@
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.label_Status = new System.Windows.Forms.ToolStripStatusLabel();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -44,7 +44,6 @@
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -104,7 +103,7 @@
 			// 
 			this.splitContainer2.Panel1.AutoScroll = true;
 			this.splitContainer2.Panel1.BackColor = System.Drawing.Color.Black;
-			this.splitContainer2.Panel1.Controls.Add(this.pictureBox1);
+			this.splitContainer2.Panel1.Controls.Add(this.flowLayoutPanel1);
 			this.splitContainer2.Panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.map_MouseDoubleClick);
 			// 
 			// splitContainer2.Panel2
@@ -114,18 +113,13 @@
 			this.splitContainer2.SplitterDistance = 316;
 			this.splitContainer2.TabIndex = 0;
 			// 
-			// pictureBox1
+			// flowLayoutPanel1
 			// 
-			this.pictureBox1.BackColor = System.Drawing.Color.Black;
-			this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-			this.pictureBox1.TabIndex = 0;
-			this.pictureBox1.TabStop = false;
-			this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-			this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.map_MouseDoubleClick);
-			this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-			this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+			this.flowLayoutPanel1.AutoScroll = true;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(301, 175);
+			this.flowLayoutPanel1.TabIndex = 0;
 			// 
 			// statusStrip1
 			// 
@@ -167,7 +161,6 @@
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			this.splitContainer2.Panel2.PerformLayout();
 			this.splitContainer2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -184,7 +177,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel label_Status;
-		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 	}
 }
 

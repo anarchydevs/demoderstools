@@ -62,28 +62,63 @@ namespace Planet_Map_Viewer
 		private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
 		{
 			PlanetMapDefinition pmd = (PlanetMapDefinition)e.Argument;
-			List<Image> imglist = new List<Image>();
 			Dictionary<string, byte[]> binfiles = new Dictionary<string, byte[]>();
+			LoadMapSlices lms = new LoadMapSlices();
 			foreach (PlanetMapLayer pml in pmd.Layers)
 			{
 				if (!binfiles.ContainsKey(pml.File))
 					binfiles.Add(pml.File, File.ReadAllBytes(Program.Config.PlanetMapDir + Path.DirectorySeparatorChar + pml.File));
-				imglist.Add(AssembleMapLayer.FromDefinition(pml, binfiles[pml.File]));
+				lms.FromDefinition(pml, binfiles[pml.File]);
 			}
-			e.Result = imglist;
+			binfiles.Clear();
+			e.Result = lms.layers;
 		}
 
 		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			Program.Layers = (List<Image>)e.Result;
+			Program.Layers = (List<LoadMapSlices.layer>)e.Result;
 			//Set the default layer.
 			Program.LayerPos = 0;
 			this.DisplayLayer(Program.LayerPos);
 		}
+
+		private List<PictureBox> pictureboxes = null;
 		private void DisplayLayer(int layerpos){
-			this.pictureBox1.Size = Program.Layers[layerpos].Size;
-			this.pictureBox1.Image = Program.Layers[layerpos];
+			this.flowLayoutPanel1.Controls.Clear();
+			if (this.pictureboxes != null)
+				foreach (PictureBox pb in this.pictureboxes)
+				{
+					pb.Dispose();
+				}
+			this.flowLayoutPanel1.BorderStyle = BorderStyle.None;
+			this.flowLayoutPanel1.Margin = new Padding(0);
+
+			LoadMapSlices.layer layer = Program.Layers[layerpos];
+			this.pictureboxes = new List<PictureBox>(layer.tiles_height * layer.tiles_width);
+			this.flowLayoutPanel1.Size = layer.size;
 			this.label_Status.Text = "";
+			int x = 0, y = 0;
+			while (y<layer.tiles_height){
+				PictureBox pb = new PictureBox();
+				pb.Size = new Size(layer.texturesize, layer.texturesize); //Make the picture box the right size
+				pb.SizeMode = PictureBoxSizeMode.StretchImage; //If the config file defined the wrong texture size... well, adjust the image to fit the provided texture size.
+				try
+				{
+					pb.Image = layer.GetSlice(x, y);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(string.Format("{0}", ex));
+				}
+				pb.Margin = new Padding(0);
+				pictureboxes.Add(pb);
+				this.flowLayoutPanel1.Controls.Add(pb);
+				x++;
+				if (x>=layer.tiles_width) {
+					x=0;
+					y++;
+				}
+			}
 		}
 
 		private void map_MouseDoubleClick(object sender, MouseEventArgs e)

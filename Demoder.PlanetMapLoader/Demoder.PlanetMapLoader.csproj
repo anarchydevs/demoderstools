@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AssembleMapLayer.cs" />
     <Compile Include="AvailableMaps.cs" />
+    <Compile Include="LoadMapSlices.cs" />
     <Compile Include="PlanetMapDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
