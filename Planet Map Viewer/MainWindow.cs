@@ -111,6 +111,7 @@ namespace Planet_Map_Viewer
 					MessageBox.Show(string.Format("{0}", ex));
 				}
 				pb.Margin = new Padding(0);
+				pb.MouseDoubleClick += new MouseEventHandler(this.map_MouseDoubleClick);
 				pictureboxes.Add(pb);
 				this.flowLayoutPanel1.Controls.Add(pb);
 				x++;
