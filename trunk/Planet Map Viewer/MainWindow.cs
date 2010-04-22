@@ -91,8 +91,7 @@ namespace Planet_Map_Viewer
 					pb.Dispose();
 				}
 			this.flowLayoutPanel1.BorderStyle = BorderStyle.None;
-			this.flowLayoutPanel1.Margin = new Padding(0);
-
+			this.flowLayoutPanel1.SuspendLayout();
 			LoadMapSlices.layer layer = Program.Layers[layerpos];
 			this.pictureboxes = new List<PictureBox>(layer.tiles_height * layer.tiles_width);
 			this.flowLayoutPanel1.Size = layer.size;
@@ -119,6 +118,7 @@ namespace Planet_Map_Viewer
 					x=0;
 					y++;
 				}
+				this.flowLayoutPanel1.ResumeLayout();
 			}
 		}
 
