@@ -25,39 +25,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Text;
+using Demoder.Patcher;
 
 public class MainClass
 {
 
 	public static void Main()
 	{
-
-		/*
-		ImageCodecInfo[] availableCodecs;
-		availableCodecs = ImageCodecInfo.GetImageEncoders();
-		int numCodecs = availableCodecs.Length;
-
-		for (int i = 0; i < numCodecs; i++)
-		{
-			Console.WriteLine("Codec Name = " + availableCodecs[i].CodecName);
-			Console.WriteLine("Class ID = " + availableCodecs[i].Clsid.ToString());
-			Console.WriteLine("Filename Extension = " +
-			  availableCodecs[i].FilenameExtension);
-			Console.WriteLine("Flags = " +
-			  availableCodecs[i].Flags.ToString());
-			Console.WriteLine("Format Description = " +
-			  availableCodecs[i].FormatDescription);
-			Console.WriteLine("Format ID = " +
-			  availableCodecs[i].FormatID.ToString());
-			Console.WriteLine("MimeType = " + availableCodecs[i].MimeType);
-			Console.WriteLine("Version = " +
-			  availableCodecs[i].Version.ToString());
-			Console.WriteLine();
-			Console.ReadLine();
-		}*/
+		BinDecompiler bd = new BinDecompiler("e:/test.png");
 	}
 }

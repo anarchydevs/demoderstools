@@ -35,7 +35,7 @@ namespace Demoder.PlanetMapLoader
 		public List<layer> layers = new List<layer>();
 		public void FromDefinition(PlanetMapLayer pml, byte[] binfile)
 		{
-			List<MemoryStream> MemoryStreams = new List<MemoryStream>();
+			List<Image> Images = new List<Image>();
 			float Resolution_x;
 			float Resolution_z;
 			PixelFormat Pixelformat;
@@ -62,9 +62,7 @@ namespace Demoder.PlanetMapLoader
 				int pos_z = (int)Math.Floor((double)z * (double)pml.TextureSize);
 				//Load image
 				Image img = Bitmap.FromStream(ms);
-				ms = new MemoryStream();
-				img.Save(ms, ImageFormat.Png);
-				MemoryStreams.Add(ms);
+				Images.Add(img);
 				z++; //Increment vertical size
 				if (z >= pml.Tiles.Height)
 				{
@@ -72,21 +70,21 @@ namespace Demoder.PlanetMapLoader
 					x++; //Increment horizontal position.
 				}
 			}
-			this.layers.Add(new layer(pml.Tiles.Width, pml.Tiles.Height, pml.TextureSize, MemoryStreams));
+			this.layers.Add(new layer(pml.Tiles.Width, pml.Tiles.Height, pml.TextureSize, Images));
 			binfile = null;
 		}
 
 		public class layer
 		{
 			#region members
-			private List<MemoryStream> slices;
+			private List<Image> slices;
 			public readonly int tiles_width;
 			public readonly int tiles_height;
 			public readonly int texturesize;
 			public readonly Size size;
 			#endregion
 			#region constructors
-			public layer(int tiles_width, int tiles_height, int texturesize, List<MemoryStream> slices)
+			public layer(int tiles_width, int tiles_height, int texturesize, List<Image> slices)
 			{
 				this.tiles_width = tiles_width;
 				this.tiles_height = tiles_height;
@@ -101,7 +99,7 @@ namespace Demoder.PlanetMapLoader
 				if (x > this.tiles_width) throw new ArgumentOutOfRangeException(string.Format("x: Requested {0}, maximum is {1}", x, this.tiles_width));
 				if (y > this.tiles_height) throw new ArgumentOutOfRangeException(string.Format("y: Requested {0}, maximum is {1}", y, this.tiles_height));
 				int slicenum = (x * this.tiles_height) + y;
-				Image outimg = Image.FromStream(this.slices[slicenum]);
+				Image outimg = this.slices[slicenum];
 				outimg.Tag = string.Format("{0}x{1}", x, y);
 				return outimg;
 			}
