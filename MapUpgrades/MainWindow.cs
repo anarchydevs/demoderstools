@@ -450,10 +450,5 @@ namespace MapUpgrades
 				e.Handled = true;
 			}
 		}
-
-		private void xyphoscomToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

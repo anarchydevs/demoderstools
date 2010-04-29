@@ -90,6 +90,8 @@ namespace Demoder.Common
 		}
 
 
+
+
 		public static class Deserialize
 		{
 			public static T stream<T>(Stream stream, bool closestream)
