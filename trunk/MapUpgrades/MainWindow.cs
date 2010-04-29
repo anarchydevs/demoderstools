@@ -347,6 +347,11 @@ namespace MapUpgrades
 			System.Diagnostics.Process.Start("http://flw.nu/");
 		}
 
+			private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://forums.anarchy-online.com/showthread.php?p=5192302#post5192302");
+		}
+
 		private void ActivePFs_ItemChecked(object sender, ItemCheckedEventArgs e)
 		{
 			if (e.Item.Checked)
@@ -374,6 +379,7 @@ namespace MapUpgrades
 		{
 			wc.OpenReadAsync(new Uri("http://flw.nu/tools/MapUpgrades/ActivePFs.xml"), "apf");
 		}
+
 
 		private void wc_OpenReadCompleted(object obj, System.Net.OpenReadCompletedEventArgs e)
 		{
