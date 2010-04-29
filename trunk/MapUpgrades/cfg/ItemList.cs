@@ -32,7 +32,7 @@ namespace MapUpgrades.cfg
     public class ItemList
     {
         public List<Map> Maps;
-        public List<MapUpgrade> Mapupgrades;
+        public List<MapUpgrade> MapUpgrades;
         /// <summary>
         /// Map entry.
         /// </summary>
