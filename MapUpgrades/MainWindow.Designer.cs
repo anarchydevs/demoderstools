@@ -80,6 +80,9 @@ namespace MapUpgrades
 			this.timer_UpdateUploadable = new System.Windows.Forms.Timer(this.components);
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsReaderDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.activePFDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -89,9 +92,7 @@ namespace MapUpgrades
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.demodersToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.famousLastWordsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.mapsReaderDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.activePFDefinitionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.howToUseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -112,6 +113,7 @@ namespace MapUpgrades
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -127,13 +129,13 @@ namespace MapUpgrades
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-			this.splitContainer1.Size = new System.Drawing.Size(474, 398);
-			this.splitContainer1.SplitterDistance = 143;
+			this.splitContainer1.Size = new System.Drawing.Size(474, 452);
+			this.splitContainer1.SplitterDistance = 134;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(175, 113);
+			this.button1.Location = new System.Drawing.Point(175, 108);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 4;
@@ -144,7 +146,7 @@ namespace MapUpgrades
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 116);
+			this.label2.Location = new System.Drawing.Point(12, 111);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(51, 13);
 			this.label2.TabIndex = 2;
@@ -152,7 +154,7 @@ namespace MapUpgrades
 			// 
 			// _mapNav
 			// 
-			this._mapNav.Location = new System.Drawing.Point(69, 113);
+			this._mapNav.Location = new System.Drawing.Point(69, 108);
 			this._mapNav.Name = "_mapNav";
 			this._mapNav.Size = new System.Drawing.Size(100, 20);
 			this._mapNav.TabIndex = 3;
@@ -160,7 +162,7 @@ namespace MapUpgrades
 			// _inputText
 			// 
 			this._inputText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this._inputText.Location = new System.Drawing.Point(3, 25);
+			this._inputText.Location = new System.Drawing.Point(3, 20);
 			this._inputText.Multiline = true;
 			this._inputText.Name = "_inputText";
 			this._inputText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -171,7 +173,7 @@ namespace MapUpgrades
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(123, 9);
+			this.label1.Location = new System.Drawing.Point(123, 4);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(118, 13);
 			this.label1.TabIndex = 0;
@@ -187,7 +189,7 @@ namespace MapUpgrades
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(474, 251);
+			this.tabControl1.Size = new System.Drawing.Size(474, 314);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
@@ -196,7 +198,7 @@ namespace MapUpgrades
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(466, 225);
+			this.tabPage1.Size = new System.Drawing.Size(466, 288);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Uploadable";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -211,7 +213,7 @@ namespace MapUpgrades
 			this.Uploadable.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Uploadable.Location = new System.Drawing.Point(3, 3);
 			this.Uploadable.Name = "Uploadable";
-			this.Uploadable.Size = new System.Drawing.Size(460, 219);
+			this.Uploadable.Size = new System.Drawing.Size(460, 282);
 			this.Uploadable.TabIndex = 0;
 			this.Uploadable.UseCompatibleStateImageBehavior = false;
 			this.Uploadable.View = System.Windows.Forms.View.Details;
@@ -239,7 +241,7 @@ namespace MapUpgrades
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(466, 225);
+			this.tabPage3.Size = new System.Drawing.Size(466, 288);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Available";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -253,7 +255,7 @@ namespace MapUpgrades
 			this.Available.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Available.Location = new System.Drawing.Point(3, 3);
 			this.Available.Name = "Available";
-			this.Available.Size = new System.Drawing.Size(460, 219);
+			this.Available.Size = new System.Drawing.Size(460, 282);
 			this.Available.TabIndex = 0;
 			this.Available.UseCompatibleStateImageBehavior = false;
 			this.Available.View = System.Windows.Forms.View.Details;
@@ -280,7 +282,7 @@ namespace MapUpgrades
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(466, 225);
+			this.tabPage2.Size = new System.Drawing.Size(466, 288);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Uploaded";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -294,7 +296,7 @@ namespace MapUpgrades
 			this.Uploaded.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.Uploaded.Location = new System.Drawing.Point(3, 3);
 			this.Uploaded.Name = "Uploaded";
-			this.Uploaded.Size = new System.Drawing.Size(460, 219);
+			this.Uploaded.Size = new System.Drawing.Size(460, 282);
 			this.Uploaded.TabIndex = 0;
 			this.Uploaded.UseCompatibleStateImageBehavior = false;
 			this.Uploaded.View = System.Windows.Forms.View.Details;
@@ -322,7 +324,7 @@ namespace MapUpgrades
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(466, 225);
+			this.tabPage4.Size = new System.Drawing.Size(466, 288);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "Active PFs";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -330,6 +332,7 @@ namespace MapUpgrades
 			// splitContainer2
 			// 
 			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
 			this.splitContainer2.Location = new System.Drawing.Point(3, 3);
 			this.splitContainer2.Name = "splitContainer2";
 			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -341,8 +344,8 @@ namespace MapUpgrades
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.button_SaveActivePFs);
-			this.splitContainer2.Size = new System.Drawing.Size(460, 219);
-			this.splitContainer2.SplitterDistance = 187;
+			this.splitContainer2.Size = new System.Drawing.Size(460, 282);
+			this.splitContainer2.SplitterDistance = 253;
 			this.splitContainer2.TabIndex = 0;
 			// 
 			// ActivePFs
@@ -351,7 +354,7 @@ namespace MapUpgrades
 			this.ActivePFs.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ActivePFs.Location = new System.Drawing.Point(0, 0);
 			this.ActivePFs.Name = "ActivePFs";
-			this.ActivePFs.Size = new System.Drawing.Size(460, 187);
+			this.ActivePFs.Size = new System.Drawing.Size(460, 253);
 			this.ActivePFs.TabIndex = 0;
 			this.ActivePFs.UseCompatibleStateImageBehavior = false;
 			this.ActivePFs.View = System.Windows.Forms.View.List;
@@ -362,7 +365,7 @@ namespace MapUpgrades
 			this.button_SaveActivePFs.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.button_SaveActivePFs.Location = new System.Drawing.Point(0, 0);
 			this.button_SaveActivePFs.Name = "button_SaveActivePFs";
-			this.button_SaveActivePFs.Size = new System.Drawing.Size(460, 28);
+			this.button_SaveActivePFs.Size = new System.Drawing.Size(460, 25);
 			this.button_SaveActivePFs.TabIndex = 0;
 			this.button_SaveActivePFs.Text = "Save changes";
 			this.button_SaveActivePFs.UseVisualStyleBackColor = true;
@@ -380,13 +383,13 @@ namespace MapUpgrades
 			// toolStripContainer1.ContentPanel
 			// 
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(474, 398);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(474, 452);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.LeftToolStripPanelVisible = false;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer1.Name = "toolStripContainer1";
 			this.toolStripContainer1.RightToolStripPanelVisible = false;
-			this.toolStripContainer1.Size = new System.Drawing.Size(474, 422);
+			this.toolStripContainer1.Size = new System.Drawing.Size(474, 476);
 			this.toolStripContainer1.TabIndex = 5;
 			this.toolStripContainer1.Text = "toolStripContainer1";
 			// 
@@ -406,12 +409,36 @@ namespace MapUpgrades
 			this.menuStrip1.TabIndex = 0;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mapsReaderDefinitionsToolStripMenuItem,
+            this.activePFDefinitionsToolStripMenuItem});
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+			this.updateToolStripMenuItem.Text = "Update";
+			// 
+			// mapsReaderDefinitionsToolStripMenuItem
+			// 
+			this.mapsReaderDefinitionsToolStripMenuItem.Name = "mapsReaderDefinitionsToolStripMenuItem";
+			this.mapsReaderDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+			this.mapsReaderDefinitionsToolStripMenuItem.Text = "Item Definitions";
+			this.mapsReaderDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.mapsReaderDefinitionsToolStripMenuItem_Click);
+			// 
+			// activePFDefinitionsToolStripMenuItem
+			// 
+			this.activePFDefinitionsToolStripMenuItem.Name = "activePFDefinitionsToolStripMenuItem";
+			this.activePFDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+			this.activePFDefinitionsToolStripMenuItem.Text = "Active PF Definitions";
+			this.activePFDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.activePFDefinitionsToolStripMenuItem_Click);
+			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem1,
             this.toolStripSeparator1,
-            this.linksToolStripMenuItem});
+            this.linksToolStripMenuItem,
+            this.howToUseToolStripMenuItem});
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
 			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.aboutToolStripMenuItem.Text = "Help";
@@ -473,34 +500,18 @@ namespace MapUpgrades
 			this.famousLastWordsToolStripMenuItem1.Text = "Famous Last Words";
 			this.famousLastWordsToolStripMenuItem1.Click += new System.EventHandler(this.famousLastWordsToolStripMenuItem1_Click);
 			// 
-			// updateToolStripMenuItem
+			// howToUseToolStripMenuItem
 			// 
-			this.updateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mapsReaderDefinitionsToolStripMenuItem,
-            this.activePFDefinitionsToolStripMenuItem});
-			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-			this.updateToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-			this.updateToolStripMenuItem.Text = "Update";
-			// 
-			// mapsReaderDefinitionsToolStripMenuItem
-			// 
-			this.mapsReaderDefinitionsToolStripMenuItem.Name = "mapsReaderDefinitionsToolStripMenuItem";
-			this.mapsReaderDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-			this.mapsReaderDefinitionsToolStripMenuItem.Text = "Item Definitions";
-			this.mapsReaderDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.mapsReaderDefinitionsToolStripMenuItem_Click);
-			// 
-			// activePFDefinitionsToolStripMenuItem
-			// 
-			this.activePFDefinitionsToolStripMenuItem.Name = "activePFDefinitionsToolStripMenuItem";
-			this.activePFDefinitionsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-			this.activePFDefinitionsToolStripMenuItem.Text = "Active PF Definitions";
-			this.activePFDefinitionsToolStripMenuItem.Click += new System.EventHandler(this.activePFDefinitionsToolStripMenuItem_Click);
+			this.howToUseToolStripMenuItem.Name = "howToUseToolStripMenuItem";
+			this.howToUseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.howToUseToolStripMenuItem.Text = "How to use";
+			this.howToUseToolStripMenuItem.Click += new System.EventHandler(this.howToUseToolStripMenuItem_Click);
 			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(474, 422);
+			this.ClientSize = new System.Drawing.Size(474, 476);
 			this.Controls.Add(this.toolStripContainer1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainWindow";
@@ -572,6 +583,7 @@ namespace MapUpgrades
 		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsReaderDefinitionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem activePFDefinitionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem howToUseToolStripMenuItem;
     }
 }
 
