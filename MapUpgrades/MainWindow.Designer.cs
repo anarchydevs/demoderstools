@@ -163,6 +163,7 @@ namespace MapUpgrades
 			this._inputText.Location = new System.Drawing.Point(3, 25);
 			this._inputText.Multiline = true;
 			this._inputText.Name = "_inputText";
+			this._inputText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this._inputText.Size = new System.Drawing.Size(459, 82);
 			this._inputText.TabIndex = 1;
 			this._inputText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._anyTxt_KeyPress);
@@ -172,9 +173,9 @@ namespace MapUpgrades
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(123, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(115, 13);
+			this.label1.Size = new System.Drawing.Size(118, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Pase from target-self+t:";
+			this.label1.Text = "Paste from target-self+t:";
 			// 
 			// tabControl1
 			// 
