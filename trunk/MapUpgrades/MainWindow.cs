@@ -36,7 +36,9 @@ namespace MapUpgrades
     public partial class MainWindow : Form
     {
         string htmldocument=string.Empty;
-        cfg.ItemList _itemlist = Xml.Deserialize.file<cfg.ItemList>("xml/Items.xml");
+		cfg.ItemList _itemlist;
+		cfg.ActivePFs _activePFs;
+		System.Net.WebClient wc = new System.Net.WebClient();
 
         public MainWindow()
         {
@@ -120,7 +122,8 @@ namespace MapUpgrades
                 else
                 {
                     //Don't have map
-					if (map.active_pf)
+
+					if (_activePFs == null || _activePFs.activePFs.Contains(map.zone))
 					{
 						if (mapnav >= map.mapnav)
 							Uploadable.Items.Add(lvi);
@@ -244,6 +247,11 @@ namespace MapUpgrades
 
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
+			wc.OpenReadCompleted += new System.Net.OpenReadCompletedEventHandler(wc_OpenReadCompleted);
+
+			_itemlist = Xml.Deserialize.file<cfg.ItemList>("xml/Items.xml");
+			_activePFs = Xml.Deserialize.file<cfg.ActivePFs>("xml/ActivePFs.xml");
+
 			//Setup sorting.
 			//Uploadable maps
 			ListViewSorter lvs = new ListViewSorter();
@@ -262,6 +270,28 @@ namespace MapUpgrades
 			lvs3.LastSort = lvs3.ByColumn = 0;
 			Uploaded.ListViewItemSorter = lvs3;
 			Uploaded.Sorting = SortOrder.Ascending;
+			try
+			{
+				update_ActivePFs();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+		private void update_ActivePFs()
+		{
+			ActivePFs.BeginUpdate();
+			ActivePFs.Items.Clear();
+			//Active PFs
+			if (_itemlist != null)
+				foreach (cfg.ItemList.Map map in _itemlist.Maps)
+				{
+					ListViewItem lvi = new ListViewItem(map.zone);
+					lvi.Checked = _activePFs.activePFs.Contains(map.zone);
+					ActivePFs.Items.Add(lvi);
+				}
+			ActivePFs.EndUpdate();
 		}
 
 		private void Uploadable_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -286,5 +316,144 @@ namespace MapUpgrades
 				}
 			}
 		}
-    }
+
+		#region Menu entry: About
+		private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			AboutBox1 ab = new AboutBox1();
+			ab.ShowDialog();
+		}
+
+
+		private void anarchyOnlineToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://www.anarchy-online.com");
+		}
+
+		#endregion
+
+		private void anarchyOnlineUniverseToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://www.ao-universe.com");
+		}
+
+		private void demodersToolsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://forums.anarchy-online.com/showthread.php?t=529799");
+		}
+
+		private void famousLastWordsToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://flw.nu/");
+		}
+
+		private void ActivePFs_ItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			if (e.Item.Checked)
+				_activePFs.activePFs.Add(e.Item.Text);
+			else
+				_activePFs.activePFs.Remove(e.Item.Text);
+
+		}
+
+		private void button_SaveActivePFs_Click(object sender, EventArgs e)
+		{
+			Xml.Serialize.file<cfg.ActivePFs>("xml/ActivePFs.xml", _activePFs);
+		}
+
+		
+		
+
+
+		private void mapsReaderDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			wc.OpenReadAsync(new Uri("http://flw.nu/tools/MapUpgrades/Items.xml"), "items");
+		}
+
+		private void activePFDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			wc.OpenReadAsync(new Uri("http://flw.nu/tools/MapUpgrades/ActivePFs.xml"), "apf");
+		}
+
+		private void wc_OpenReadCompleted(object obj, System.Net.OpenReadCompletedEventArgs e)
+		{
+			string tag = (string)e.UserState;
+			if (e.Error != null)
+			{
+				MessageBox.Show(e.Error.Message, "Error updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			switch (tag)
+			{
+				case "items":
+					cfg.ItemList il = Xml.Deserialize.stream<cfg.ItemList>(e.Result, true);
+					if (il != null)
+					{
+						if (_itemlist.VersionTag == il.VersionTag)
+							MessageBox.Show("Already have latest version.", "Update: Item list");
+						else if (_itemlist.VersionTag>=il.VersionTag)
+							MessageBox.Show("Local version newer than remote version.", "Update: Item list");
+						else
+						{
+							_itemlist = il;
+							System.IO.File.Move("xml/Items.xml",
+								String.Format("xml/Items.{0}-{1}-{2}.{3}-{4}-{5}.xml",
+								DateTime.Now.Year,
+								DateTime.Now.Month,
+								DateTime.Now.Day,
+								DateTime.Now.Hour,
+								DateTime.Now.Minute,
+								DateTime.Now.Second));
+							Xml.Serialize.file<cfg.ItemList>("xml/Items.xml", _itemlist);
+							MessageBox.Show("Update successfull.", "Update: Item list");
+						}
+					}
+					else
+					{
+						MessageBox.Show("Invalid content", "Error updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+					break;
+				case "apf":
+					cfg.ActivePFs apf = Xml.Deserialize.stream<cfg.ActivePFs>(e.Result, true);
+					if (apf != null)
+					{
+						if (_activePFs.Version == apf.Version)
+							MessageBox.Show("Already have latest version.", "Update: Active playfields");
+						else if (_activePFs.Version >= apf.Version)
+							MessageBox.Show("Local version newer than remote version.", "Update: Active playfields");
+						else
+						{
+							_activePFs = apf;
+							System.IO.File.Move("xml/Items.xml",
+								String.Format("xml/Items.{0}-{1}-{2}.{3}-{4}-{5}.xml",
+								DateTime.Now.Year,
+								DateTime.Now.Month,
+								DateTime.Now.Day,
+								DateTime.Now.Hour,
+								DateTime.Now.Minute,
+								DateTime.Now.Second));
+							Xml.Serialize.file<cfg.ActivePFs>("xml/Items.xml", _activePFs);
+							MessageBox.Show("Update successfull", "Update: Active playfields");
+						}
+					}
+					else
+						MessageBox.Show("Invalid content", "Error updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					break;
+			}
+		}
+
+		private void _anyTxt_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == '\x1')
+			{
+				((TextBox)sender).SelectAll();
+				e.Handled = true;
+			}
+		}
+
+		private void xyphoscomToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

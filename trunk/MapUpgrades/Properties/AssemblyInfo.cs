@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MapUpgrades")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This is the offline version of 'Which maps am I missing?' (http://flw.nu/portal/?page=tools_maps)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MapUpgrades")]

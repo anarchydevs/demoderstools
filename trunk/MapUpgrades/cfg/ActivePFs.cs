@@ -24,38 +24,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace MapUpgrades.cfg
 {
-    [XmlRoot("Items")]
-    public class ItemList
-    {
-		public UInt64 VersionTag = 0;
-        public List<Map> Maps;
-        public List<MapUpgrade> MapUpgrades;
-        /// <summary>
-        /// Map entry.
-        /// </summary>
-        public struct Map
-        {
-            [XmlAttribute("zone")]
-            public string zone;
-            [XmlAttribute("name")]
-            public string name;
-            [XmlAttribute("mapnav")]
-            public uint mapnav;
-        }
-
-        public struct MapUpgrade
-        {
-            [XmlAttribute("name")]
-            public string name;
-            [XmlAttribute("mapnav")]
-            public uint mapnav;
-            [XmlAttribute("listname")]
-            public string listname;
-        }
-
-    }
+	public class ActivePFs
+	{
+		public UInt64 Version = 0;
+		public List<string> activePFs = new List<string>();
+	}
 }
