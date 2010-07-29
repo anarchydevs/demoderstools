@@ -1,3 +1,0 @@
-﻿Pixel format:
-	I found out that i *had* to use PixelFormat.Format24bppRgb in order to have AO understand the images.
-	Anything else, and it was either all white or all pink (depending on file format).
