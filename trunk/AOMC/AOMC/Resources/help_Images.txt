@@ -1,0 +1,11 @@
+Here you may add images that are used by your map.
+Each image should have an unique name, and an image should only be added once.
+You may drag&drop images onto the list to have them added.
+
+Rightclick the list, and hit:
+ Add    to add an image.
+ Edit   to edit an existing entry
+ Remove to remove an existing entry.
+ 
+Dialog: Edit image | Add image:
+  Doubleclick the "path" text box to get a dialog box to select a file.

@@ -1,0 +1,12 @@
+﻿When loading a map config, check:
+	duplicate image names
+	duplicate image paths
+	duplicate layer names
+	duplicate worker names
+	duplicate textfile names
+	
+contextmenuWindows:
+	Check all OK/Cancel buttons, and make sure they are all the same size. OK-button should be larger than cancel button.
+	
+General checkup
+	Check that all enums are returned correctly by the various windows.

@@ -1,0 +1,27 @@
+﻿Application will keep a local list of possible updates
+Application will retrieve a list of possible updates from a central server and update the local list using this information
+
+
+Todo: Finish implementing the DoUpdate() method in backgroundWorker_DoWork.cs
+	Add events to Demoder.Patcher.DoPatch.cs and Demodr.Patcher.UpdateDistribution.cs, reporting progress.
+	Use these events to send 'progress updates' via the background worker.
+	
+Checking of versions:
+	There's no version tags on the local filesystem.
+	The first time the patcher is run, it has to index all the distributions local directories, check if a patch is available.
+		If there's no patch available, assume we're on the latest version. - label it as up to date
+		If there's a patch available, ask the user to update (or autoupdate?) - label it as patchable
+		If the remote distribution doesn't exist locally, label it as 'installable'
+
+Making distributions
+	tools -> make distribution
+	should show an interface listing definitions from Program.ConfigDir\mkDistDefinitions\
+	should add version.id to the distribution with the version string, if it is not already present.
+
+Make Patchserver
+	Interface to add distributions into a single patch server.
+	
+
+Security checking:
+	Check if the patcher is allowed to modify files in the AO directory, or if it goes to virtual store.
+	If it goes to virtual store, warn the user about it. Ask the user to either quit the patcher, or give the patcher admin privelieges (not recommended).
