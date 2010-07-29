@@ -1,0 +1,28 @@
+﻿PHP patcher structure:
+	One class decompiling binfiles.
+	One class making a distribution out of a given folder. (storing folder structure + hashes)
+	One class updating distribution (fetching local folder structure + hashes, comparing it to remote distribution, applying changes)
+
+C# patcher structure?:
+	One class decompiling a provided binfile.
+	One class making a distribution based on the stored layout.
+	One class updating a distribution based on local layout + remote layout.
+	||One class storing distribution layout. This class should be able to make a new layout based on a provided folder.
+	||	This class should have a "compare" method, returning a layout describing what has to be done to update local to remote.
+	
+
+=== GUI ===
+Contextmenu: Needs to be generated depending on which treenode is selected.
+Contextmenu: Add a "view readme" shortcut. (this will view the online readme for the distribution - defined in PatchServer.xml)
+
+=== Act as a standalone installer ===
+Scan the subfolder "installfiles".
+If proper files (.xml) with package files (.zip?) are found:
+	index the package
+	Ask the user if we should check for a newer version online
+	Compare found files to what's available, download what's missing
+	Install
+
+=== Patching ===
+Let the patchserver.xml give hints about where the installation package is
+Patcher should do an assessment on which would be faster: Download the missing slices, or download the complete installation package

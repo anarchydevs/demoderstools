@@ -1,0 +1,6 @@
+Here you may provide general information about the map.
+"Subfolder" is the folder in the AO planetmap directory where your map will be stored.
+Bin Structure: 
+  Multi:  One binfile per worker
+  Single: One binfile for entire map
+Out folder: Which folder to export the map to when it has been compiled?
