@@ -1,0 +1,4 @@
+﻿How to calculate MapRect vs MapCoordinates.xml:
+	1: If there are any "base" values to substract from MapCoords.xml values, it's equal between SL and RK.
+		 It's more likely that these 'boundary' values have to be calculated from MapRect.
+	

@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicMaps", "Dynamic Maps\DynamicMaps.csproj", "{C16FB900-2B75-409C-B011-097E26BC9469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.MapPlotter", "Demoder.MapPlotter\Demoder.MapPlotter.csproj", "{4D7423AE-7743-459C-98CB-557750D823D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.MapCompiler", "Demoder.MapCompiler\Demoder.MapCompiler.csproj", "{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demoder.Common", "Demoder.Common\Demoder.Common.csproj", "{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C16FB900-2B75-409C-B011-097E26BC9469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16FB900-2B75-409C-B011-097E26BC9469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16FB900-2B75-409C-B011-097E26BC9469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16FB900-2B75-409C-B011-097E26BC9469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D7423AE-7743-459C-98CB-557750D823D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D7423AE-7743-459C-98CB-557750D823D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D7423AE-7743-459C-98CB-557750D823D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D7423AE-7743-459C-98CB-557750D823D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90ED06E3-BAE8-40B7-91D2-8874315D8EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7BB3A1-A0E3-4931-9661-2BA4DB418B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
