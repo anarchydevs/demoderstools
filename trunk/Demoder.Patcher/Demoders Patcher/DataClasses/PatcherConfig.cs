@@ -71,6 +71,24 @@ namespace Demoders_Patcher.DataClasses
 						return ps;
 			return null;
 		}
+		public void SetPatchStatus(Guid GUID, string version)
+		{
+			lock (this.PatchStatus)
+			{
+				foreach (PatchStatus ps in this.PatchStatus)
+				{
+					if (ps.GUID == GUID)
+					{
+						ps.Version = version;
+						this.Save();
+						break;
+					}
+				}
+			}
+		}
 
+		public void Save() {
+			Demoder.Common.Xml.Serialize<PatcherConfig>(Program.PatcherConfigPath, this, false);
+		}
 	}
 }

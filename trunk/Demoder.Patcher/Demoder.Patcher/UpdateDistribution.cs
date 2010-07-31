@@ -421,7 +421,7 @@ namespace Demoder.Patcher
 				if (file.Bytes != null)
 					File.WriteAllBytes(ExportTarget.FullName + Path.DirectorySeparatorChar + file.Name,
 						file.Bytes);
-				else
+				else if (this._missingBinFiles.ContainsKey(file.MD5) && file.Bytes == null)
 					this._success = false;
 			}
 			foreach (DistributionIndex.Dir dir in Directory.directories)

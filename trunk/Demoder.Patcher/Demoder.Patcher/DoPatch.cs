@@ -42,6 +42,8 @@ namespace Demoder.Patcher
 		private bool _haveRun_PatchDistributions = false;
 		private bool _patchSuccess = false;
 		private bool _haveRun_InstallPatchedDistributions = false;
+
+		public string Version { get { return this._patchServer.Version; } }
 		#endregion
 		public DoPatch(PatchServer PatchServer) 
 			: this(PatchServer, 
@@ -116,8 +118,9 @@ namespace Demoder.Patcher
 						Path.DirectorySeparatorChar,
 						Distribution.GetRelativeBaseDir(remoteDist.DistType, BaseInstallPath.FullName),
 						dir.name);
-					if (remoteDist.DistType != Distribution.DistributionType.Other)
+					if (remoteDist.DistType != Distribution.DistributionType.Other && new DirectoryInfo(dstDir).Exists)
 					{
+
 						Directory.Delete(dstDir, true);
 					}
 					srcdir.MoveTo(dstDir);
