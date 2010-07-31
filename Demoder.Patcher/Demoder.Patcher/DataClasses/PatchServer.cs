@@ -40,7 +40,9 @@ namespace Demoder.Patcher.DataClasses
 		[XmlArrayItem("PatchServer")]
 		public List<string> download_locations;
 		[XmlAttribute("guid")]
-		public Guid GUID = new Guid();
+		public Guid GUID = Guid.NewGuid();
+		[XmlAttribute("version")]
+		public string Version="Undefined";
 		[XmlElement("Distribution")]
 		public List<Distribution> Distributions = new List<Distribution>();
 

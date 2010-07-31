@@ -40,8 +40,6 @@ namespace Demoder.Patcher.DataClasses
 		#region members
 		[XmlAttribute("name")]
 		public string DistributionName = DateTime.Now.Ticks.ToString();
-		[XmlAttribute("verison")]
-		public string DistributionVersion = "0.0";
 		/// <summary>
 		/// Globally Unique IDentifier. Used to identify all versions of this distribution.
 		/// </summary>
@@ -175,7 +173,6 @@ namespace Demoder.Patcher.DataClasses
 		#region operators
 		public static bool operator ==(Distribution di1, Distribution di2) {
 			if (di1.DistributionName != di2.DistributionName) return false;
-			if (di1.DistributionVersion != di2.DistributionVersion) return false;
 			if (di1.DistType != di2.DistType) return false;
 			//Directories
 			if (di1.Directories != di2.Directories) return false;

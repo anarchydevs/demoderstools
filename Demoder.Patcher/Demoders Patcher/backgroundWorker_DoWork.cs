@@ -51,7 +51,13 @@ namespace Demoders_Patcher
 				Demoder.Patcher.DataClasses.PatchServer patchserver = null;
 				for (int i = 0; i < uris.Count; i++)
 					patchserver = Xml.Deserialize<Demoder.Patcher.DataClasses.PatchServer>(uris[i]);
+				PatchStatus patchStatus = Program.PatcherConfig.GetPatchStatus(patchserver.GUID);
 
+				if (patchStatus != null && patchserver.Version == patchStatus.Version)
+				{
+					this.bw.ReportProgress(100, "Version match.");
+					return true;
+				}
 				DoPatch dp = new DoPatch(patchserver);
 				dp.eventDownloadStatusReport += new DownloadStatusReportEventHandler(dp_eventDownloadStatusReport);
 				this.bw.ReportProgress(0, "Comparing distributions");
@@ -59,6 +65,8 @@ namespace Demoders_Patcher
 				{
 					this.bw.ReportProgress(0, "Installing updated map");
 					dp.InstallPatchedDistributions(Program.PatcherConfig.AnarchyOnlinePath);
+#warning todo: Add reporting of installed version here.
+					Program.PatcherConfig.SetPatchStatus(patchserver.GUID, patchserver.Version);
 					return true;
 				}
 			}
