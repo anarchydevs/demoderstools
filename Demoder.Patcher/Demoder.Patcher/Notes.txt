@@ -28,6 +28,5 @@ Let the patchserver.xml give hints about where the installation package is
 Patcher should do an assessment on which would be faster: Download the missing slices, or download the complete installation package
 
 
-=== BUG ===
-UpdateDistribution.cs -> exportdirectory:
-	Needs to use subdirectory tree of same type as what's used in dstDir in DoPatch.cs -> InstallPatchedDistributions
+=== SECURITY ===
+Need to verify the files have been written successfully to the temporary directory before deleting the target installation directory
