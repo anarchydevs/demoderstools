@@ -128,7 +128,14 @@ namespace Demoder.Patcher
 			//Write the distribution to the temporary directory.
 			foreach (DistributionIndex.Dir dir in this._remoteDistribution.Directories)
 			{
-				this.exportdirectory(this._TemporaryDirectory, dir);
+				DirectoryInfo dstdir = new DirectoryInfo(this._TemporaryDirectory.FullName +
+					Path.DirectorySeparatorChar +
+					this._remoteDistribution.DistType.ToString() +
+					Path.DirectorySeparatorChar +
+					this._remoteDistribution.DistributionName +
+					Path.DirectorySeparatorChar +
+					dir.name);
+				this.exportdirectory(dstdir , dir);
 			}
 			#endregion
 			Console.WriteLine("done");
