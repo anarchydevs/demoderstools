@@ -244,7 +244,7 @@ namespace AOMC
 			this._map_version_minor.Value = Program.Config_Map.Version.Minor;
 			this._map_version_build.Value = Program.Config_Map.Version.Build;
 
-			this._map_shortname.Text = Program.Config_Map.ShortName;
+			this._map_binname.Text = Program.Config_Map.BinName;
 			this._map_OutFolder.Text = Program.Config_Map.OutputDirectory;
 
 			this._map_subdirectory.Text = Program.Config_Map.MapDir;
@@ -908,7 +908,7 @@ namespace AOMC
 			else if (this._map_version_major == sender) Program.Config_Map.Version.Major = (uint)this._map_version_major.Value;
 			else if (this._map_version_minor == sender) Program.Config_Map.Version.Minor = (uint)this._map_version_minor.Value;
 			else if (this._map_version_build == sender) Program.Config_Map.Version.Build = (uint)this._map_version_build.Value;
-			else if (this._map_shortname == sender) Program.Config_Map.ShortName = this._map_shortname.Text;
+			else if (this._map_binname == sender) Program.Config_Map.BinName = this._map_binname.Text;
 			else if (this._map_OutFolder == sender) Program.Config_Map.OutputDirectory = this._map_OutFolder.Text;
 		}
 

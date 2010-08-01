@@ -332,6 +332,12 @@ namespace Demoder.MapCompiler
 				}
 			}
 
+			//Shortname
+			//If .bin is in the shortname, remove it.
+			string add_extension = string.Empty;
+			if (this._MapConfig.BinName.ToLower().EndsWith(".bin"))
+				this._MapConfig.BinName = this._MapConfig.BinName.Substring(0, this._MapConfig.BinName.Length - 4);
+
 			#endregion
 
 			#region Optimize compiler configuration based on map configuration
@@ -828,7 +834,7 @@ namespace Demoder.MapCompiler
 				switch (this._MapConfig.Assembler)
 				{
 					case MapConfig.AssemblyMethod.Single:
-						binname = this._MapConfig.ShortName;
+						binname = this._MapConfig.BinName;
 						break;
 					case MapConfig.AssemblyMethod.Multi:
 						binname = wtask.workname;
@@ -897,7 +903,8 @@ namespace Demoder.MapCompiler
 			{
 				Dictionary<string, object> dict = new Dictionary<string, object>();
 				dict.Add("name", this._MapConfig.Name);
-				dict.Add("shortname", this._MapConfig.ShortName);
+				dict.Add("binname", this._MapConfig.BinName);
+				dict.Add("shortname", this._MapConfig.BinName); //Backwards compatibility added in 1.0.7
 				dict.Add("version", this._MapConfig.Version.ToString());
 				dict.Add("subfolder", this._MapConfig.MapDir);
 				sf = new FormatString(dict);
