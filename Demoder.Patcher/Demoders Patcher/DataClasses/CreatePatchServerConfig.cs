@@ -22,51 +22,42 @@ THE SOFTWARE.
 */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
-namespace Demoders_Patcher
+namespace Demoders_Patcher.DataClasses
 {
-	/// <summary>
-	/// UpdateDefinition: which type is this?
-	/// </summary>
-	public enum DefinitionType
+	public class CreatePatchServerConfig
 	{
-		Other,
-		Map,
-		GUI,
-		Scriptpack
-	}
+		#region Members
+		/// <summary>
+		/// User-readable name of this patchserver.
+		/// </summary>
+		public string Name = "noname";
 
-	/// <summary>
-	/// backgroundworker task type
-	/// </summary>
-	public enum bgw_tasktype
-	{
-		Invalid,
-		FetchCentralUpdateDefinitions,
-		LoadLocalUpdateDefinitions,
-		RunUpdate,
-		CheckIfUpdateDefinitionsExistLocally
-	}
+		/// <summary>
+		/// Where should we look for files to download?
+		/// </summary>
+		[XmlArray("PatchServers")]
+		[XmlArrayItem("PatchServer")]
+		public List<string> download_locations;
 
-	public enum mw_treeview_Tags
-	{
-		Repository,
-		Internal,
-		EventLog,
-		Create,
-		CreateDist,
-		CreateServer
-		
-	}
+		/// <summary>
+		/// Patchservers GUID
+		/// </summary>
+		public Guid GUID = Guid.NewGuid();
 
-	public enum StatusFlag
-	{
-		Unknown,
-		OK,
-		Present,
-		Installable,
-		UpdateAvailable
+		/// <summary>
+		/// Version
+		/// </summary>
+		public string Version = "Undefined";
+
+		/// <summary>
+		/// Distributions
+		/// </summary>
+		[XmlElement("Distribution")]
+		public List<CreateDistributionConfig> Distributions = new List<CreateDistributionConfig>();
+
+		#endregion
 	}
 }

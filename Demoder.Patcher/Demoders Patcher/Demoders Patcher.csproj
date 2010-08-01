@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="backgroundWorker_DoWork.cs" />
     <Compile Include="DataClasses\CreateDistributionConfig.cs" />
+    <Compile Include="DataClasses\CreatePatchServerConfig.cs" />
     <Compile Include="DataClasses\PatcherConfig.cs" />
     <Compile Include="DataClasses\PatchStatus.cs" />
     <Compile Include="DataClasses\StatusbarUpdate.cs" />
@@ -63,6 +64,12 @@
     <Compile Include="Windows\CreateDistribution.Designer.cs">
       <DependentUpon>CreateDistribution.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\CreatePatchServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\CreatePatchServer.Designer.cs">
+      <DependentUpon>CreatePatchServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Windows\CreateDistribution.resx">
       <DependentUpon>CreateDistribution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\CreatePatchServer.resx">
+      <DependentUpon>CreatePatchServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

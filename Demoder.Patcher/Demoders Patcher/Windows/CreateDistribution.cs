@@ -25,9 +25,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+
 using Demoders_Patcher.DataClasses;
 using Demoder.Patcher.DataClasses;
 
@@ -38,19 +38,18 @@ namespace Demoders_Patcher.Windows
 		#region Members
 		public CreateDistributionConfig CDConfig = new CreateDistributionConfig();
 		#endregion
-		public CreateDistribution(ref CreateDistributionConfig cdConfig) : this()
+		public CreateDistribution()
+		{
+			InitializeComponent();
+		}
+		public CreateDistribution(ref CreateDistributionConfig cdConfig)
+			: this()
 		{
 			this.CDConfig = cdConfig;
-			
-		}
-		public CreateDistribution() {
-			InitializeComponent();
 		}
 
 		private void CreateDistribution_Load(object sender, EventArgs e)
 		{
-			this.textBox_GUID.Text = this.CDConfig.GUID.ToString();
-			this.textBox_Name.Text = this.CDConfig.Name;
 			//Add distribution types
 			this.comboBox_DistributionType.Items.Clear();
 			foreach (string type in Enum.GetNames(typeof(Demoder.Patcher.DataClasses.Distribution.DistributionType)))
@@ -59,35 +58,6 @@ namespace Demoders_Patcher.Windows
 			}
 			//Select the active one.
 			this.comboBox_DistributionType.SelectedItem = this.CDConfig.DistributionType.ToString();
-
-			//Add directories
-			this.listBox_Directories.Items.Clear();
-			foreach (string dir in this.CDConfig.Directories)
-				this.listBox_Directories.Items.Add(dir);
-		}
-
-		private void button_ok_Click(object sender, EventArgs e)
-		{
-			this.CDConfig.GUID = new Guid(this.textBox_GUID.Text);
-			this.CDConfig.Name = this.textBox_Name.Text;
-			this.CDConfig.DistributionType = (Distribution.DistributionType)Enum.Parse(
-				typeof(Distribution.DistributionType),
-				this.comboBox_DistributionType.Items[comboBox_DistributionType.SelectedIndex].ToString());
-			//Directories
-			this.CDConfig.Directories.Clear();
-			foreach (string dir in this.listBox_Directories.Items)
-			{
-				this.CDConfig.Directories.Add(dir);
-			}
-			
-			this.DialogResult = DialogResult.OK;
-			this.Close();
-		}
-
-		private void button_cancel_Click(object sender, EventArgs e)
-		{
-			this.DialogResult = DialogResult.Cancel;
-			this.Close();
 		}
 	}
 }

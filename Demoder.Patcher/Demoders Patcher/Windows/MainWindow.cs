@@ -192,8 +192,8 @@ namespace Demoders_Patcher.Windows
 			intnode.Nodes.Add(lognode);
 			this.treeView_MainWindow.Nodes.Add(intnode);
 
-			this.treeView_MainWindow.Nodes.Add("updates", "Updates");
-			this.treeView_MainWindow.Nodes[this.treeView_MainWindow.Nodes.IndexOfKey("updates")].Tag = mw_treeview_Tags.Update;
+			this.treeView_MainWindow.Nodes.Add("repository", "Repository");
+			this.treeView_MainWindow.Nodes[this.treeView_MainWindow.Nodes.IndexOfKey("repository")].Tag = mw_treeview_Tags.Repository;
 			this.treeView_MainWindow.ExpandAll();
 
 			//Tree root: Create
@@ -203,7 +203,7 @@ namespace Demoders_Patcher.Windows
 
         private void displayAvailablePatches()
         {
-			int index = this.treeView_MainWindow.Nodes.IndexOfKey("updates");
+			int index = this.treeView_MainWindow.Nodes.IndexOfKey("repository");
 			TreeNode tn = this.treeView_MainWindow.Nodes[index];
 			int numnodes = tn.Nodes.Count;
 			tn.Nodes.Clear();
@@ -212,7 +212,7 @@ namespace Demoders_Patcher.Windows
             foreach (string nodename in nodenames)
             {
 				TreeNode tn2 = new TreeNode(nodename);
-				tn2.Tag = mw_treeview_Tags.Update;
+				tn2.Tag = mw_treeview_Tags.Repository;
                tn.Nodes.Add(tn2);
             }
 			if (numnodes == 0)
@@ -233,7 +233,7 @@ namespace Demoders_Patcher.Windows
 			this.listView_MainWindow.Items.Clear();
 			this.listView_MainWindow.Groups.Clear();
 			this.listView_MainWindow.Columns.Clear();
-			if ((mw_treeview_Tags)e.Node.Parent.Tag == mw_treeview_Tags.Update)
+			if ((mw_treeview_Tags)e.Node.Parent.Tag == mw_treeview_Tags.Repository)
 			{
 				this.listView_MainWindow.Columns.Add("Name", "Name");
 				this.listView_MainWindow.Columns.Add("Status", "Status");
@@ -358,11 +358,35 @@ namespace Demoders_Patcher.Windows
 
 		private void createDistributionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CreateDistributionConfig cdc = new CreateDistributionConfig();
-			cdc.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_Map;
-			cdc.Name = "Testmap";
-			cdc.Directories.Add(@"e:\tmp\");
-			CreateDistribution cd = new CreateDistribution(ref cdc);
+			// Manually created configuration for easier testing of the interface as it's being made.
+			CreatePatchServerConfig cpsc = new CreatePatchServerConfig();
+			cpsc.Name = "Demoders' GUI";
+			cpsc.Version = "1.0";
+			/*
+			CreateDistributionConfig cdc1 = new CreateDistributionConfig();
+			cdc1.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_Map;
+			cdc1.Name = "AoRK";
+			cdc1.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoRK";
+
+			CreateDistributionConfig cdc2 = new CreateDistributionConfig();
+			cdc2.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_Map;
+			cdc2.Name = "AoSL";
+			cdc2.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoSL";
+			*/
+			CreateDistributionConfig cdc1 = new CreateDistributionConfig();
+			cdc1.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_GUI;
+			cdc1.Name = "Demoders GUI";
+			cdc1.Directory = @"C:\Games\AO\Anarchy Online\cd_image\gui\Demoder";
+
+			CreateDistributionConfig cdc2 = new CreateDistributionConfig();
+			cdc2.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_GUI_Textures;
+			cdc2.Name = "Demoders GUI - Textures";
+			cdc2.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\archives\Demoder";
+
+			cpsc.Distributions.Add(cdc1);
+			cpsc.Distributions.Add(cdc2);
+
+			CreatePatchServer cd = new CreatePatchServer(cpsc);
 			DialogResult dr = cd.ShowDialog();
 			switch (dr)
 			{

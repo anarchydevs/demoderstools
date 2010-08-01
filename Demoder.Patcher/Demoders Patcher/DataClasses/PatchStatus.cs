@@ -51,5 +51,10 @@ namespace Demoders_Patcher.DataClasses
 			NotPresent,
 			Unknown
 		}
+
+		public override string ToString()
+		{
+			return this.GUID.ToString() + ": " + this.Present.ToString() + "/" + this.Version;
+		}
 	}
 }

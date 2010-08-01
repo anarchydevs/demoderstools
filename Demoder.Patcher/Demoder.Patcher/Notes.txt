@@ -30,3 +30,13 @@ Patcher should do an assessment on which would be faster: Download the missing s
 
 === SECURITY ===
 Need to verify the files have been written successfully to the temporary directory before deleting the target installation directory
+
+=== Background worker queue ===
+* Check if action to be queued is already in queue
+* Check if action to be queued is being processed at the moment
+
+=== Performance ===
+Time between startup and full population of lists/dictionaries with patch-related information is untolerable
+
+=== All downloads ===
+If error occurs, and there's multiple DNS entries for the hostname, try the next one.
