@@ -192,7 +192,7 @@ namespace AOMC
 
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CompilerOptions co = new CompilerOptions();
+			CompilerOptions co = new CompilerOptions(this);
 			DialogResult dr = co.ShowDialog();
 			if (dr == DialogResult.OK)
 			{
@@ -229,6 +229,11 @@ namespace AOMC
 			this._compiler_debugmessages.Visible = Program.Config_AOMC.show_compiler_debugmessages;
 			this._label_DebugMessages.Visible = Program.Config_AOMC.show_compiler_debugmessages;
 			this.splitContainer_Secondary.Panel2Collapsed = Program.Config_AOMC.show_helpsystem ? false : true;
+			
+			//Force redraw of the newly available area.
+			this.Size = new Size(this.Size.Width, this.Size.Height - 1);
+			this.Size = new Size(this.Size.Width, this.Size.Height + 1);
+			
 		}
 
 		private void LoadMapConfigValues()
