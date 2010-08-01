@@ -490,7 +490,7 @@ namespace Demoder.MapCompiler
 		}
 
 		/// <summary>
-		/// This thread is run in a separate thread. It will slice up images as they become available.
+		/// The ImageSlicer queue manager. This is run in a separate thread. It will slice up images as they become available.
 		/// </summary>
 		private void __threaded_ImageSlicer()
 		{
@@ -557,6 +557,10 @@ namespace Demoder.MapCompiler
 			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
+		/// <summary>
+		/// This is the ImageSlicer worker. Called by the ImageSlicer queue handler
+		/// </summary>
+		/// <param name="obj"></param>
 		private void __threaded_ImageSlicer_DoWork(object obj)
 		{
 			ImageData imgdata = (ImageData)obj;
@@ -580,7 +584,7 @@ namespace Demoder.MapCompiler
 		}
 
 		/// <summary>
-		/// This thread processes work tasks to produce layers.
+		/// This handles the Work Task queue.
 		/// </summary>
 		public void __threaded_Worker()
 		{
@@ -673,6 +677,10 @@ namespace Demoder.MapCompiler
 			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
+		/// <summary>
+		/// This does what the Work Task tells it to do.
+		/// </summary>
+		/// <param name="obj"></param>
 		private void __threaded_Worker_DoWork(object obj)
 		{
 			Dictionary<string, object> work = (Dictionary<string, object>)obj;
@@ -696,6 +704,9 @@ namespace Demoder.MapCompiler
 			this._MRE_WorkerDoWork.Set();
 		}
 
+		/// <summary>
+		/// This assembles the final map.
+		/// </summary>
 		private void __threaded_Assembler()
 		{
 			this.debug("A", "Started");
@@ -733,8 +744,21 @@ namespace Demoder.MapCompiler
 				for (int i = 0; i < headerstring.Length; i++)
 					g.DrawString(headerstring[i], new Font(FontFamily.GenericMonospace, 8, FontStyle.Regular), Brushes.White, 2, (int)System.Math.Ceiling((double)(9 * i)));
 				g.Dispose();
-				MemoryStream ms_headerimg = new MemoryStream(1024);
+
+				/* Header section of the .bin file should always be 8192 bytes.
+				 * This is to enable compatibility with file-replace patching by
+				 * ensuring the first image slice always starts at the same byte. */
+				int headerSize = 8192;
+				MemoryStream ms_headerimg = new MemoryStream(headerSize); 
 				headerimg.Save(ms_headerimg, ImageFormat.Png);
+				
+				if (ms_headerimg.Length > headerSize) //If the header size is too large, remove header
+					ms_headerimg = new MemoryStream(headerSize);
+
+				while (ms_headerimg.Length < headerSize) //If the header size is too small, fill remainder with 0-bytes.
+					ms_headerimg.WriteByte(0);
+
+
 				headerimg_bytes = ms_headerimg.ToArray();
 			}
 
