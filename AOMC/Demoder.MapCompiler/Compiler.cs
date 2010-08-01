@@ -331,8 +331,16 @@ namespace Demoder.MapCompiler
 						break;
 				}
 			}
+			//Check if output directory exists, and if it contains other directories.
+			DirectoryInfo di = new DirectoryInfo(this._MapConfig.OutputDirectory);
+			if (di.Exists)
+				if (di.GetDirectories().Length > 0) //Contains directories.. abort
+				{
+					this.debug("compiler", "Output directories contain other directories.");
+					this.reportStatus(0, "Aborted: Output directories contain other directories.");
+				}
 
-			//Shortname
+			//BinName
 			//If .bin is in the shortname, remove it.
 			string add_extension = string.Empty;
 			if (this._MapConfig.BinName.ToLower().EndsWith(".bin"))
