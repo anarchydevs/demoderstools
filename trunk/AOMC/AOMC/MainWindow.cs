@@ -743,10 +743,9 @@ namespace AOMC
 						txt.Type = ilme.mapType;
 						foreach (string lvi2 in ilme._layers.Items)
 							txt.Layers.Add(lvi2);
-
+						Program.Config_Map.TxtFiles.Add(txt);
 						break;
 				}
-				Program.Config_Map.TxtFiles.Add(txt);
 			} while (error);
 			this.LoadMapConfigValues();
 		}
