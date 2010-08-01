@@ -11,14 +11,15 @@ namespace AOMC
 {
 	public partial class CompilerOptions : Form
 	{
-		public CompilerOptions()
+		public CompilerOptions(Form sender)
 		{
+			this.senderform = sender;
 			InitializeComponent();
 		}
 		Form senderform;
 		private void CompilerOptions_Load(object sender, EventArgs e)
 		{
-			senderform = (Form)sender;
+			
 			//Load configuration.
 			this._MaxSlicers.Value = Program.Config_Compiler.MaxSlicerThreads;
 			this._MaxWorkers.Value = Program.Config_Compiler.MaxWorkerThreads;
