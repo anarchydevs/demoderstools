@@ -23,6 +23,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using Demoder.Patcher;
 using Demoder.Patcher.DataClasses;
 
@@ -37,19 +38,17 @@ namespace Demoders_Patcher.DataClasses
 		/// Distribution Name
 		/// </summary>
 		public string Name = string.Empty;
-		/// <summary>
-		/// Distributions Globally Unique IDentifier
-		/// </summary>
-		public Guid GUID = Guid.NewGuid();
+
 		/// <summary>
 		/// Distribution type
 		/// </summary>
 		public Distribution.DistributionType DistributionType = Distribution.DistributionType.Other;
 
 		/// <summary>
-		/// Directories to include in the distribution
+		/// Directory to include in the distribution
 		/// </summary>
-		public List<string> Directories = new List<string>();
+		public string Directory = "";
+
 	}
 
 

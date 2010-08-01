@@ -62,6 +62,7 @@ namespace Demoders_Patcher.Windows
 			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.createDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.syncToCentralRepisoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,7 @@ namespace Demoders_Patcher.Windows
 			this.viewEventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.timer_statusBarReset = new System.Windows.Forms.Timer(this.components);
-			this.createDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.createDistributionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -205,13 +206,21 @@ namespace Demoders_Patcher.Windows
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
+			// createDistributionToolStripMenuItem
+			// 
+			this.createDistributionToolStripMenuItem.Name = "createDistributionToolStripMenuItem";
+			this.createDistributionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.createDistributionToolStripMenuItem.Text = "Create Distribution";
+			this.createDistributionToolStripMenuItem.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
+			// 
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.syncToCentralRepisoryToolStripMenuItem,
             this.optToolStripMenuItem,
             this.toolStripSeparator1,
-            this.viewEventLogToolStripMenuItem});
+            this.viewEventLogToolStripMenuItem,
+            this.createDistributionToolStripMenuItem1});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -255,12 +264,12 @@ namespace Demoders_Patcher.Windows
 			this.timer_statusBarReset.Interval = 5000;
 			this.timer_statusBarReset.Tick += new System.EventHandler(this.timer_statusBarReset_Tick);
 			// 
-			// createDistributionToolStripMenuItem
+			// createDistributionToolStripMenuItem1
 			// 
-			this.createDistributionToolStripMenuItem.Name = "createDistributionToolStripMenuItem";
-			this.createDistributionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-			this.createDistributionToolStripMenuItem.Text = "Create Distribution";
-			this.createDistributionToolStripMenuItem.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
+			this.createDistributionToolStripMenuItem1.Name = "createDistributionToolStripMenuItem1";
+			this.createDistributionToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+			this.createDistributionToolStripMenuItem1.Text = "Create Distribution";
+			this.createDistributionToolStripMenuItem1.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
 			// 
 			// MainWindow
 			// 
@@ -312,6 +321,7 @@ namespace Demoders_Patcher.Windows
 		private System.Windows.Forms.ToolStripMenuItem optToolStripMenuItem;
 		private System.Windows.Forms.Timer timer_statusBarReset;
 		private System.Windows.Forms.ToolStripMenuItem createDistributionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem createDistributionToolStripMenuItem1;
 	}
 }
 

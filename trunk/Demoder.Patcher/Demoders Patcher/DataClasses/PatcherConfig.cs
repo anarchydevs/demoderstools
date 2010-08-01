@@ -71,24 +71,32 @@ namespace Demoders_Patcher.DataClasses
 						return ps;
 			return null;
 		}
-		public void SetPatchStatus(Guid GUID, string version)
+		public void SetPatchStatus(Guid GUID, string Version)
 		{
 			lock (this.PatchStatus)
 			{
+				bool found = false;
 				foreach (PatchStatus ps in this.PatchStatus)
 				{
 					if (ps.GUID == GUID)
 					{
-						ps.Version = version;
-						this.Save();
+						ps.Version = Version;
+						found = true;
 						break;
 					}
 				}
+				if (!found)
+					this.PatchStatus.Add(new PatchStatus(GUID, Version));
 			}
+			this.Save();
 		}
 
 		public void Save() {
-			Demoder.Common.Xml.Serialize<PatcherConfig>(Program.PatcherConfigPath, this, false);
+			lock (this)
+			{
+				bool success = Demoder.Common.Xml.Serialize<PatcherConfig>(Program.PatcherConfigPath, this, false);
+			}
+
 		}
 	}
 }
