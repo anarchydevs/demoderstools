@@ -47,7 +47,7 @@ namespace Demoder.MapCompiler.xml
 		/// </summary>
 		public string Name = "Some name longer than Map";
 		/// <summary>
-		/// Short map name - used when assembling into multiple binfiles.
+		/// Short map name - used as bin file name.
 		/// </summary>
 		public string ShortName = "Map";
 		/// <summary>
@@ -58,6 +58,9 @@ namespace Demoder.MapCompiler.xml
 		/// Version information
 		/// </summary>
 		public VersionInfo Version = new VersionInfo(0, 0, 0);
+		/// <summary>
+		/// Map subdirectory
+		/// </summary>
 		public string MapDir = "TestMap";
 		/// <summary>
 		/// How to assemble the binfile?
@@ -68,9 +71,15 @@ namespace Demoder.MapCompiler.xml
 		/// List of images
 		/// </summary>
 		public List<LoadImage> Images = new List<LoadImage>();
-		//Worker tasks
+		
+		/// <summary>
+		/// Worker tasks
+		/// </summary>
 		public List<WorkTask> WorkerTasks = new List<WorkTask>();
-		//List of map versions.
+		
+		/// <summary>
+		/// List of map versions
+		/// </summary>
 		public List<TxtFile> TxtFiles = new List<TxtFile>();
 
 		#region methods: worktask
