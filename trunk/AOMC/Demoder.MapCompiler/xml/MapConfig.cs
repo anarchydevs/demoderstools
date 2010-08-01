@@ -45,7 +45,7 @@ namespace Demoder.MapCompiler.xml
 		#endregion
 		#region compatibility members
 		/// <summary>
-		/// Backwards compatibility. (Added in 1.0.7)
+		/// Backwards compatibility. (Added in 1.1)
 		/// </summary>
 		public string ShortName
 		{

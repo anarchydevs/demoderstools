@@ -912,7 +912,7 @@ namespace Demoder.MapCompiler
 				Dictionary<string, object> dict = new Dictionary<string, object>();
 				dict.Add("name", this._MapConfig.Name);
 				dict.Add("binname", this._MapConfig.BinName);
-				dict.Add("shortname", this._MapConfig.BinName); //Backwards compatibility added in 1.0.7
+				dict.Add("shortname", this._MapConfig.BinName); //Backwards compatibility added in 1.1
 				dict.Add("version", this._MapConfig.Version.ToString());
 				dict.Add("subfolder", this._MapConfig.MapDir);
 				sf = new FormatString(dict);
