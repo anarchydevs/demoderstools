@@ -720,10 +720,12 @@ namespace Demoder.MapCompiler
 			byte[] headerimg_bytes;
 			if (true)
 			{
-				System.Reflection.AssemblyName callerassembly = System.Reflection.Assembly.GetEntryAssembly().GetName();
-				System.Reflection.AssemblyName myassembly = System.Reflection.Assembly.GetExecutingAssembly().GetName();
+				if (this._CompilerConfig.IncludeHeader)
+				{
+					System.Reflection.AssemblyName callerassembly = System.Reflection.Assembly.GetEntryAssembly().GetName();
+					System.Reflection.AssemblyName myassembly = System.Reflection.Assembly.GetExecutingAssembly().GetName();
 
-				string[] headerstring = new string[] {
+					string[] headerstring = new string[] {
 					string.Format("Compiled with {0} v{1}",
 						callerassembly.Name,
 						callerassembly.Version),
@@ -743,27 +745,29 @@ namespace Demoder.MapCompiler
 					"http://www.gridstream.org/forums/viewtopic.php?t=5217",
 					"or AO-Basher to extract the images from this file."
 					};
-				Bitmap headerimg = new Bitmap(640, (int)System.Math.Ceiling((double)(10 * headerstring.Length)), PixelFormat.Format24bppRgb); //Image to add to the beginning of every binfile
-				Graphics g = Graphics.FromImage(headerimg);
-				for (int i = 0; i < headerstring.Length; i++)
-					g.DrawString(headerstring[i], new Font(FontFamily.GenericMonospace, 8, FontStyle.Regular), Brushes.White, 2, (int)System.Math.Ceiling((double)(9 * i)));
-				g.Dispose();
+					Bitmap headerimg = new Bitmap(640, (int)System.Math.Ceiling((double)(10 * headerstring.Length)), PixelFormat.Format24bppRgb); //Image to add to the beginning of every binfile
+					Graphics g = Graphics.FromImage(headerimg);
+					for (int i = 0; i < headerstring.Length; i++)
+						g.DrawString(headerstring[i], new Font(FontFamily.GenericMonospace, 8, FontStyle.Regular), Brushes.White, 2, (int)System.Math.Ceiling((double)(9 * i)));
+					g.Dispose();
 
-				/* Header section of the .bin file should always be 8192 bytes.
-				 * This is to enable compatibility with file-replace patching by
-				 * ensuring the first image slice always starts at the same byte. */
-				int headerSize = 8192;
-				MemoryStream ms_headerimg = new MemoryStream(headerSize); 
-				headerimg.Save(ms_headerimg, ImageFormat.Png);
-				
-				if (ms_headerimg.Length > headerSize) //If the header size is too large, remove header
-					ms_headerimg = new MemoryStream(headerSize);
+					/* Header section of the .bin file should always be 8192 bytes.
+					 * This is to enable compatibility with file-replace patching by
+					 * ensuring the first image slice always starts at the same byte. */
+					int headerSize = 8192;
+					MemoryStream ms_headerimg = new MemoryStream(headerSize);
+					headerimg.Save(ms_headerimg, ImageFormat.Png);
 
-				while (ms_headerimg.Length < headerSize) //If the header size is too small, fill remainder with 0-bytes.
-					ms_headerimg.WriteByte(0);
+					if (ms_headerimg.Length > headerSize) //If the header size is too large, remove header
+						ms_headerimg = new MemoryStream(headerSize);
+
+					while (ms_headerimg.Length < headerSize) //If the header size is too small, fill remainder with 0-bytes.
+						ms_headerimg.WriteByte(0);
 
 
-				headerimg_bytes = ms_headerimg.ToArray();
+					headerimg_bytes = ms_headerimg.ToArray();
+				}
+				else { headerimg_bytes = null; }
 			}
 
 #warning fixme: This is NOT optimized for a multi-binfile enviorenment.
@@ -834,7 +838,8 @@ namespace Demoder.MapCompiler
 					if (!this._Data_Binfiles.ContainsKey(binname))
 					{ //If this binfile doesn't exist in the list, add it.
 						this._Data_Binfiles.Add(binname,new MemoryStream());
-						this._Data_Binfiles[binname].Write(headerimg_bytes, 0, headerimg_bytes.Length);
+						if (headerimg_bytes != null) //If we have a header image
+							this._Data_Binfiles[binname].Write(headerimg_bytes, 0, headerimg_bytes.Length);
 					}
 
 				MemoryStream binfile = this._Data_Binfiles[binname]; //Temporary memorystream for binfile.

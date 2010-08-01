@@ -93,6 +93,12 @@ namespace AOMC
 					}
 				}
 			} while (false);
+
+			//Should we disable the 'prepend .bin files with header image' feature?
+			if (Program.cmdParams.LongFlag("DontIncludeHeader")==1) {
+				Program.Config_Compiler.IncludeHeader = false;
+			}
+
 			if (Program.Config_Map == null)
 			{
 				Program.Config_Map = new MapConfig();

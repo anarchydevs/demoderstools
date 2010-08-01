@@ -22,10 +22,9 @@ THE SOFTWARE.
 */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
-
+using System.Xml.Serialization;
 namespace Demoder.MapCompiler.xml
 {
 	public class CompilerConfig
@@ -49,5 +48,10 @@ namespace Demoder.MapCompiler.xml
 		/// </summary>
 		public bool AutoOptimizeThreads = true;
 
+		/// <summary>
+		/// Should the compiler prepend all .bin files with a header image explaining what this file is, and how to decompile it? Disabled with the cmdline switch "--DontIncludeHeader"
+		/// </summary>
+		[XmlIgnore] //only changeable with cmdline parameter
+		public bool IncludeHeader = true;
 	}
 }
