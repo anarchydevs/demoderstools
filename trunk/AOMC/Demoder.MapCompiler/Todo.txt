@@ -21,3 +21,7 @@ Optimizations: (assessments made based on seconds, not percent)
 	Next-largest is in the comparing worker. (worker is almost instant anyway)
 	Then, in the end, the assembler; but only by spewing out completed tasks as they are completed IF we're in multi binfile mode.
 		Since it will have to wait for the last slice anyway, this will only be of major benefit when writing to something utterly slow.
+		
+		
+SECURITY:
+Check if the output directory contain any directories. If it does, abort.
