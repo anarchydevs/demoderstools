@@ -12,16 +12,9 @@
 			Worker finished a task
 Worker.cs
 	Optimize the comparer - split task into two threads. (will this be worth the effort?)
-ImageSlicer.cs:
-	Split up work in two, and run two separate threads to handle each slice.
-	Expose to "singlethreaded mode" in compiler config.
 	
 Optimizations: (assessments made based on seconds, not percent)
 	(done?) Performance testing shows that the largest performance optimization is to be found in the Image Slicer.
 	Next-largest is in the comparing worker. (worker is almost instant anyway)
 	Then, in the end, the assembler; but only by spewing out completed tasks as they are completed IF we're in multi binfile mode.
 		Since it will have to wait for the last slice anyway, this will only be of major benefit when writing to something utterly slow.
-		
-		
-SECURITY:
-Check if the output directory contain any directories. If it does, abort.

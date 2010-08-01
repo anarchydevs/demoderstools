@@ -137,6 +137,9 @@
     <Content Include="License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="doc\User Guide.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\help_General.txt" />
     <None Include="Resources\help_Images.txt" />
     <None Include="Resources\help_Workertasks.txt" />

@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -1061,5 +1062,10 @@ namespace AOMC
 			int LastColumn = 0;
 		}
 		#endregion this class is taken from http://www.java2s.com/Code/CSharp/GUI-Windows-Form/SortaListViewbyAnyColumn.htm
+
+		private void helpToolStripMenuItem2_Click(object sender, EventArgs e)
+		{
+			Process.Start("doc" + Path.DirectorySeparatorChar + "User Guide.doc");
+		}
 	}
 }
