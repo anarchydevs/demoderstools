@@ -32,6 +32,7 @@ namespace Demoder.MapCompiler.xml
 	[XmlRoot("MapConfig")]
 	public class MapConfig
 	{
+		#region constructors
 		public MapConfig()
 		{
 		}
@@ -41,15 +42,38 @@ namespace Demoder.MapCompiler.xml
 			this.Version = version;
 			this.MapDir = mapdir;
 		}
+		#endregion
+		#region compatibility members
+		/// <summary>
+		/// Backwards compatibility. (Added in 1.0.7)
+		/// </summary>
+		public string ShortName
+		{
+			set
+			{
+				if (!String.IsNullOrEmpty(value) && String.IsNullOrEmpty(this.BinName))
+				{
+					this.BinName = value;
+				}
+			}
+			get
+			{
+				return null;
+			}
+		}
+		#endregion
 
+		#region members
 		/// <summary>
 		/// Map name
 		/// </summary>
 		public string Name = "Some name longer than Map";
+
 		/// <summary>
-		/// Short map name - used as bin file name.
+		/// Bin file name
 		/// </summary>
-		public string ShortName = "Map";
+		public string BinName = "";
+
 		/// <summary>
 		/// Where to store the assembler result?
 		/// </summary>
@@ -81,6 +105,8 @@ namespace Demoder.MapCompiler.xml
 		/// List of map versions
 		/// </summary>
 		public List<TxtFile> TxtFiles = new List<TxtFile>();
+
+		#endregion
 
 		#region methods: worktask
 		/// <summary>
@@ -261,7 +287,7 @@ namespace Demoder.MapCompiler.xml
 				o.Assembler = this.Assembler;
 				o.MapDir = this.MapDir;
 				o.Name = this.Name;
-				o.ShortName = this.ShortName;
+				o.BinName = this.BinName;
 				o.OutputDirectory = this.OutputDirectory;
 				o.TextureSize = this.TextureSize;
 				//Version

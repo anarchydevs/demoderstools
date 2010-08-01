@@ -84,7 +84,7 @@ namespace AOMC
 			this.label8 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this._map_shortname = new System.Windows.Forms.TextBox();
+			this._map_binname = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage_Images = new System.Windows.Forms.TabPage();
 			this._imagelist = new System.Windows.Forms.ListView();
@@ -272,7 +272,7 @@ namespace AOMC
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.optionsToolStripMenuItem.Text = "&Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -497,7 +497,7 @@ namespace AOMC
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this._map_shortname);
+			this.groupBox1.Controls.Add(this._map_binname);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this._map_subdirectory);
@@ -514,22 +514,22 @@ namespace AOMC
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Map information";
 			// 
-			// _map_shortname
+			// _map_binname
 			// 
-			this._map_shortname.Location = new System.Drawing.Point(86, 40);
-			this._map_shortname.Name = "_map_shortname";
-			this._map_shortname.Size = new System.Drawing.Size(138, 20);
-			this._map_shortname.TabIndex = 11;
-			this._map_shortname.TextChanged += new System.EventHandler(this._MapInfoChanged);
+			this._map_binname.Location = new System.Drawing.Point(86, 40);
+			this._map_binname.Name = "_map_binname";
+			this._map_binname.Size = new System.Drawing.Size(138, 20);
+			this._map_binname.TabIndex = 11;
+			this._map_binname.TextChanged += new System.EventHandler(this._MapInfoChanged);
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(0, 44);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(58, 13);
+			this.label4.Size = new System.Drawing.Size(50, 13);
 			this.label4.TabIndex = 10;
-			this.label4.Text = "Shortname";
+			this.label4.Text = "BinName";
 			// 
 			// tabPage_Images
 			// 
@@ -1385,7 +1385,7 @@ namespace AOMC
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Label _label_compilestatusmsg;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox _map_shortname;
+		private System.Windows.Forms.TextBox _map_binname;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.TextBox _map_OutFolder;
