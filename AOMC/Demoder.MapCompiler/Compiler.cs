@@ -737,8 +737,12 @@ namespace Demoder.MapCompiler
 						DateTime.UtcNow.Day, 
 						DateTime.UtcNow.Hour, 
 						DateTime.UtcNow.Minute, 
-						DateTime.UtcNow.Second) 
-			};
+						DateTime.UtcNow.Second),
+					"***** DECOMPILINGINFORMATION *****",
+					"Please use AO-Skintool",
+					"http://www.gridstream.org/forums/viewtopic.php?t=5217",
+					"or AO-Basher to extract the images from this file."
+					};
 				Bitmap headerimg = new Bitmap(640, (int)System.Math.Ceiling((double)(10 * headerstring.Length)), PixelFormat.Format24bppRgb); //Image to add to the beginning of every binfile
 				Graphics g = Graphics.FromImage(headerimg);
 				for (int i = 0; i < headerstring.Length; i++)
