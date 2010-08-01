@@ -909,6 +909,8 @@ namespace Demoder.MapCompiler
 				else tf = null;
 				if (tf != null)
 				{
+					if (!tf.CoordsFile.ToLower().EndsWith(".xml"))
+						tf.CoordsFile += ".xml";
 					string txtfile = String.Format("Name \"{0}\"\r\nType {1}\r\nCoordsFile {2}\r\n",
 						sf.Format(tf.Name),
 						tf.Type,
@@ -926,6 +928,8 @@ namespace Demoder.MapCompiler
 							txtfile += string.Format("FilePos {0}\r\n", filepos);
 						}
 					}
+					if (!tf.File.ToLower().EndsWith(".txt")) //If the txtfile doesn't contain .txt, add it.
+						tf.File += ".txt";
 					File.WriteAllText(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + tf.File, txtfile);
 				}
 			} while (tf != null);
