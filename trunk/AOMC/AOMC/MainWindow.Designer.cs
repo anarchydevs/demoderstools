@@ -165,6 +165,9 @@ namespace AOMC
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer_Main = new System.Windows.Forms.SplitContainer();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.numericUpDown_SlicePadding = new System.Windows.Forms.NumericUpDown();
+			this.label14 = new System.Windows.Forms.Label();
+			this.checkBox_SlicePaddingEnabled = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_major)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_minor)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._map_version_build)).BeginInit();
@@ -192,6 +195,7 @@ namespace AOMC
 			this.splitContainer_Main.Panel1.SuspendLayout();
 			this.splitContainer_Main.Panel2.SuspendLayout();
 			this.splitContainer_Main.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown_SlicePadding)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// fileToolStripMenuItem
@@ -463,18 +467,21 @@ namespace AOMC
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.checkBox_SlicePaddingEnabled);
+			this.groupBox3.Controls.Add(this.label14);
+			this.groupBox3.Controls.Add(this.numericUpDown_SlicePadding);
 			this.groupBox3.Controls.Add(this._map_OutFolder);
 			this.groupBox3.Controls.Add(this.label8);
 			this.groupBox3.Location = new System.Drawing.Point(250, 80);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(234, 52);
+			this.groupBox3.Size = new System.Drawing.Size(234, 68);
 			this.groupBox3.TabIndex = 16;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Other";
 			// 
 			// _map_OutFolder
 			// 
-			this._map_OutFolder.Location = new System.Drawing.Point(85, 17);
+			this._map_OutFolder.Location = new System.Drawing.Point(85, 14);
 			this._map_OutFolder.Name = "_map_OutFolder";
 			this._map_OutFolder.Size = new System.Drawing.Size(138, 20);
 			this._map_OutFolder.TabIndex = 80;
@@ -485,7 +492,7 @@ namespace AOMC
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(8, 20);
+			this.label8.Location = new System.Drawing.Point(8, 17);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(68, 13);
 			this.label8.TabIndex = 0;
@@ -518,7 +525,7 @@ namespace AOMC
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Location = new System.Drawing.Point(8, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(235, 126);
+			this.groupBox1.Size = new System.Drawing.Size(235, 142);
 			this.groupBox1.TabIndex = 14;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Map information";
@@ -850,7 +857,7 @@ namespace AOMC
 			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.96916F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.03084F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 252F));
 			this.tableLayoutPanel1.Controls.Add(this._label_compilestatusmsg, 2, 4);
 			this.tableLayoutPanel1.Controls.Add(this.progressBar_assembler, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.label9, 0, 1);
@@ -879,16 +886,16 @@ namespace AOMC
 			// _label_compilestatusmsg
 			// 
 			this._label_compilestatusmsg.AutoSize = true;
-			this._label_compilestatusmsg.Location = new System.Drawing.Point(206, 69);
+			this._label_compilestatusmsg.Location = new System.Drawing.Point(204, 69);
 			this._label_compilestatusmsg.Name = "_label_compilestatusmsg";
 			this._label_compilestatusmsg.Size = new System.Drawing.Size(0, 13);
 			this._label_compilestatusmsg.TabIndex = 6;
 			// 
 			// progressBar_assembler
 			// 
-			this.progressBar_assembler.Location = new System.Drawing.Point(87, 55);
+			this.progressBar_assembler.Location = new System.Drawing.Point(86, 55);
 			this.progressBar_assembler.Name = "progressBar_assembler";
-			this.progressBar_assembler.Size = new System.Drawing.Size(112, 10);
+			this.progressBar_assembler.Size = new System.Drawing.Size(111, 10);
 			this.progressBar_assembler.TabIndex = 8;
 			// 
 			// label9
@@ -902,23 +909,23 @@ namespace AOMC
 			// 
 			// progressBar_worker
 			// 
-			this.progressBar_worker.Location = new System.Drawing.Point(87, 38);
+			this.progressBar_worker.Location = new System.Drawing.Point(86, 38);
 			this.progressBar_worker.Name = "progressBar_worker";
-			this.progressBar_worker.Size = new System.Drawing.Size(112, 10);
+			this.progressBar_worker.Size = new System.Drawing.Size(111, 10);
 			this.progressBar_worker.TabIndex = 7;
 			// 
 			// progressBar_imageloader
 			// 
-			this.progressBar_imageloader.Location = new System.Drawing.Point(87, 4);
+			this.progressBar_imageloader.Location = new System.Drawing.Point(86, 4);
 			this.progressBar_imageloader.Name = "progressBar_imageloader";
-			this.progressBar_imageloader.Size = new System.Drawing.Size(112, 10);
+			this.progressBar_imageloader.Size = new System.Drawing.Size(111, 10);
 			this.progressBar_imageloader.TabIndex = 4;
 			// 
 			// progressBar_imageslicer
 			// 
-			this.progressBar_imageslicer.Location = new System.Drawing.Point(87, 21);
+			this.progressBar_imageslicer.Location = new System.Drawing.Point(86, 21);
 			this.progressBar_imageslicer.Name = "progressBar_imageslicer";
-			this.progressBar_imageslicer.Size = new System.Drawing.Size(112, 10);
+			this.progressBar_imageslicer.Size = new System.Drawing.Size(111, 10);
 			this.progressBar_imageslicer.TabIndex = 6;
 			// 
 			// label10
@@ -951,7 +958,7 @@ namespace AOMC
 			// statuslabel_imageloader
 			// 
 			this.statuslabel_imageloader.AutoSize = true;
-			this.statuslabel_imageloader.Location = new System.Drawing.Point(206, 1);
+			this.statuslabel_imageloader.Location = new System.Drawing.Point(204, 1);
 			this.statuslabel_imageloader.Name = "statuslabel_imageloader";
 			this.statuslabel_imageloader.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageloader.TabIndex = 9;
@@ -959,7 +966,7 @@ namespace AOMC
 			// statuslabel_imageslicer
 			// 
 			this.statuslabel_imageslicer.AutoSize = true;
-			this.statuslabel_imageslicer.Location = new System.Drawing.Point(206, 18);
+			this.statuslabel_imageslicer.Location = new System.Drawing.Point(204, 18);
 			this.statuslabel_imageslicer.Name = "statuslabel_imageslicer";
 			this.statuslabel_imageslicer.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_imageslicer.TabIndex = 10;
@@ -967,7 +974,7 @@ namespace AOMC
 			// statuslabel_worker
 			// 
 			this.statuslabel_worker.AutoSize = true;
-			this.statuslabel_worker.Location = new System.Drawing.Point(206, 35);
+			this.statuslabel_worker.Location = new System.Drawing.Point(204, 35);
 			this.statuslabel_worker.Name = "statuslabel_worker";
 			this.statuslabel_worker.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_worker.TabIndex = 11;
@@ -975,7 +982,7 @@ namespace AOMC
 			// statuslabel_assembler
 			// 
 			this.statuslabel_assembler.AutoSize = true;
-			this.statuslabel_assembler.Location = new System.Drawing.Point(206, 52);
+			this.statuslabel_assembler.Location = new System.Drawing.Point(204, 52);
 			this.statuslabel_assembler.Name = "statuslabel_assembler";
 			this.statuslabel_assembler.Size = new System.Drawing.Size(0, 13);
 			this.statuslabel_assembler.TabIndex = 12;
@@ -1236,6 +1243,40 @@ namespace AOMC
 			this.splitContainer_Main.SplitterWidth = 1;
 			this.splitContainer_Main.TabIndex = 5;
 			// 
+			// numericUpDown_SlicePadding
+			// 
+			this.numericUpDown_SlicePadding.Location = new System.Drawing.Point(104, 41);
+			this.numericUpDown_SlicePadding.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+			this.numericUpDown_SlicePadding.Name = "numericUpDown_SlicePadding";
+			this.numericUpDown_SlicePadding.Size = new System.Drawing.Size(64, 20);
+			this.numericUpDown_SlicePadding.TabIndex = 90;
+			this.numericUpDown_SlicePadding.ValueChanged += new System.EventHandler(this.numericUpDown_SlicePadding_ValueChanged);
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(171, 43);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(23, 13);
+			this.label14.TabIndex = 92;
+			this.label14.Text = "KiB";
+			// 
+			// checkBox_SlicePaddingEnabled
+			// 
+			this.checkBox_SlicePaddingEnabled.AutoSize = true;
+			this.checkBox_SlicePaddingEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkBox_SlicePaddingEnabled.Location = new System.Drawing.Point(6, 44);
+			this.checkBox_SlicePaddingEnabled.Name = "checkBox_SlicePaddingEnabled";
+			this.checkBox_SlicePaddingEnabled.Size = new System.Drawing.Size(91, 17);
+			this.checkBox_SlicePaddingEnabled.TabIndex = 93;
+			this.checkBox_SlicePaddingEnabled.Text = "Slice Padding";
+			this.checkBox_SlicePaddingEnabled.UseVisualStyleBackColor = true;
+			this.checkBox_SlicePaddingEnabled.CheckedChanged += new System.EventHandler(this.checkBox_SlicePaddingEnabled_CheckedChanged);
+			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1283,6 +1324,7 @@ namespace AOMC
 			this.splitContainer_Main.Panel1.PerformLayout();
 			this.splitContainer_Main.Panel2.ResumeLayout(false);
 			this.splitContainer_Main.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown_SlicePadding)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -1402,6 +1444,9 @@ namespace AOMC
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem2;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.NumericUpDown numericUpDown_SlicePadding;
+		private System.Windows.Forms.CheckBox checkBox_SlicePaddingEnabled;
 	}
 }
 

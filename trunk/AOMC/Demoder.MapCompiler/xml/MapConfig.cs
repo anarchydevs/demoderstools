@@ -106,6 +106,16 @@ namespace Demoder.MapCompiler.xml
 		/// </summary>
 		public List<TxtFile> TxtFiles = new List<TxtFile>();
 
+		/// <summary>
+		/// Each slice will be of pre-allocated size. Specified value is in KiB.
+		/// </summary>
+		public int SlicePadding = 64;
+
+		/// <summary>
+		/// Should we pad slices?
+		/// </summary>
+		public bool SlicePaddingEnabled = false;
+
 		#endregion
 
 		#region methods: worktask
@@ -294,6 +304,10 @@ namespace Demoder.MapCompiler.xml
 				o.Version.Major = this.Version.Major;
 				o.Version.Minor = this.Version.Minor;
 				o.Version.Build = this.Version.Build;
+				
+				//Slice padding
+				o.SlicePadding = this.SlicePadding;
+				o.SlicePaddingEnabled = this.SlicePaddingEnabled;
 				
 				//Images
 				foreach (LoadImage li in this.Images)

@@ -126,6 +126,9 @@ namespace Demoder.MapCompiler
 			if (this._MapConfig.BinName.ToLower().EndsWith(".bin"))
 				this._MapConfig.BinName = this._MapConfig.BinName.Substring(0, this._MapConfig.BinName.Length - 4);
 
+			//SlicePadding
+			if (this._MapConfig.SlicePadding < 8)
+				this._MapConfig.SlicePaddingEnabled = false;
 			return true;
 		}
 
