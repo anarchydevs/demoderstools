@@ -45,13 +45,20 @@ namespace Demoder.MapCompiler
 		private Dictionary<string, SlicedImage> _slicedImages;
 		private WorkTask _worktask;
 		private WorkerResult _WorkResult;
+
+		private int _slicePadding = -1;
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="layernames"></param>
 		/// <param name="memorystreams"></param>
-		public Worker(WorkTask worktask, Dictionary<string,SlicedImage> slicedImages)
+		public Worker(WorkTask worktask, Dictionary<string,SlicedImage> slicedImages, int SlicePadding, bool SlicePaddingEnabled)
 		{
+			if (SlicePadding > 0 && SlicePaddingEnabled )
+				this._slicePadding = SlicePadding * 1024;
+			else
+				this._slicePadding = -1;
+
 			//Store data.
 			this._worktask = worktask;
 			this._slicedImages = slicedImages;
@@ -84,7 +91,6 @@ namespace Demoder.MapCompiler
 				case 1: return this._DoWork_Single();
 				default: return this._DoWork_Compare();
 			}
-
 		}
 
 		/* Could've made a single method to deal with both types of work, but that'd mean a lot of wasted cycles in the "single" run,
@@ -108,6 +114,7 @@ namespace Demoder.MapCompiler
 			MemoryStream ms;
 			foreach (MemoryStream slice in simg.Slices)
 			{
+				ms = slice;
 				curPos = this._ms.Length;
 				this._StreamPos[wl].Add(curPos); //To stream positions
 				if (this._worktask.imageformat != ImageFormats.Png)
@@ -123,16 +130,15 @@ namespace Demoder.MapCompiler
 					img = Image.FromStream(slice);
 					ms = new MemoryStream();
 					img.Save(ms, imf);
-					ms.WriteTo(this._ms);
 				}
-				else 
-					slice.WriteTo(this._ms);
+				if (this._slicePadding > 0)
+				{
+					Demoder.Common.Misc.PadMemoryStream(ref ms, this._slicePadding, 0);
+				}
+				ms.WriteTo(this._ms);
 			}
 			return this._DoWork_Finish();
 		}
-
-		
-
 
 		/// <summary>
 		/// Perform a compare on the work. This is always done if there's more than one image
@@ -156,7 +162,7 @@ namespace Demoder.MapCompiler
 					if (index >= (simg.Slices.Count)) break; //If this entry doesn't have more to process, stop.
 					bool treated = false;
 					long curPos = this._ms.Length; //Offset is always length of stream, or we'd be overwriting the last byte.
-					byte[] simg_slice=simg.Slices[index].ToArray();
+					byte[] simg_slice=simg.Slices[index].ToArray(); //Only used for MD5 comparison
 					#region Check md5
 					string md5 = Demoder.Common.GenerateHash.md5(simg_slice);
 					if (_md5s.ContainsKey(md5))
@@ -204,11 +210,16 @@ namespace Demoder.MapCompiler
 									break;
 							}
 							img.Save(ms, imf);
-							msb = ms.ToArray();
-							this._ms.Write(msb, 0, msb.Length);
 						}
-						else 
-							this._ms.Write(simg_slice, 0, simg_slice.Length);
+						else
+						{
+							ms = simg.Slices[index];							
+						}
+						if (this._slicePadding > 0)
+						{
+							Demoder.Common.Misc.PadMemoryStream(ref ms, this._slicePadding, 0);
+						}
+						ms.WriteTo(this._ms);
 						treated = true;
 						simg.Slices[index].Dispose(); //Dispose of the memory stream.
 					}
@@ -216,7 +227,6 @@ namespace Demoder.MapCompiler
 				}
 				index++; //Bump index by one.
 			} while (DoAgain);
-
 			//Finish the work.
 			return this._DoWork_Finish();
 		}

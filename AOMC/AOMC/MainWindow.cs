@@ -46,6 +46,10 @@ namespace AOMC
 		/// </summary>
 		private DateTime _compileStartTime;
 
+		/// <summary>
+		/// Are we currently loading a configuration?
+		/// </summary>
+		private bool _loadingConfig = false;
 		#endregion
 		public MainWindow()
 		{
@@ -73,7 +77,14 @@ namespace AOMC
 			compiler.eventImageSlicer += new StatusReportEventHandler(this.handleImageSlicerEvent);
 			compiler.eventWorker += new StatusReportEventHandler(this.handleWorkerEvent);
 			compiler.eventAssembler += new StatusReportEventHandler(this.handleAssemblerEvent);
-			compiler.Compile(mc);
+			try
+			{
+				compiler.Compile(mc);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Message: " + ex.Message, "Exception Thrown (compiling aborted)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			compiler.Dispose();
 			compiler = null;
 		}
@@ -252,6 +263,7 @@ namespace AOMC
 
 		private void LoadMapConfigValues()
 		{
+			this._loadingConfig = true;
 			this._map_name.Text = Program.Config_Map.Name;
 			//Version
 			this._map_version_major.Value = Program.Config_Map.Version.Major;
@@ -264,6 +276,10 @@ namespace AOMC
 			this._map_subdirectory.Text = Program.Config_Map.MapDir;
 			this._map_assemblymethod.SelectedIndex = _map_assemblymethod.Items.IndexOf(Program.Config_Map.Assembler.ToString());
 			this._map_texturesize.Value = Program.Config_Map.TextureSize;
+			this.numericUpDown_SlicePadding.Value = Program.Config_Map.SlicePadding;
+			this.checkBox_SlicePaddingEnabled.Checked = Program.Config_Map.SlicePaddingEnabled;
+			this.numericUpDown_SlicePadding.Enabled = this.checkBox_SlicePaddingEnabled.Checked;
+
 
 			//Images
 			this._imagelist.Items.Clear();
@@ -291,8 +307,9 @@ namespace AOMC
 			}
 			Program.Config_Map_Changed = true;
 			this.resizeColumnHeaders();
-			
+			this._loadingConfig = false;			
 		}
+
 		private void resizeColumnHeaders()
 		{
 			//Autoresize column headers
@@ -892,6 +909,9 @@ namespace AOMC
 			int index = ((TabControl)sender).SelectedIndex;
 			switch (((TabControl)sender).TabPages[index].Name)
 			{
+				case "tabPage_General":
+					this._HelperBox.Text = Properties.Resources.help_General;
+					break;
 				case "tabPage_MapInfo":
 					this._HelperBox.Text = Properties.Resources.help_General;
 					break;
@@ -1079,6 +1099,39 @@ namespace AOMC
 		private void helpToolStripMenuItem2_Click(object sender, EventArgs e)
 		{
 			Process.Start("doc" + Path.DirectorySeparatorChar + "User Guide.doc");
+		}
+
+		private void checkBox_SlicePaddingEnabled_CheckedChanged(object sender, EventArgs e)
+		{
+			CheckBox cb = (CheckBox)sender;
+			if (cb.Checked && !this._loadingConfig)
+			{
+				DialogResult dr = MessageBox.Show(
+					"You should only enable this option if you are SURE you need it. Please read the technical documentation for more information.",
+					"Are you sure you want to enable sliced padding?",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Asterisk);
+				switch (dr)
+				{
+					case DialogResult.No:
+						cb.Checked = false;
+						return;
+				}
+
+			}
+			//this.numericUpDown_SlicePadding.Enabled = cb.Enabled;
+			this.numericUpDown_SlicePadding.Enabled = cb.Checked;
+			
+			Program.Config_Map_Changed = true;
+			Program.Config_Map.SlicePaddingEnabled = cb.Checked;
+
+		}
+
+		private void numericUpDown_SlicePadding_ValueChanged(object sender, EventArgs e)
+		{
+			NumericUpDown nud = (NumericUpDown)sender;
+			Program.Config_Map_Changed = true;
+			Program.Config_Map.SlicePadding = (int)nud.Value;
 		}
 	}
 }

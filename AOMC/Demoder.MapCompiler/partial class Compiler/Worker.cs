@@ -119,7 +119,14 @@ namespace Demoder.MapCompiler
 				Dictionary<string, object> work = new Dictionary<string, object>(2);
 				work.Add("worktask", worktask);
 				work.Add("images", images);
-				ThreadPool.QueueUserWorkItem(this.__threaded_Worker_DoWork, work);
+				try
+				{
+					ThreadPool.QueueUserWorkItem(this.__threaded_Worker_DoWork, work);
+				}
+				catch (Exception ex)
+				{
+					throw ex;
+				}
 
 			}
 			this.debug("W", "Stopped");
@@ -140,9 +147,8 @@ namespace Demoder.MapCompiler
 			WorkTask worktask = (WorkTask)work["worktask"];
 			Dictionary<string, SlicedImage> images = (Dictionary<string, SlicedImage>)work["images"];
 			this.debug("W", string.Format("Started on {0}", worktask.workname));
-			Worker worker = new Worker(worktask, images);
+			Worker worker = new Worker(worktask, images, this._MapConfig.SlicePadding, this._MapConfig.SlicePaddingEnabled);
 			WorkerResult wr = worker.DoWork();
-
 			lock (this._Data_WorkerResults) //Add our result
 				this._Data_WorkerResults.Add(wr.Name, wr);
 			this.debug("W", string.Format("Processed {0} ", wr.Name));

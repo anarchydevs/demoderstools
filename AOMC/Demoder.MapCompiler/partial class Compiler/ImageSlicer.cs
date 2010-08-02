@@ -105,6 +105,8 @@ namespace Demoder.MapCompiler
 			System.GC.Collect(10, GCCollectionMode.Optimized); //Request garbage collection
 		}
 
+
+
 		/// <summary>
 		/// This is the ImageSlicer worker. Called by the ImageSlicer queue handler
 		/// </summary>

@@ -23,6 +23,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Demoder.Common
 {
@@ -121,6 +122,15 @@ namespace Demoder.Common
 		{
 			DateTime dt = new DateTime(1970, 1, 1);
 			return dt.AddSeconds(unixtime).ToLocalTime();
+		}
+
+		public static void PadMemoryStream(ref MemoryStream ms, int length, byte PadByte)
+		{
+			while (ms.Length < length)
+				ms.WriteByte(PadByte);
+				//If slice will be larger than the padding
+			if (ms.Length > length)
+				throw new Exception("Padding: MemoryStream is larger than defined static length!");
 		}
 	}
 }

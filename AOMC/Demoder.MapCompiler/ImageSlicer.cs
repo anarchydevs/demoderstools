@@ -64,7 +64,6 @@ namespace Demoder.MapCompiler
 		/// Each slice is _texturesize x _texturesize pixels.
 		/// </summary>
 		private int _texturesize = 128; //Texture size.
-
 		#endregion
 
 		#region Members - multithreaded slicer
@@ -92,7 +91,6 @@ namespace Demoder.MapCompiler
 		/// <param name="texturesize">Size of each slice</param>
 		public ImageSlicer(ImageData source, int texturesize, bool singlethreaded)
 		{
-			//End of setting up PNG codec
 			bool threaded = false;
 			this._texturesize = texturesize;
 			MemoryStream ms = new MemoryStream(source.bytes);
@@ -239,7 +237,6 @@ namespace Demoder.MapCompiler
 				timg = this.copySlice(srcimg, pos_width, pos_height);
 				ms = new MemoryStream();
 				timg.Save(ms, ImageFormat.Png);
-				
 				//File.WriteAllBytes(string.Format("e:/tmp/blah/{0}_{1}_{2}.png",source.name, pos_width, pos_height), ms.ToArray());
 				this._SliceStreams.Add(ms);
 
