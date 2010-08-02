@@ -265,7 +265,7 @@ namespace Demoder.MapCompiler
 					}
 					if (!tf.File.ToLower().EndsWith(".txt")) //If the txtfile doesn't contain .txt, add it.
 						tf.File += ".txt";
-					File.WriteAllText(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + tf.File, txtfile);
+					File.WriteAllText(this._MapConfig.OutputDirectory + Path.DirectorySeparatorChar + sf.Format(tf.File), txtfile);
 				}
 			} while (tf != null);
 			DateTime dt2 = DateTime.Now;

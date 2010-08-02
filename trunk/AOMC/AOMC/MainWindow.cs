@@ -39,6 +39,14 @@ namespace AOMC
 {
 	public partial class MainWindow : Form
 	{
+
+		#region members
+		/// <summary>
+		/// Stores when the compile started.
+		/// </summary>
+		private DateTime _compileStartTime;
+
+		#endregion
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -141,13 +149,17 @@ namespace AOMC
 		private void _bw_Compiler_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			KeyValuePair<BWReportProgress, string> kvp = (KeyValuePair<BWReportProgress, string>)e.UserState;
+			string time = "";
 			switch (kvp.Key)
 			{
 				case BWReportProgress.Debug:
-					this._compiler_debugmessages.AppendText((string)kvp.Value + "\r\n");
+					time = "[" + Math.Round(((DateTime.Now - this._compileStartTime).TotalSeconds), 3).ToString() + "s] ";
+					this._compiler_debugmessages.AppendText(time + (string)kvp.Value + "\r\n");
 					break;
 				case BWReportProgress.Statusmsg:
-					this._label_compilestatusmsg.Text = kvp.Value;
+					if (e.ProgressPercentage == 100)
+						time = " (" + Math.Round(((DateTime.Now - this._compileStartTime).TotalSeconds), 3).ToString() + "s)";
+					this._label_compilestatusmsg.Text = kvp.Value + time;
 					break;
 				case BWReportProgress.ImageLoader:
 					this.progressBar_imageloader.Value = e.ProgressPercentage;
@@ -172,6 +184,7 @@ namespace AOMC
 
 		private void button_docompile_Click(object sender, EventArgs e)
 		{
+			this._compileStartTime = DateTime.Now;
 			this.button_docompile.Enabled = false;
 			this._compiler_debugmessages.Text = "";
 			this.progressBar_assembler.Value = 0;

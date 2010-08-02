@@ -63,7 +63,8 @@ namespace Demoder.MapCompiler
 							imgdata = this._Queue_ImageSlicer.Dequeue();
 					else
 					{ //There's no data in the queue
-						if (!this._Thread_imageLoader.IsAlive)
+
+						if (this._Thread_imageLoader == null || !this._Thread_imageLoader.IsAlive)
 						{
 							end = true; //He's dead, Jim.
 							break;
