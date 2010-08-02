@@ -46,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler.cs" />
+    <Compile Include="partial class Compiler\Assembler.cs" />
+    <Compile Include="partial class Compiler\ConfigurationChecker.cs" />
+    <Compile Include="partial class Compiler\ImageSlicer.cs" />
+    <Compile Include="partial class Compiler\Worker.cs" />
     <Compile Include="delegates.cs" />
     <Compile Include="Events\DebugEventArgs.cs" />
     <Compile Include="Events\StatusReportEventArgs.cs" />

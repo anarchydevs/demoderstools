@@ -148,6 +148,7 @@
 			// 
 			// _imageformat
 			// 
+			this._imageformat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
 			this._imageformat.FormattingEnabled = true;
 			this._imageformat.Location = new System.Drawing.Point(86, 70);
 			this._imageformat.Name = "_imageformat";
