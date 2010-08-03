@@ -69,7 +69,7 @@ namespace Demoder.Common
         /// Format a string using the previously provided parameters
         /// </summary>
         /// <param name="ToFormat"></param>
-        /// <returns></returns>
+        /// <returns>formatted string</returns>
 		public string Format(string ToFormat)
 		{
             lock (this)
@@ -81,6 +81,22 @@ namespace Demoder.Common
                 outstring = re.Replace(outstring, doFormatString);
                 return outstring;
             }
+		}
+
+		/// <summary>
+		/// Formats a string using the provided parameters
+		/// </summary>
+		/// <param name="ToFormat">String which needs formatting</param>
+		/// <param name="param">string[] { tag, value }</param>
+		/// <returns>formatted string</returns>
+		public string Format(string ToFormat, params string[][] param)
+		{
+			Dictionary<string, object> dict = new Dictionary<string, object>();
+			foreach (string[] s in param)
+				if (!dict.ContainsKey(s[0]))
+					dict.Add(s[0], s[1]);
+
+			return this.Format(ToFormat, dict);
 		}
 		
         /// <summary>
