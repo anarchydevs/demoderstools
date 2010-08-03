@@ -50,6 +50,7 @@ namespace Demoders_Patcher.Windows
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.textBox_GUID = new System.Windows.Forms.TextBox();
@@ -60,12 +61,20 @@ namespace Demoders_Patcher.Windows
 			this.textBox_version = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox_Name = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.textBox_PatchServerURLs = new System.Windows.Forms.TextBox();
+			this.contextMenuStrip_Distributions = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.contextMenuStrip_Distributions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 39);
+			this.label2.Location = new System.Drawing.Point(177, 41);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(34, 13);
 			this.label2.TabIndex = 1;
@@ -74,7 +83,7 @@ namespace Demoders_Patcher.Windows
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(13, 88);
+			this.label4.Location = new System.Drawing.Point(13, 66);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(64, 13);
 			this.label4.TabIndex = 3;
@@ -82,15 +91,15 @@ namespace Demoders_Patcher.Windows
 			// 
 			// textBox_GUID
 			// 
-			this.textBox_GUID.Location = new System.Drawing.Point(69, 35);
+			this.textBox_GUID.Location = new System.Drawing.Point(217, 38);
 			this.textBox_GUID.Multiline = true;
 			this.textBox_GUID.Name = "textBox_GUID";
-			this.textBox_GUID.Size = new System.Drawing.Size(228, 20);
+			this.textBox_GUID.Size = new System.Drawing.Size(209, 20);
 			this.textBox_GUID.TabIndex = 5;
 			// 
 			// button_ok
 			// 
-			this.button_ok.Location = new System.Drawing.Point(222, 205);
+			this.button_ok.Location = new System.Drawing.Point(218, 311);
 			this.button_ok.Name = "button_ok";
 			this.button_ok.Size = new System.Drawing.Size(75, 23);
 			this.button_ok.TabIndex = 8;
@@ -101,7 +110,7 @@ namespace Demoders_Patcher.Windows
 			// button_cancel
 			// 
 			this.button_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button_cancel.Location = new System.Drawing.Point(16, 204);
+			this.button_cancel.Location = new System.Drawing.Point(12, 310);
 			this.button_cancel.Name = "button_cancel";
 			this.button_cancel.Size = new System.Drawing.Size(75, 23);
 			this.button_cancel.TabIndex = 9;
@@ -111,9 +120,12 @@ namespace Demoders_Patcher.Windows
 			// 
 			// listView_distributions
 			// 
-			this.listView_distributions.Location = new System.Drawing.Point(16, 104);
+			this.listView_distributions.ContextMenuStrip = this.contextMenuStrip_Distributions;
+			this.listView_distributions.GridLines = true;
+			this.listView_distributions.Location = new System.Drawing.Point(16, 82);
 			this.listView_distributions.Name = "listView_distributions";
-			this.listView_distributions.Size = new System.Drawing.Size(281, 97);
+			this.listView_distributions.Size = new System.Drawing.Size(410, 133);
+			this.listView_distributions.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listView_distributions.TabIndex = 10;
 			this.listView_distributions.UseCompatibleStateImageBehavior = false;
 			this.listView_distributions.View = System.Windows.Forms.View.Details;
@@ -121,7 +133,7 @@ namespace Demoders_Patcher.Windows
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(13, 62);
+			this.label3.Location = new System.Drawing.Point(13, 41);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(42, 13);
 			this.label3.TabIndex = 11;
@@ -129,9 +141,9 @@ namespace Demoders_Patcher.Windows
 			// 
 			// textBox_version
 			// 
-			this.textBox_version.Location = new System.Drawing.Point(69, 59);
+			this.textBox_version.Location = new System.Drawing.Point(69, 38);
 			this.textBox_version.Name = "textBox_version";
-			this.textBox_version.Size = new System.Drawing.Size(74, 20);
+			this.textBox_version.Size = new System.Drawing.Size(102, 20);
 			this.textBox_version.TabIndex = 12;
 			// 
 			// label1
@@ -147,8 +159,64 @@ namespace Demoders_Patcher.Windows
 			// 
 			this.textBox_Name.Location = new System.Drawing.Point(69, 9);
 			this.textBox_Name.Name = "textBox_Name";
-			this.textBox_Name.Size = new System.Drawing.Size(228, 20);
+			this.textBox_Name.Size = new System.Drawing.Size(357, 20);
 			this.textBox_Name.TabIndex = 4;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(12, 218);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(158, 13);
+			this.label5.TabIndex = 14;
+			this.label5.Text = "Patchserver URLs (one per line)";
+			// 
+			// textBox_PatchServerURLs
+			// 
+			this.textBox_PatchServerURLs.AcceptsReturn = true;
+			this.textBox_PatchServerURLs.Location = new System.Drawing.Point(16, 234);
+			this.textBox_PatchServerURLs.Multiline = true;
+			this.textBox_PatchServerURLs.Name = "textBox_PatchServerURLs";
+			this.textBox_PatchServerURLs.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.textBox_PatchServerURLs.Size = new System.Drawing.Size(410, 70);
+			this.textBox_PatchServerURLs.TabIndex = 15;
+			// 
+			// contextMenuStrip_Distributions
+			// 
+			this.contextMenuStrip_Distributions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.deleteToolStripMenuItem});
+			this.contextMenuStrip_Distributions.Name = "contextMenuStrip_Distributions";
+			this.contextMenuStrip_Distributions.Size = new System.Drawing.Size(108, 76);
+			this.contextMenuStrip_Distributions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Distributions_Opening);
+			// 
+			// addToolStripMenuItem
+			// 
+			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.addToolStripMenuItem.Text = "Add...";
+			this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+			// 
+			// editToolStripMenuItem
+			// 
+			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+			this.editToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.editToolStripMenuItem.Text = "Edit...";
+			this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+			// 
+			// deleteToolStripMenuItem
+			// 
+			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.deleteToolStripMenuItem.Text = "Delete";
+			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
 			// 
 			// CreatePatchServer
 			// 
@@ -156,8 +224,10 @@ namespace Demoders_Patcher.Windows
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button_cancel;
-			this.ClientSize = new System.Drawing.Size(309, 239);
+			this.ClientSize = new System.Drawing.Size(431, 345);
+			this.Controls.Add(this.textBox_PatchServerURLs);
 			this.Controls.Add(this.textBox_version);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.listView_distributions);
 			this.Controls.Add(this.button_cancel);
@@ -171,6 +241,7 @@ namespace Demoders_Patcher.Windows
 			this.Name = "CreatePatchServer";
 			this.Text = "Create PatchServer";
 			this.Load += new System.EventHandler(this.CreateDistribution_Load);
+			this.contextMenuStrip_Distributions.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -188,6 +259,13 @@ namespace Demoders_Patcher.Windows
 		private System.Windows.Forms.TextBox textBox_version;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBox_Name;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.TextBox textBox_PatchServerURLs;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Distributions;
+		private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 
 	}
 }

@@ -40,7 +40,7 @@ namespace Demoders_Patcher.DataClasses
 		/// </summary>
 		[XmlArray("PatchServers")]
 		[XmlArrayItem("PatchServer")]
-		public List<string> download_locations;
+		public List<string> download_locations = new List<string>();
 
 		/// <summary>
 		/// Patchservers GUID

@@ -65,7 +65,6 @@ namespace Demoders_Patcher
 				{
 					this.bw.ReportProgress(0, "Installing updated map");
 					dp.InstallPatchedDistributions(Program.PatcherConfig.AnarchyOnlinePath);
-#warning todo: Add reporting of installed version here.
 					Program.PatcherConfig.SetPatchStatus(patchserver.GUID, patchserver.Version);
 					return true;
 				}
