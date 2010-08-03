@@ -25,3 +25,7 @@ Make Patchserver
 Security checking:
 	Check if the patcher is allowed to modify files in the AO directory, or if it goes to virtual store.
 	If it goes to virtual store, warn the user about it. Ask the user to either quit the patcher, or give the patcher admin privelieges (not recommended).
+
+
+REAL IMMEDIATE TODO:
+DownloadManager: Add support for DNS lookups with multiple IP addresses.

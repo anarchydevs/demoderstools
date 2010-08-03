@@ -58,6 +58,23 @@ namespace Demoders_Patcher.Windows
 			}
 			//Select the active one.
 			this.comboBox_DistributionType.SelectedItem = this.CDConfig.DistributionType.ToString();
+			//Set text fields
+			this.textBox_Name.Text = this.CDConfig.Name;
+			this.textBox_directory.Text = this.CDConfig.Directory;
+		}
+
+		private void button_ok_Click(object sender, EventArgs e)
+		{
+			this.CDConfig.Directory = this.textBox_directory.Text;
+			this.CDConfig.DistributionType = (Distribution.DistributionType) Enum.Parse(typeof(Distribution.DistributionType), this.comboBox_DistributionType.SelectedItem.ToString());
+			this.CDConfig.Name = this.textBox_Name.Text;
+			this.DialogResult = DialogResult.OK;
+			this.Close();
+		}
+
+		private void button_cancel_Click(object sender, EventArgs e)
+		{
+			this.DialogResult = DialogResult.Cancel;
 		}
 	}
 }

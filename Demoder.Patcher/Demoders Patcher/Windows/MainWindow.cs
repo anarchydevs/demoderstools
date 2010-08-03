@@ -386,6 +386,8 @@ namespace Demoders_Patcher.Windows
 			cpsc.Distributions.Add(cdc1);
 			cpsc.Distributions.Add(cdc2);
 
+			cpsc.download_locations.Add("http://ps.flw.nu/servers/maps/AoSL/");
+
 			CreatePatchServer cd = new CreatePatchServer(cpsc);
 			DialogResult dr = cd.ShowDialog();
 			switch (dr)

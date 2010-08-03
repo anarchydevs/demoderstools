@@ -56,31 +56,42 @@ namespace Demoders_Patcher.Windows
 
 			foreach (CreateDistributionConfig cdc in this._cpsc.Distributions)
 			{
-				ListViewItem lvi = new ListViewItem(new string[] { cdc.Name, cdc.DistributionType.ToString(), cdc.Directory });
-				lvi.Tag = cdc;
-				this.listView_distributions.Items.Add(lvi);
+				this.listView_distributions.Items.Add(this.createListViewItem(cdc));
 			}
-
+			if (this._cpsc.download_locations != null && this._cpsc.download_locations.Count>0)
+				this.textBox_PatchServerURLs.Text = String.Join("\r\n", this._cpsc.download_locations.ToArray());
 			this.textBox_GUID.Text = this._cpsc.GUID.ToString();
 			this.textBox_Name.Text = this._cpsc.Name;
-			
+			//Fix collumns & sorting in the listview
+			Demoder.Common.Forms.AutoResizeHeaders(this.listView_distributions, ColumnHeaderAutoResizeStyle.ColumnContent);
+			this.listView_distributions.ColumnClick += new ColumnClickEventHandler(Demoder.Common.Forms.ListView_ColumnClick);
+		}
+
+		private ListViewItem createListViewItem(CreateDistributionConfig cdc) 
+		{
+			ListViewItem lvi = new ListViewItem(new string[] { cdc.Name, cdc.DistributionType.ToString(), cdc.Directory });
+			lvi.Tag = cdc;
+			return lvi;
 		}
 
 		private void button_ok_Click(object sender, EventArgs e)
 		{
-			/*
-			this.CDConfig.GUID = new Guid(this.textBox_GUID.Text);
-			this.CDConfig.Name = this.textBox_Name.Text;
-			this.CDConfig.DistributionType = (Distribution.DistributionType)Enum.Parse(
-				typeof(Distribution.DistributionType),
-				this.comboBox_DistributionType.Items[comboBox_DistributionType.SelectedIndex].ToString());
-			//Directories
-			this.CDConfig.Directories.Clear();
-			foreach (string dir in this.listBox_Directories.Items)
-			{
-				this.CDConfig.Directories.Add(dir);
-			}
-			*/
+			//Simple text fields
+			this._cpsc.Name = this.textBox_Name.Text;
+			this._cpsc.Version = this.textBox_version.Text;
+			this._cpsc.GUID = new Guid(this.textBox_GUID.Text);
+
+			//Distributions
+			this._cpsc.Distributions = new List<CreateDistributionConfig>();
+			foreach (ListViewItem lvi in this.listView_distributions.Items)
+				this._cpsc.Distributions.Add((CreateDistributionConfig)lvi.Tag);
+			
+			//Mirrors
+			this._cpsc.download_locations = new List<string>();
+			foreach (string s in this.textBox_PatchServerURLs.Text.Split("\r\n".ToCharArray()))
+				if (!String.IsNullOrEmpty(s))
+					this._cpsc.download_locations.Add(s);
+
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
@@ -90,5 +101,63 @@ namespace Demoders_Patcher.Windows
 			this.DialogResult = DialogResult.Cancel;
 			this.Close();
 		}
+
+		#region contextmenu: Distributions
+		private void contextMenuStrip_Distributions_Opening(object sender, CancelEventArgs e)
+		{
+			ContextMenuStrip cms = (ContextMenuStrip)sender;
+			if (this.listView_distributions.SelectedItems.Count > 0)
+			{
+				cms.Items[0].Enabled = false; //add
+				cms.Items[1].Enabled = true;  //edit
+				cms.Items[3].Enabled = true;  //remove
+			}
+			else
+			{
+				cms.Items[0].Enabled = true;	//add
+				cms.Items[1].Enabled = false;	//edit
+				cms.Items[3].Enabled = false;	//remove
+			}
+		}
+
+		private void addToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CreateDistribution cd = new CreateDistribution();
+			DialogResult dr = cd.ShowDialog();
+			switch (dr)
+			{
+				case DialogResult.OK:
+					this.listView_distributions.Items.Add(this.createListViewItem(cd.CDConfig));
+					break;
+			}
+		}
+		
+		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			foreach (ListViewItem lvi in this.listView_distributions.SelectedItems)
+			{
+				this.listView_distributions.Items.Remove(lvi);
+			}
+		}
+
+		private void editToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			foreach (ListViewItem lvi in this.listView_distributions.SelectedItems)
+			{
+				CreateDistributionConfig cdc = (CreateDistributionConfig)lvi.Tag;
+				//Since the config is passed as a reference, the window will deal with updating it.
+				CreateDistribution cd = new CreateDistribution(ref cdc);
+				DialogResult dr = cd.ShowDialog();
+				switch (dr)
+				{
+					case DialogResult.OK:
+						ListViewItem lvi2 = createListViewItem(cdc);
+						this.listView_distributions.Items.Remove(lvi);
+						this.listView_distributions.Items.Add(lvi2);
+						break;
+				}
+			}
+		}
+		#endregion
 	}
 }
