@@ -38,12 +38,19 @@ namespace Demoder.Patcher.DataClasses
 		/// </summary>
 		[XmlArray("PatchServers")]
 		[XmlArrayItem("PatchServer")]
-		public List<string> download_locations;
+		public List<string> download_locations = new List<string>();
+		
 		[XmlAttribute("guid")]
 		public Guid GUID = Guid.NewGuid();
+		
+		[XmlAttribute("name")]
+		public string Name = String.Empty;
+		
 		[XmlAttribute("version")]
 		public string Version="Undefined";
-		[XmlElement("Distribution")]
+		
+		[XmlArray("Distributions")]
+		[XmlArrayItem("Distribution")]
 		public List<Distribution> Distributions = new List<Distribution>();
 
 		#endregion

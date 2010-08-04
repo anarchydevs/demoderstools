@@ -76,5 +76,12 @@ namespace Demoders_Patcher.Windows
 		{
 			this.DialogResult = DialogResult.Cancel;
 		}
+
+		private void button_browse_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = folderBrowserDialog1.ShowDialog();
+			if (dr == DialogResult.OK)
+				this.textBox_directory.Text = this.folderBrowserDialog1.SelectedPath;
+		}
 	}
 }

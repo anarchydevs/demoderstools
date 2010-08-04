@@ -37,26 +37,30 @@ namespace Demoders_Patcher__Console_
 		static void Main(string[] args)
 		{
 			//GUI Test
-			/*
+			
 			List<string> dirs = new List<string>();
 			dirs.Add(@"C:\Games\AO\Anarchy Online\cd_image\gui\Demoder");
-			Distribution mapfiles = new Distribution(dirs, Distribution.DistributionTypes.AO_GUI);
+			Distribution mapfiles = new Distribution(dirs, Distribution.DistributionType.AO_GUI);
 			
 			List<string> dirs2 = new List<string>();
 			dirs2.Add(@"C:\Games\AO\Anarchy Online\cd_image\textures\archives\Demoder");
-			Distribution maptextures = new Distribution(dirs2, Distribution.DistributionTypes.AO_GUI_Textures);
+			Distribution maptextures = new Distribution(dirs2, Distribution.DistributionType.AO_GUI_Textures);
 
 			PatchServer patchserver = new PatchServer();
 			patchserver.Distributions.Add(mapfiles);
 			patchserver.Distributions.Add(maptextures);
+			patchserver.download_locations.Add("http://blah.com");
+			patchserver.Name = "LALALA";
+			patchserver.Version = "1.0";
 
 
-			patchserver.Export("e:/tmp/patchserver2/");
-			*/
-			
-			
-			
-			
+			//patchserver.Export("e:/tmp/patchserver2/");
+			Xml.Serialize<PatchServer>(new FileInfo("e:/test.xml"), patchserver, false);
+
+
+
+
+			#region commented
 			// MAP test
 			/*
 			List<string> dirs = new List<string>();
@@ -78,7 +82,7 @@ namespace Demoders_Patcher__Console_
 
 
 			
-			PatchServer ps = Xml.Deserialize<PatchServer>(new Uri("http://10.0.1.11/~demoder/patchserver/PatchServer.xml"));
+			//PatchServer ps = Xml.Deserialize<PatchServer>(new Uri("http://10.0.1.11/~demoder/patchserver/PatchServer.xml"));
 			//PatchServer ps = Xml.Deserialize<PatchServer>(new Uri("http://patchserver.flw.nu/.test/PatchServer.xml"));
 			//ps.download_locations.Add("http://patchserver.flw.nu/.test");
 			//Xml.Serialize<PatchServer>(new FileInfo("e:/test.xml"), ps, false);
@@ -94,9 +98,11 @@ namespace Demoders_Patcher__Console_
 			}
 			if (failed) Console.WriteLine("Patching failed.");
 			 */
-
+			/*
 			DoPatch dp = new DoPatch(ps);
 			dp.InstallPatchedDistributions(new DirectoryInfo(@"E:\tmp\Anarchy Online"));
+			 */
+			#endregion
 			Console.ReadLine();
 		}
 	}

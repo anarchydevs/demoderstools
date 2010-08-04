@@ -194,6 +194,7 @@ namespace Demoders_Patcher.Windows
 
 			this.treeView_MainWindow.Nodes.Add("repository", "Repository");
 			this.treeView_MainWindow.Nodes[this.treeView_MainWindow.Nodes.IndexOfKey("repository")].Tag = mw_treeview_Tags.Repository;
+
 			this.treeView_MainWindow.ExpandAll();
 
 			//Tree root: Create
@@ -358,46 +359,7 @@ namespace Demoders_Patcher.Windows
 
 		private void createDistributionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// Manually created configuration for easier testing of the interface as it's being made.
-			CreatePatchServerConfig cpsc = new CreatePatchServerConfig();
-			cpsc.Name = "Demoders' GUI";
-			cpsc.Version = "1.0";
-			/*
-			CreateDistributionConfig cdc1 = new CreateDistributionConfig();
-			cdc1.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_Map;
-			cdc1.Name = "AoRK";
-			cdc1.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoRK";
-
-			CreateDistributionConfig cdc2 = new CreateDistributionConfig();
-			cdc2.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_Map;
-			cdc2.Name = "AoSL";
-			cdc2.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\PlanetMap\AoSL";
-			*/
-			CreateDistributionConfig cdc1 = new CreateDistributionConfig();
-			cdc1.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_GUI;
-			cdc1.Name = "Demoders GUI";
-			cdc1.Directory = @"C:\Games\AO\Anarchy Online\cd_image\gui\Demoder";
-
-			CreateDistributionConfig cdc2 = new CreateDistributionConfig();
-			cdc2.DistributionType = Demoder.Patcher.DataClasses.Distribution.DistributionType.AO_GUI_Textures;
-			cdc2.Name = "Demoders GUI - Textures";
-			cdc2.Directory = @"C:\Games\AO\Anarchy Online\cd_image\textures\archives\Demoder";
-
-			cpsc.Distributions.Add(cdc1);
-			cpsc.Distributions.Add(cdc2);
-
-			cpsc.download_locations.Add("http://ps.flw.nu/servers/maps/AoSL/");
-
-			CreatePatchServer cd = new CreatePatchServer(cpsc);
-			DialogResult dr = cd.ShowDialog();
-			switch (dr)
-			{
-				case DialogResult.OK:
-					break;
-				case DialogResult.Cancel:
-					break;
-			}
-
+			(new CreatePatchServer()).Show();
 		}
 	}
 }

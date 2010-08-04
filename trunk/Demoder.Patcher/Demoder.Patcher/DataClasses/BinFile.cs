@@ -53,13 +53,6 @@ namespace Demoder.Patcher.DataClasses
 			if (this.MD5 == bf.MD5 && this.SHA1 == bf.SHA1) return true;
 			return false;
 		}
-
-		public override int GetHashCode()
-		{
-			//TODO: Test that this works.
-			return Convert.ToInt32(this.MD5);
-		}
-
 		#endregion
 	}
 }

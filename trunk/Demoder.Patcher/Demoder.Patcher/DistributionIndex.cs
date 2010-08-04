@@ -36,10 +36,14 @@ namespace Demoder.Patcher
 			#region members
 			[XmlAttribute("name")]
 			public string name;
+			
 			[XmlElement("file")]
 			public List<File_entry> files = new List<File_entry>();
+			
 			[XmlElement("directory")]
 			public List<Dir> directories = new List<Dir>();
+			
+			
 			[XmlIgnore]
 			public List<BinFile> BinFiles = new List<BinFile>();
 			#endregion
@@ -181,8 +185,8 @@ namespace Demoder.Patcher
 					if (fe.Filetype == File_entry.FileType.bin)
 					{
 						BinDecompiler bd = new BinDecompiler(fe.Bytes);
-						fe.Bytes = null;
 						BinFile bf = bd.Decompile();
+						fe.Bytes = null;
 						bf.Name = fe.Name;
 						this.BinFiles.Add(bf);
 					}
@@ -305,30 +309,32 @@ namespace Demoder.Patcher
 			#endregion
 		}
 
-
 		public class File_entry
 		{
 			#region members
-			[XmlAttribute("name")]
 			/// <summary>
 			/// Filename
 			/// </summary>
-			public string Name;
-
-			[XmlAttribute("md5")]
+			[XmlAttribute("name")]
+			public string Name=string.Empty;
+			
 			/// <summary>
 			/// Files MD5 checksum
 			/// </summary>
-			public string MD5;
+			[XmlAttribute("md5")]
+			public string MD5=string.Empty;
 
-			[XmlAttribute("size")]
 			/// <summary>
 			/// Filesize in bytes
 			/// </summary>
-			public long Size;
+			[XmlAttribute("size")]
+			public long Size=0;
 
 			[XmlAttribute("type")]
-			public FileType Filetype;
+			public FileType Filetype=FileType.file;
+
+
+
 
 			[XmlIgnore]
 			public byte[] Bytes
@@ -336,14 +342,18 @@ namespace Demoder.Patcher
 				set
 				{
 					this._bytes = value;
-					this.MD5 = GenerateHash.md5(this._bytes);
-					this.Size = this._bytes.Length;
+					if (value != null)
+					{
+						this.MD5 = GenerateHash.md5(this._bytes);
+						this.Size = this._bytes.Length;
+					}
 				}
 				get
 				{
 					return this._bytes;
 				}
 			}
+
 			[XmlIgnore]
 			private byte[] _bytes = null;
 			#endregion
@@ -407,12 +417,6 @@ namespace Demoder.Patcher
 				{
 					return false;
 				}
-			}
-
-			public override int GetHashCode()
-			{
-				//TODO: Test that this works.
-				return Convert.ToInt32(this.MD5);
 			}
 
 			public override string ToString()

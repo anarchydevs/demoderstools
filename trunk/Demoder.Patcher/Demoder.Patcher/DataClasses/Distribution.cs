@@ -41,15 +41,9 @@ namespace Demoder.Patcher.DataClasses
 		[XmlAttribute("name")]
 		public string DistributionName = DateTime.Now.Ticks.ToString();
 		/// <summary>
-		/// Globally Unique IDentifier. Used to identify all versions of this distribution.
-		/// </summary>
-		[XmlAttribute("guid")]
-		public Guid GUID = new Guid();
-		
-		[XmlElement("directory")]
-		/// <summary>
 		/// Distribution content
 		/// </summary>
+		[XmlElement("directory")]
 		public List<DistributionIndex.Dir> Directories;
 
 		[XmlAttribute("type")]
@@ -100,7 +94,7 @@ namespace Demoder.Patcher.DataClasses
 		#endregion
 
 
-		#region static members
+		#region static methods
 		/// <summary>
 		/// Gets the base directory of a given distribution type.
 		/// </summary>
