@@ -62,15 +62,14 @@ namespace Demoders_Patcher.Windows
 			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.createDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.syncToCentralRepisoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.viewEventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.createDistributionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.timer_statusBarReset = new System.Windows.Forms.Timer(this.components);
-			this.createDistributionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -200,18 +199,9 @@ namespace Demoders_Patcher.Windows
 			// 
 			// fileToolStripMenuItem
 			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createDistributionToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
-			// 
-			// createDistributionToolStripMenuItem
-			// 
-			this.createDistributionToolStripMenuItem.Name = "createDistributionToolStripMenuItem";
-			this.createDistributionToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-			this.createDistributionToolStripMenuItem.Text = "Create Distribution";
-			this.createDistributionToolStripMenuItem.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
 			// 
@@ -251,6 +241,13 @@ namespace Demoders_Patcher.Windows
 			this.viewEventLogToolStripMenuItem.Text = "View Event &Log";
 			this.viewEventLogToolStripMenuItem.ToolTipText = "View the patchers event log";
 			// 
+			// createDistributionToolStripMenuItem1
+			// 
+			this.createDistributionToolStripMenuItem1.Name = "createDistributionToolStripMenuItem1";
+			this.createDistributionToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+			this.createDistributionToolStripMenuItem1.Text = "Create Distribution";
+			this.createDistributionToolStripMenuItem1.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
+			// 
 			// backgroundWorker1
 			// 
 			this.backgroundWorker1.WorkerReportsProgress = true;
@@ -263,13 +260,6 @@ namespace Demoders_Patcher.Windows
 			// 
 			this.timer_statusBarReset.Interval = 5000;
 			this.timer_statusBarReset.Tick += new System.EventHandler(this.timer_statusBarReset_Tick);
-			// 
-			// createDistributionToolStripMenuItem1
-			// 
-			this.createDistributionToolStripMenuItem1.Name = "createDistributionToolStripMenuItem1";
-			this.createDistributionToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
-			this.createDistributionToolStripMenuItem1.Text = "Create Distribution";
-			this.createDistributionToolStripMenuItem1.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
 			// 
 			// MainWindow
 			// 
@@ -320,7 +310,6 @@ namespace Demoders_Patcher.Windows
 		private System.Windows.Forms.ToolStripMenuItem viewEventLogToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optToolStripMenuItem;
 		private System.Windows.Forms.Timer timer_statusBarReset;
-		private System.Windows.Forms.ToolStripMenuItem createDistributionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem createDistributionToolStripMenuItem1;
 	}
 }

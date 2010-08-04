@@ -27,17 +27,23 @@ using System.Data;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using Demoders_Patcher.DataClasses;
 using Demoder.Patcher.DataClasses;
+using Demoder.Common;
 
 namespace Demoders_Patcher.Windows
 {
 	public partial class CreatePatchServer : Form
 	{
-		private CreatePatchServerConfig _cpsc= new CreatePatchServerConfig();
-		public CreatePatchServer() {
+		private CreatePatchServerConfig _cpsc = new CreatePatchServerConfig();
+		private string _savePath = String.Empty;
+		private backgroundWorker_CreatePatchServer _bgw = null;
+		public CreatePatchServer()
+		{
 			InitializeComponent();
+			this._bgw = new backgroundWorker_CreatePatchServer(this.bgw_CreatePS);
 		}
 		public CreatePatchServer(CreatePatchServerConfig CPSC)
 			: this()
@@ -53,53 +59,34 @@ namespace Demoders_Patcher.Windows
 			this.listView_distributions.Columns.Add("Name", "Name", 75);
 			this.listView_distributions.Columns.Add("Type", "Type", 75);
 			this.listView_distributions.Columns.Add("Path", "Path", 125);
+			this.listView_distributions.ColumnClick += new ColumnClickEventHandler(Demoder.Common.Forms.ListView_ColumnClick);
 
+			this.updateDisplayOfConfig();
+		}
+
+		private void updateDisplayOfConfig()
+		{
+			this.listView_distributions.Items.Clear();
 			foreach (CreateDistributionConfig cdc in this._cpsc.Distributions)
 			{
 				this.listView_distributions.Items.Add(this.createListViewItem(cdc));
 			}
-			if (this._cpsc.download_locations != null && this._cpsc.download_locations.Count>0)
+			this.textBox_PatchServerURLs.Text = "";
+			if (this._cpsc.download_locations != null && this._cpsc.download_locations.Count > 0)
 				this.textBox_PatchServerURLs.Text = String.Join("\r\n", this._cpsc.download_locations.ToArray());
 			this.textBox_GUID.Text = this._cpsc.GUID.ToString();
 			this.textBox_Name.Text = this._cpsc.Name;
+			this.textBox_version.Text = this._cpsc.Version;
+			this.textBox_outputDirectory.Text = this._cpsc.OutputDirectory;
 			//Fix collumns & sorting in the listview
 			Demoder.Common.Forms.AutoResizeHeaders(this.listView_distributions, ColumnHeaderAutoResizeStyle.ColumnContent);
-			this.listView_distributions.ColumnClick += new ColumnClickEventHandler(Demoder.Common.Forms.ListView_ColumnClick);
 		}
 
-		private ListViewItem createListViewItem(CreateDistributionConfig cdc) 
+		private ListViewItem createListViewItem(CreateDistributionConfig cdc)
 		{
 			ListViewItem lvi = new ListViewItem(new string[] { cdc.Name, cdc.DistributionType.ToString(), cdc.Directory });
 			lvi.Tag = cdc;
 			return lvi;
-		}
-
-		private void button_ok_Click(object sender, EventArgs e)
-		{
-			//Simple text fields
-			this._cpsc.Name = this.textBox_Name.Text;
-			this._cpsc.Version = this.textBox_version.Text;
-			this._cpsc.GUID = new Guid(this.textBox_GUID.Text);
-
-			//Distributions
-			this._cpsc.Distributions = new List<CreateDistributionConfig>();
-			foreach (ListViewItem lvi in this.listView_distributions.Items)
-				this._cpsc.Distributions.Add((CreateDistributionConfig)lvi.Tag);
-			
-			//Mirrors
-			this._cpsc.download_locations = new List<string>();
-			foreach (string s in this.textBox_PatchServerURLs.Text.Split("\r\n".ToCharArray()))
-				if (!String.IsNullOrEmpty(s))
-					this._cpsc.download_locations.Add(s);
-
-			this.DialogResult = DialogResult.OK;
-			this.Close();
-		}
-
-		private void button_cancel_Click(object sender, EventArgs e)
-		{
-			this.DialogResult = DialogResult.Cancel;
-			this.Close();
 		}
 
 		#region contextmenu: Distributions
@@ -131,7 +118,7 @@ namespace Demoders_Patcher.Windows
 					break;
 			}
 		}
-		
+
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			foreach (ListViewItem lvi in this.listView_distributions.SelectedItems)
@@ -159,5 +146,98 @@ namespace Demoders_Patcher.Windows
 			}
 		}
 		#endregion
+
+		private void newToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this._cpsc = new CreatePatchServerConfig();
+			this.updateDisplayOfConfig();
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = oFD_Configuration.ShowDialog();
+			CreatePatchServerConfig cpsc = null;
+			if (dr == DialogResult.OK)
+				cpsc = Xml.Deserialize<CreatePatchServerConfig>(new FileInfo(this.oFD_Configuration.FileName), false);
+			if (cpsc == null)
+			{
+				MessageBox.Show("There's something wrong with the selected config. Load aborted.");
+			}
+			else
+			{
+				this._cpsc = cpsc;
+				this.updateDisplayOfConfig();
+			}
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.saveConfig();
+		}
+
+		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this._savePath = "";
+			this.saveConfig();
+		}
+
+		private bool saveConfig()
+		{
+			#region Store config
+			//Simple text fields
+			this._cpsc.Name = this.textBox_Name.Text;
+			this._cpsc.Version = this.textBox_version.Text;
+			this._cpsc.GUID = new Guid(this.textBox_GUID.Text);
+
+			//Distributions
+			this._cpsc.Distributions = new List<CreateDistributionConfig>();
+			foreach (ListViewItem lvi in this.listView_distributions.Items)
+				this._cpsc.Distributions.Add((CreateDistributionConfig)lvi.Tag);
+
+			//Mirrors
+			this._cpsc.download_locations = new List<string>();
+			foreach (string s in this.textBox_PatchServerURLs.Text.Split("\r\n".ToCharArray()))
+				if (!String.IsNullOrEmpty(s))
+					this._cpsc.download_locations.Add(s);
+			//Output directory
+			this._cpsc.OutputDirectory = this.textBox_outputDirectory.Text;
+			#endregion
+			if (String.IsNullOrEmpty(this._savePath))
+			{
+				DialogResult dr = this.sFD_Configuration.ShowDialog();
+				if (dr == DialogResult.OK)
+					this._savePath = this.sFD_Configuration.FileName;
+				else
+					return false;
+			}
+			return Xml.Serialize<CreatePatchServerConfig>(new FileInfo(this._savePath), this._cpsc, false);
+		}
+
+		private void button_browseOutDir_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = this.folderBD_OutputDirectory.ShowDialog();
+			switch (dr) {
+				case DialogResult.OK:
+					this.textBox_outputDirectory.Text = this.folderBD_OutputDirectory.SelectedPath;
+					break;
+			}
+		}
+
+		#region background worker
+		private void bgw_CreatePS_DoWork(object sender, DoWorkEventArgs e)
+		{
+			this._bgw.CreatePatchServer((CreatePatchServerConfig)e.Argument);
+		}
+		#endregion
+
+		private void button_CreatePatchServer_Click(object sender, EventArgs e)
+		{
+			this.bgw_CreatePS.RunWorkerAsync(this._cpsc);
+		}
+
+		private void bgw_CreatePS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			MessageBox.Show("Export complete.");
+		}
 	}
 }

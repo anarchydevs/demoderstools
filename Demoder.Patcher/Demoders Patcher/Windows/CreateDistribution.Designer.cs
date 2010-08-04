@@ -37,6 +37,7 @@
 			this.button_browse = new System.Windows.Forms.Button();
 			this.button_ok = new System.Windows.Forms.Button();
 			this.button_cancel = new System.Windows.Forms.Button();
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.SuspendLayout();
 			// 
 			// comboBox_DistributionType
@@ -98,6 +99,7 @@
 			this.button_browse.TabIndex = 15;
 			this.button_browse.Text = "...";
 			this.button_browse.UseVisualStyleBackColor = true;
+			this.button_browse.Click += new System.EventHandler(this.button_browse_Click);
 			// 
 			// button_ok
 			// 
@@ -153,5 +155,6 @@
 		private System.Windows.Forms.Button button_browse;
 		private System.Windows.Forms.Button button_ok;
 		private System.Windows.Forms.Button button_cancel;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 	}
 }

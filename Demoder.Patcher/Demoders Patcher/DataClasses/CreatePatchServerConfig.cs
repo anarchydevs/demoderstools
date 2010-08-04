@@ -58,6 +58,10 @@ namespace Demoders_Patcher.DataClasses
 		[XmlElement("Distribution")]
 		public List<CreateDistributionConfig> Distributions = new List<CreateDistributionConfig>();
 
+		/// <summary>
+		/// Which directory should the patchserver be saved to?
+		/// </summary>
+		public string OutputDirectory = string.Empty;
 		#endregion
 	}
 }
