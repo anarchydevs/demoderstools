@@ -80,6 +80,7 @@ namespace Demoders_Patcher.DataClasses
 					if (ps.GUID == GUID)
 					{
 						ps.Version = Version;
+						ps.Present = DataClasses.PatchStatus.Presence.Present;
 						found = true;
 						break;
 					}

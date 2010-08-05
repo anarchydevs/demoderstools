@@ -226,6 +226,7 @@ namespace Demoders_Patcher
 				remDefinitions.Create();
 			//Check each configured URI
 			int numChecked = 0;
+			Program.UpdateDefinitions_Central = new UpdateDefinitions();
 			foreach (string s in Program.PatcherConfig.CentralUpdateServer)
 			{
 				Uri uri = new Uri(s);
