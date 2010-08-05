@@ -220,7 +220,16 @@ namespace Demoder.Patcher
                 //Start of decompiling the temporary download file
                 if (this._tmpbinfile.Exists)
                 {
-                    BinDecompiler bd = new BinDecompiler(this._tmpbinfile.FullName);
+					BinDecompiler bd = null;
+					try
+					{
+						bd = new BinDecompiler(this._tmpbinfile.FullName);
+					}
+					catch (IOException) 
+					{
+						Thread.Sleep(100);
+						bd = new BinDecompiler(this._tmpbinfile.FullName);
+					}
                     DataClasses.BinFile bf = bd.Decompile();
                     foreach (DataClasses.BinFileSlice binSlice in bf.BinFileSlices)
                         if (!this.localBinFileSlices.ContainsKey(binSlice.MD5))

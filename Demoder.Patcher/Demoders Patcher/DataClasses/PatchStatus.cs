@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using Demoder.Common;
 namespace Demoders_Patcher.DataClasses
 {
 	/// <summary>

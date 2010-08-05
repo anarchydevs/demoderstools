@@ -46,7 +46,14 @@ namespace Demoders_Patcher
 		Invalid,
 		FetchCentralUpdateDefinitions,
 		LoadLocalUpdateDefinitions,
+		/// <summary>
+		/// Manually triggered update
+		/// </summary>
 		RunUpdate,
+		/// <summary>
+		/// Automatic update
+		/// </summary>
+		RunAutoUpdate,
 		CheckIfUpdateDefinitionsExistLocally
 	}
 
