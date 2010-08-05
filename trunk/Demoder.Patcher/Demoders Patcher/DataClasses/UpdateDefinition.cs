@@ -48,7 +48,6 @@ namespace Demoders_Patcher.DataClasses
 		public DefinitionType DefinitionType = DefinitionType.Other;
 		[XmlElement("server")]
 		public List<string> UpdateServers = new List<string>();
-
 		/// <summary>
 		/// Check if this distribution exists locally
 		/// </summary>

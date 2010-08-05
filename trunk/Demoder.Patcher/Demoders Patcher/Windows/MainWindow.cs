@@ -38,74 +38,13 @@ namespace Demoders_Patcher.Windows
 	public partial class MainWindow : Form
 	{
 		#region members
-		private DownloadManager _downloadManager = new DownloadManager(3, 10);
-		
-        //Worker members
-        private Queue<KeyValuePair<bgw_tasktype, object>> bw_queue = new Queue<KeyValuePair<bgw_tasktype, object>>();
-        private ManualResetEvent bw_taskadded_mre = new ManualResetEvent(false);
-		private ManualResetEvent bw_taskdone_mre = new ManualResetEvent(false);
-		private backgroundWorker_DoWork bw_dowork = null;
+		private backgroundWorker_DoWork backgroundWorker = new backgroundWorker_DoWork();
 		#endregion
 
-		#region backgroundWorker1
-		private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+		#region Backgroundworker stuff
+		private void bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			if (this.bw_dowork == null)
-				this.bw_dowork = new backgroundWorker_DoWork(this.backgroundWorker1);
-
-			while (this.bw_queue.Count == 0)
-				this.bw_taskadded_mre.WaitOne();
-			this.bw_taskadded_mre.Reset();
-			KeyValuePair<bgw_tasktype, object> kvp = new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.Invalid, null);
-			lock (this.bw_queue)
-				kvp = this.bw_queue.Dequeue();
-			if (kvp.Key != bgw_tasktype.Invalid)
-			{
-				bool result = true;
-				switch (kvp.Key)
-				{
-					case bgw_tasktype.FetchCentralUpdateDefinitions:
-						bool force_update = (bool)kvp.Value;
-						if (force_update)
-							this.bw_dowork.UpdateRemoteDefinitions(0);
-						else
-							this.bw_dowork.UpdateRemoteDefinitions();
-						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
-						break;
-					case bgw_tasktype.LoadLocalUpdateDefinitions:
-						this.bw_dowork.LoadLocalUpdateDefinitions();
-						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);;
-						break;
-					case bgw_tasktype.CheckIfUpdateDefinitionsExistLocally:
-						this.bw_dowork.CheckStateOfUpdateDefinitions();
-						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
-						break;
-					case bgw_tasktype.RunUpdate:
-						result = this.bw_dowork.RunUpdate((List<Uri>)kvp.Value);
-						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
-						break;
-				}
-			}
-		}
-		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-            KeyValuePair<bgw_tasktype, object> kvp = (KeyValuePair<bgw_tasktype, object>)e.Result;
-            switch (kvp.Key)
-            {
-                case bgw_tasktype.FetchCentralUpdateDefinitions:
-				case bgw_tasktype.LoadLocalUpdateDefinitions:
-                    this.displayAvailablePatches();
-                    break;
-				case bgw_tasktype.CheckIfUpdateDefinitionsExistLocally:
-					//TODO: Update current listviews content.
-					break;
-			}
-			//Run the worker again.
-			this.backgroundWorker1.RunWorkerAsync();
-		}
-
-		private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
+			//Add events for this stuff.
 			string message = string.Empty;
 			try
 			{
@@ -127,15 +66,31 @@ namespace Demoders_Patcher.Windows
 				this.toolStripStatusLabel1.Text = message;
 				this.toolStripStatusLabel1.Visible = true;
 				this.timer_statusBarReset.Stop();
-                if (e.ProgressPercentage == 0 || e.ProgressPercentage == 100)
-				    this.timer_statusBarReset.Start();
+				if (e.ProgressPercentage == 0 || e.ProgressPercentage == 100)
+					this.timer_statusBarReset.Start();
+			}
+		}
+
+		private void bgw_complete(object sender, RunWorkerCompletedEventArgs e)
+		{
+			KeyValuePair<bgw_tasktype, object> kvp = (KeyValuePair<bgw_tasktype, object>)e.Result;
+			switch (kvp.Key)
+			{
+				case bgw_tasktype.FetchCentralUpdateDefinitions:
+				case bgw_tasktype.LoadLocalUpdateDefinitions:
+					this.displayAvailablePatches();
+					break;
+				case bgw_tasktype.CheckIfUpdateDefinitionsExistLocally:
+					//TODO: Update current listviews content.
+					break;
 			}
 		}
 		#endregion
 
-
 		public MainWindow()
 		{
+			this.backgroundWorker.BackgroundWorker.ProgressChanged += new ProgressChangedEventHandler(this.bgw_ProgressChanged);
+			this.backgroundWorker.WorkComplete += new RunWorkerCompletedEventHandler(this.bgw_complete);
 			InitializeComponent();
 			
         }
@@ -143,42 +98,8 @@ namespace Demoders_Patcher.Windows
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
 			this.createTreeView();
-			bw_loadCentralUpdateDefinitions(false);
-			bw_loadLocalUpdateDefinitions();
-			bw_checkPatchStatus();
-			this.backgroundWorker1.RunWorkerAsync();
+			this.displayAvailablePatches();
 		}
-
-        #region bgworker enqueement methods
-		private void bw_loadCentralUpdateDefinitions(bool force_update)
-		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.FetchCentralUpdateDefinitions, force_update));
-			this.bw_taskadded_mre.Set();
-		}
-
-		private void bw_loadLocalUpdateDefinitions()
-		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.LoadLocalUpdateDefinitions, null));
-			this.bw_taskadded_mre.Set();
-		}
-
-		private void bw_runUpdate(List<Uri> uris)
-		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.RunUpdate, uris));
-			this.bw_taskadded_mre.Set();
-
-		}
-
-		private void bw_checkPatchStatus()
-		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.CheckIfUpdateDefinitionsExistLocally, true));
-			this.bw_taskadded_mre.Set();
-		}
-        #endregion
 
 		private void createTreeView()
 		{
@@ -340,14 +261,14 @@ namespace Demoders_Patcher.Windows
 			List<Uri> uris = new List<Uri>();
 			foreach (string s in ud.UpdateServers)
 				uris.Add(new Uri(s));
-			this.bw_runUpdate(uris);
+			this.backgroundWorker.Enq_RunUpdate(uris);
 		}
 
 		#region Menu: Tools
 
 		private void syncToCentralRepisoryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.bw_loadCentralUpdateDefinitions(true);
+			this.backgroundWorker.Enq_LoadCentralUpdateDefinitions(true);
 		}
 		#endregion
 

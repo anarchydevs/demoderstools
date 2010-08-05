@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Demoder.Common;
 using Demoder.Patcher;
 using Demoders_Patcher.DataClasses;
@@ -36,15 +37,128 @@ namespace Demoders_Patcher
 	public class backgroundWorker_DoWork
 	{
 		#region members
-		BackgroundWorker bw = null;
+		internal BackgroundWorker BackgroundWorker = new BackgroundWorker();
+		internal Queue<KeyValuePair<bgw_tasktype, object>> bw_queue = new Queue<KeyValuePair<bgw_tasktype, object>>();
+		internal ManualResetEvent bw_taskadded_mre = new ManualResetEvent(false);
+		internal ManualResetEvent bw_taskdone_mre = new ManualResetEvent(false);
 		#endregion
-		public backgroundWorker_DoWork(BackgroundWorker bw)
+		#region Events
+		public event RunWorkerCompletedEventHandler WorkComplete;
+		public event EventHandler QueueEmpty;
+		#endregion
+
+		#region constructors
+
+		public backgroundWorker_DoWork()
 		{
-			this.bw = bw;
+			this.BackgroundWorker.WorkerReportsProgress = true;
+			
+			this.BackgroundWorker.DoWork += new DoWorkEventHandler(this.bgw_DoWork);
+			this.BackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
 		}
 
+		#endregion
+
+		#region the background worker.
+		private void bgw_DoWork(object sender, DoWorkEventArgs e)
+		{
+			while (this.bw_queue.Count == 0)
+			{
+				//Signal that the queue is empty
+				if (this.QueueEmpty != null)
+					lock (this.QueueEmpty)
+						this.QueueEmpty(this, new EventArgs());
+				this.bw_taskadded_mre.WaitOne();
+			}
+			this.bw_taskadded_mre.Reset();
+			KeyValuePair<bgw_tasktype, object> kvp = new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.Invalid, null);
+			lock (this.bw_queue)
+				kvp = this.bw_queue.Dequeue();
+			if (kvp.Key != bgw_tasktype.Invalid)
+			{
+				bool result = true;
+				bool force = false;
+				switch (kvp.Key)
+				{
+					case bgw_tasktype.FetchCentralUpdateDefinitions:
+						bool force_update = (bool)kvp.Value;
+						if (force_update)
+							this.UpdateRemoteDefinitions(0);
+						else
+							this.UpdateRemoteDefinitions();
+						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
+						break;
+					case bgw_tasktype.LoadLocalUpdateDefinitions:
+						this.LoadLocalUpdateDefinitions();
+						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result); ;
+						break;
+					case bgw_tasktype.CheckIfUpdateDefinitionsExistLocally:
+						this.CheckStateOfUpdateDefinitions();
+						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
+						break;
+					case bgw_tasktype.RunUpdate:
+						force = true;
+						goto case bgw_tasktype.RunAutoUpdate;
+					case bgw_tasktype.RunAutoUpdate:
+						result = this.RunUpdate((List<Uri>)kvp.Value, force);
+						e.Result = new KeyValuePair<bgw_tasktype, object>(kvp.Key, result);
+						break;
+				}
+			}
+		}
+		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			//Signal stuff which subscribes to this event
+			if (this.WorkComplete!=null)
+				lock (this.WorkComplete)
+					this.WorkComplete(sender, e);
+			//Run the worker again.
+			this.BackgroundWorker.RunWorkerAsync();
+		}
+		#endregion
+
+
+		#region BGW Enqueuement methods
+
+		private void taskAdded()
+		{
+			if (!this.BackgroundWorker.IsBusy)
+				this.BackgroundWorker.RunWorkerAsync();
+			this.bw_taskadded_mre.Set();
+		}
+		#region bgworker enqueement methods
+		internal void Enq_LoadCentralUpdateDefinitions(bool force_update)
+		{
+			lock (this.bw_queue)
+				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.FetchCentralUpdateDefinitions, force_update));
+			this.taskAdded();
+		}
+
+		internal void Enq_LoadLocalUpdateDefinitions()
+		{
+			lock (this.bw_queue)
+				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.LoadLocalUpdateDefinitions, null));
+			this.taskAdded();
+		}
+
+		internal void Enq_RunUpdate(List<Uri> uris)
+		{
+			lock (this.bw_queue)
+				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.RunUpdate, uris));
+			this.taskAdded();
+		}
+
+		internal void Enq_CheckPatchStatus()
+		{
+			lock (this.bw_queue)
+				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.CheckIfUpdateDefinitionsExistLocally, true));
+			this.taskAdded();
+		}
+		#endregion
+		#endregion
+
 		#region RunUpdate
-		public bool RunUpdate(List<Uri> uris)
+		public bool RunUpdate(List<Uri> uris, bool ForceUpdate)
 		{
 			try
 			{
@@ -52,18 +166,19 @@ namespace Demoders_Patcher
 				for (int i = 0; i < uris.Count; i++)
 					patchserver = Xml.Deserialize<Demoder.Patcher.DataClasses.PatchServer>(uris[i]);
 				PatchStatus patchStatus = Program.PatcherConfig.GetPatchStatus(patchserver.GUID);
-
-				if (patchStatus != null && patchserver.Version == patchStatus.Version)
+				
+				if (!ForceUpdate && patchStatus != null && patchserver.Version == patchStatus.Version)
 				{
-					this.bw.ReportProgress(100, "Version match.");
+					this.BackgroundWorker.ReportProgress(100, "Version match.");
 					return true;
 				}
+				
 				DoPatch dp = new DoPatch(patchserver);
 				dp.eventDownloadStatusReport += new DownloadStatusReportEventHandler(dp_eventDownloadStatusReport);
-				this.bw.ReportProgress(0, "Comparing distributions");
+				this.BackgroundWorker.ReportProgress(0, "Comparing distributions");
 				if (dp.PatchDistributions(Program.PatcherConfig.AnarchyOnlinePath))
 				{
-					this.bw.ReportProgress(0, "Installing updated map");
+					this.BackgroundWorker.ReportProgress(0, "Installing updated map");
 					dp.InstallPatchedDistributions(Program.PatcherConfig.AnarchyOnlinePath);
 					Program.PatcherConfig.SetPatchStatus(patchserver.GUID, patchserver.Version);
 					return true;
@@ -71,7 +186,7 @@ namespace Demoders_Patcher
 			}
 			catch(Exception ex)
 			{
-				this.bw.ReportProgress(0, ex.Message);
+				this.BackgroundWorker.ReportProgress(0, ex.Message);
 			}
 			return false;
 		}
@@ -83,7 +198,7 @@ namespace Demoders_Patcher
 					Math.Round((double)e.TotalBytes / (double)1024 / (double)1024, 2));
 
 
-			this.bw.ReportProgress(e.PercentDone,
+			this.BackgroundWorker.ReportProgress(e.PercentDone,
 				String.Format("Downloading: {0}% ({1}MiB {3} @ {2}KiB/s)",
 				e.PercentDone, //0
 				Math.Round((double)e.DownloadedBytes / (double)1024 / (double)1024), //1
@@ -105,7 +220,7 @@ namespace Demoders_Patcher
 		/// <param name="AgeBeforeUpdate">Cache needs to be this many seconds old for it to be updated</param>
 		public void UpdateRemoteDefinitions(Int64 AgeBeforeUpdate)
 		{
-			this.bw.ReportProgress(0, "Loading remote definitions...");
+			this.BackgroundWorker.ReportProgress(0, "Loading remote definitions...");
 			DirectoryInfo remDefinitions = new DirectoryInfo(Program.ConfigDir.FullName + Path.DirectorySeparatorChar + "RemoteDefinitions");
 			if (!remDefinitions.Exists)
 				remDefinitions.Create();
@@ -142,21 +257,21 @@ namespace Demoders_Patcher
 						lock (Program.UpdateDefinitions_Central)
 							Program.UpdateDefinitions_Central += uds; //Add to the list of definitions.
 					}
-					this.bw.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetched " + uri.ToString());
+					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetched " + uri.ToString());
 				}
 				else
 				{
-					this.bw.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Using cached version of " + uri.ToString());
+					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Using cached version of " + uri.ToString());
 				}
 				numChecked++;
 			}
-			this.bw.ReportProgress(100, "Remote definitions: Loaded.");
+			this.BackgroundWorker.ReportProgress(100, "Remote definitions: Loaded.");
 		}
 		#endregion
 
 		public void LoadLocalUpdateDefinitions()
 		{
-			this.bw.ReportProgress(0, "Local definitions: Loading...");
+			this.BackgroundWorker.ReportProgress(0, "Local definitions: Loading...");
 			FileInfo cacheFile = new FileInfo(Program.ConfigDir.FullName + Path.DirectorySeparatorChar + "localUpdateDefinitions.xml");
 			UpdateDefinitions uds = Xml.Deserialize<UpdateDefinitions>(cacheFile, false);
 			lock (Program.UpdateDefinitions_Local) {
@@ -165,61 +280,65 @@ namespace Demoders_Patcher
 				else
 					Program.UpdateDefinitions_Local = new UpdateDefinitions();
 			}
-			this.bw.ReportProgress(100, "Local definitions: Loaded.");
+			this.BackgroundWorker.ReportProgress(100, "Local definitions: Loaded.");
 		}
 
 		#region Find the 'state' (installed, updated, unknown) of each distribution
+		/// <summary>
+		/// Check local status of update definitions. This is SLOW!
+		/// </summary>
 		public void CheckStateOfUpdateDefinitions()
 		{
 			/*	Check if an UpdateDefinition is 'installed' at all.
 			 *		If it is, check if it's up-to-date.
 			 *		If it isn't, label as installable.
 			 */
+
+			this.BackgroundWorker.ReportProgress(25);
 			lock (Program.UpdateDefinitions_Local)
 			{
-				lock (Program.UpdateDefinitions_Central)
+				this.CheckStateOfUpdateDefinitions_dowork(Program.UpdateDefinitions_Local);
+			}
+			this.BackgroundWorker.ReportProgress(50, "Local definitions checked");
+
+			lock (Program.UpdateDefinitions_Central)
+			{
+				this.CheckStateOfUpdateDefinitions_dowork(Program.UpdateDefinitions_Central);
+			}
+			this.BackgroundWorker.ReportProgress(100, "Remote definitions checked");
+		}
+		private void CheckStateOfUpdateDefinitions_dowork(UpdateDefinitions uds)
+		{
+			foreach (UpdateDefinition ud in uds.Definitions)
+			{
+				PatchStatus ps = null;
+				lock (Program.PatcherConfig.PatchStatus)
+					foreach (PatchStatus tmpps in Program.PatcherConfig.PatchStatus)
+						if (tmpps.GUID == ud.GUID)
+							ps = tmpps;
+				if (ps == null)
 				{
-					List<UpdateDefinition> uds = new List<UpdateDefinition>();
-
-					foreach (UpdateDefinition ud in Program.UpdateDefinitions_Local.Definitions)
-						uds.Add(ud);
-
-					foreach (UpdateDefinition ud in Program.UpdateDefinitions_Central.Definitions)
-						uds.Add(ud);
-
-					foreach (UpdateDefinition ud in uds)
+					ps = new PatchStatus(ud.GUID, "");
+					lock (Program.PatcherConfig.PatchStatus)
+						Program.PatcherConfig.PatchStatus.Add(ps);
+				}
+				try
+				{
+					lock (Program.PatcherConfig.AnarchyOnlinePath)
 					{
-						PatchStatus ps = null;
-						lock (Program.PatcherConfig.PatchStatus)
-							foreach (PatchStatus tmpps in Program.PatcherConfig.PatchStatus)
-								if (tmpps.GUID == ud.GUID)
-									ps = tmpps;
-						if (ps == null)
-						{
-							ps = new PatchStatus(ud.GUID, "");
-							lock (Program.PatcherConfig.PatchStatus)
-								Program.PatcherConfig.PatchStatus.Add(ps);
-						}
-						try
-						{
-							lock (Program.PatcherConfig.AnarchyOnlinePath)
-							{
-								if (ud.Exists(Program.PatcherConfig.AnarchyOnlinePath, true))
-									ps.Present = PatchStatus.Presence.Present;
-								else
-									ps.Present = PatchStatus.Presence.NotPresent;
-								
-							}
-						}
-						catch (Exception ex)
-						{
-							if (ex.Message == "Unable to fetch patch info")
-								ps.Present = PatchStatus.Presence.Unknown;
-						}
+						if (ud.Exists(Program.PatcherConfig.AnarchyOnlinePath, true))
+							ps.Present = PatchStatus.Presence.Present;
+						else
+							ps.Present = PatchStatus.Presence.NotPresent;
+
 					}
 				}
+				catch (Exception ex)
+				{
+					if (ex.Message == "Unable to fetch patch info")
+						ps.Present = PatchStatus.Presence.Unknown;
+				}
 			}
-
 		}
 		#endregion find the 'state'
 	}

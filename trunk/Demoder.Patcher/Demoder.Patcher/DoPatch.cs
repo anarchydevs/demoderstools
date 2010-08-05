@@ -113,18 +113,41 @@ namespace Demoder.Patcher
 					dir.name);
 
 					//Directory we're going to install to
-					string dstDir = string.Format(
+					DirectoryInfo dstDir = new DirectoryInfo(string.Format(
 						"{1}{0}{2}",
 						Path.DirectorySeparatorChar,
 						Distribution.GetRelativeBaseDir(remoteDist.DistType, BaseInstallPath.FullName),
-						dir.name);
-					if (remoteDist.DistType != Distribution.DistributionType.Other && new DirectoryInfo(dstDir).Exists)
+						dir.name));
+					if (remoteDist.DistType != Distribution.DistributionType.Other && dstDir.Exists)
 					{
-
-						Directory.Delete(dstDir, true);
+						dstDir.Delete(true);
 					}
-					srcdir.MoveTo(dstDir);
+					if (dstDir.Root != srcdir.Root)
+					{ 
+						//Different partitions, move won't work.
+						this.copydir(srcdir, dstDir);
+						srcdir.Delete(true); //Delete temporary directory.
+					}
+					else
+					{
+						//Same partition, move works.
+						srcdir.MoveTo(dstDir.FullName);
+					}
+						
 				}
+			}
+		}
+
+		private void copydir(DirectoryInfo srcdir, DirectoryInfo dstDir)
+		{
+			dstDir.Create();
+			foreach (DirectoryInfo dir in srcdir.GetDirectories())
+			{
+				this.copydir(dir, new DirectoryInfo(dstDir.FullName + Path.DirectorySeparatorChar + dir.Name));
+			}
+			foreach (FileInfo file in srcdir.GetFiles())
+			{
+				file.CopyTo(dstDir.FullName + Path.DirectorySeparatorChar + file.Name, true);
 			}
 		}
 

@@ -59,7 +59,6 @@ namespace Demoders_Patcher.DataClasses
 		{
 			this.CentralUpdateServer = new List<string>();
 			this.AnarchyOnlinePath = null;
-			this.CentralUpdateServer.Add("http://ps.flw.nu/Central/Repository.xml");
 			this.PatchStatus = new List<PatchStatus>();
 		}
 		#endregion
@@ -94,6 +93,8 @@ namespace Demoders_Patcher.DataClasses
 		public void Save() {
 			lock (this)
 			{
+				if (this.CentralUpdateServer.Count == 0)
+					this.CentralUpdateServer.Add("http://ps.flw.nu/Central/Repository.xml");
 				bool success = Demoder.Common.Xml.Serialize<PatcherConfig>(Program.PatcherConfigPath, this, false);
 			}
 

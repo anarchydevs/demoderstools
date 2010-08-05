@@ -30,3 +30,4 @@ Security checking:
 Todo:
 DownloadManager: Add support for DNS lookups with multiple IP addresses.
 CreatePatchServer: Detect if settings change.
+Error: Source and destination path must have identical roots. Move will not work across volumes

@@ -24,6 +24,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Threading;
 using Demoders_Patcher.DataClasses;
 using Demoder.Common;
 
@@ -53,6 +55,12 @@ namespace Demoders_Patcher
 		/// </summary>
 		public static DirectoryInfo ConfigDir = null;
 
+		#region Background worker
+		
+		#endregion
+
+		internal static DownloadManager DownloadManager = new DownloadManager(3, 10);
+
 		/// <summary>
 		/// Log of statusbar updates.
 		/// </summary>
@@ -65,6 +73,9 @@ namespace Demoders_Patcher
 		[STAThread]
 		static void Main()
 		{
+			#region Set up the background worker.
+
+			#endregion
 			#region make sure appdata paths exist
 			Program.ConfigDir = new DirectoryInfo(string.Format("{1}{0}{2}",
 				Path.DirectorySeparatorChar,
@@ -94,6 +105,15 @@ namespace Demoders_Patcher
 			#endregion
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			//Load stuff.
+			Windows.InitializeApplication pi = new Windows.InitializeApplication();
+			pi.ShowDialog();
+			if (pi.DialogResult == DialogResult.Cancel)
+				Environment.Exit(0);
+			pi.Dispose();
+			Program.PatcherConfig.Save();
+			//Done loading stuff.
 			Application.Run(new Windows.MainWindow());
 		}
 	}

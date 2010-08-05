@@ -68,7 +68,6 @@ namespace Demoders_Patcher.Windows
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.viewEventLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.createDistributionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.timer_statusBarReset = new System.Windows.Forms.Timer(this.components);
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -248,17 +247,9 @@ namespace Demoders_Patcher.Windows
 			this.createDistributionToolStripMenuItem1.Text = "Create Distribution";
 			this.createDistributionToolStripMenuItem1.Click += new System.EventHandler(this.createDistributionToolStripMenuItem_Click);
 			// 
-			// backgroundWorker1
-			// 
-			this.backgroundWorker1.WorkerReportsProgress = true;
-			this.backgroundWorker1.WorkerSupportsCancellation = true;
-			this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-			this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-			this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-			// 
 			// timer_statusBarReset
 			// 
-			this.timer_statusBarReset.Interval = 5000;
+			this.timer_statusBarReset.Interval = 15000;
 			this.timer_statusBarReset.Tick += new System.EventHandler(this.timer_statusBarReset_Tick);
 			// 
 			// MainWindow
@@ -297,7 +288,6 @@ namespace Demoders_Patcher.Windows
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.TreeView treeView_MainWindow;
-		private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ListView listView_MainWindow;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_ListView;
         private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;

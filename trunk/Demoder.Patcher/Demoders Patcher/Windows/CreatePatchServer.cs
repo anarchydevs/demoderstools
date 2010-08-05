@@ -82,6 +82,26 @@ namespace Demoders_Patcher.Windows
 			Demoder.Common.Forms.AutoResizeHeaders(this.listView_distributions, ColumnHeaderAutoResizeStyle.ColumnContent);
 		}
 
+		/// <summary>
+		/// Stores form values to config.
+		/// </summary>
+		private void storeConfig()
+		{
+			//Distributions
+			this._cpsc.Distributions = new List<CreateDistributionConfig>();
+			foreach (ListViewItem lvi in this.listView_distributions.Items)
+				this._cpsc.Distributions.Add((CreateDistributionConfig)lvi.Tag);
+			//URLs
+			this._cpsc.download_locations = new List<string>();
+			foreach (string s in this.textBox_PatchServerURLs.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+				this._cpsc.download_locations.Add(s);
+			//Simple text fields.
+			this._cpsc.Name = this.textBox_Name.Text;
+			this._cpsc.GUID = new Guid(this.textBox_GUID.Text);
+			this._cpsc.OutputDirectory = this.textBox_outputDirectory.Text;
+			this._cpsc.Version = this.textBox_version.Text;
+		}
+
 		private ListViewItem createListViewItem(CreateDistributionConfig cdc)
 		{
 			ListViewItem lvi = new ListViewItem(new string[] { cdc.Name, cdc.DistributionType.ToString(), cdc.Directory });
@@ -183,25 +203,7 @@ namespace Demoders_Patcher.Windows
 
 		private bool saveConfig()
 		{
-			#region Store config
-			//Simple text fields
-			this._cpsc.Name = this.textBox_Name.Text;
-			this._cpsc.Version = this.textBox_version.Text;
-			this._cpsc.GUID = new Guid(this.textBox_GUID.Text);
-
-			//Distributions
-			this._cpsc.Distributions = new List<CreateDistributionConfig>();
-			foreach (ListViewItem lvi in this.listView_distributions.Items)
-				this._cpsc.Distributions.Add((CreateDistributionConfig)lvi.Tag);
-
-			//Mirrors
-			this._cpsc.download_locations = new List<string>();
-			foreach (string s in this.textBox_PatchServerURLs.Text.Split("\r\n".ToCharArray()))
-				if (!String.IsNullOrEmpty(s))
-					this._cpsc.download_locations.Add(s);
-			//Output directory
-			this._cpsc.OutputDirectory = this.textBox_outputDirectory.Text;
-			#endregion
+			this.storeConfig();
 			if (String.IsNullOrEmpty(this._savePath))
 			{
 				DialogResult dr = this.sFD_Configuration.ShowDialog();
@@ -232,6 +234,7 @@ namespace Demoders_Patcher.Windows
 
 		private void button_CreatePatchServer_Click(object sender, EventArgs e)
 		{
+
 			this.bgw_CreatePS.RunWorkerAsync(this._cpsc);
 		}
 
