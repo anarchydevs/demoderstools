@@ -56,8 +56,10 @@
     <Compile Include="math.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="SerializableDictionary.cs" />
+    <Compile Include="File_Cache.cs" />
     <Compile Include="Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Licence.txt" />
