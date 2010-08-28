@@ -50,6 +50,7 @@ THE SOFTWARE.
 using System;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Demoder.Common
 {
@@ -100,7 +101,10 @@ namespace Demoder.Common
 
 		public T Request(string url, params string[] args)
 		{ return this.Request(XMLCacheFlags.Default, url, args); }
+
 		public T Request(XMLCacheFlags source, string url, params string[] args)
+		{ return this.Request(source, new Uri[] { new Uri(url) }, args); }
+		public T Request(XMLCacheFlags source, Uri[] urls, params string[] args)
 		{
 			if (args.Length == 0)
 				throw new ArgumentException("expecting at least 1 argument");
@@ -119,7 +123,13 @@ namespace Demoder.Common
 			// Fetch fresh
 			if ((source & XMLCacheFlags.ReadLive) != 0)
 			{
-				obj = Xml.Deserialize<T>(new Uri(string.Format(url, args)));
+				//Perform parameter replacing on URIs, if any such syntax is specified in the URIs.
+				List<Uri> uris = new List<Uri>();
+				foreach (Uri uri in urls)
+					uris.Add(new Uri(string.Format(uri.ToString(), args)));
+				urls = uris.ToArray();
+
+				obj = Xml.Deserialize<T>(urls);
 				if (obj != null && (source & XMLCacheFlags.WriteCache) != 0)
 				{
 					// Write cache

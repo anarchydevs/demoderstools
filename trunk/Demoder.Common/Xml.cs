@@ -36,10 +36,10 @@ namespace Demoder.Common
 		/// <summary>
 		/// Serializes an object into an already opened stream
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="stream"></param>
-		/// <param name="obj"></param>
-		public static bool Serialize<T>(Stream stream, T obj, bool closestream)
+		/// <typeparam name="T">Class type to serialize class as</typeparam>
+		/// <param name="stream">Stream to serialize into</param>
+		/// <param name="obj">Class to serialize</param>
+		public static bool Serialize<T>(Stream stream, T obj, bool closestream) where T : class
 		{
 			if (stream == null) throw new ArgumentNullException("stream");
 			if (obj == null) throw new ArgumentNullException("obj");
@@ -59,11 +59,11 @@ namespace Demoder.Common
 		/// <summary>
 		/// Serialize a class to a file
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">Class type to serialize</typeparam>
 		/// <param name="path"></param>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public static bool Serialize<T>(FileInfo path, T obj, bool GZip)
+		public static bool Serialize<T>(FileInfo path, T obj, bool GZip) where T : class
 		{
 			if (path == null) throw new ArgumentNullException("path");
 			if (obj == null) throw new ArgumentNullException("obj");
@@ -104,7 +104,7 @@ namespace Demoder.Common
 		#endregion
 
 		#region deserialization
-		public static T Deserialize<T>(Stream stream, bool closestream)
+		public static T Deserialize<T>(Stream stream, bool closestream) where T : class
 		{
 			if (stream == null) throw new ArgumentNullException("stream");
 			try
@@ -121,13 +121,19 @@ namespace Demoder.Common
 			}
 		}
 
-		public static T Deserialize<T>(FileInfo path, bool GZip)
+		/// <summary>
+		/// Deserialize a file
+		/// </summary>
+		/// <typeparam name="T">What class type to parse file as</typeparam>
+		/// <param name="path">Path to the file</param>
+		/// <param name="GZip">Whether or not the file is gzip-compressed</param>
+		/// <returns></returns>
+		public static T Deserialize<T>(FileInfo path, bool GZip) where T : class
 		{
 			if (path == null) throw new ArgumentNullException("path");
 
 			if (GZip)
 			{
-
 				using (FileStream fs = path.OpenRead())
 				{
 					using (System.IO.Compression.GZipStream gzs = new System.IO.Compression.GZipStream(fs, System.IO.Compression.CompressionMode.Decompress, true))
@@ -135,7 +141,6 @@ namespace Demoder.Common
 						return Deserialize<T>(gzs, true);
 					}
 				}
-				
 			}
 			else
 			{
@@ -156,12 +161,42 @@ namespace Demoder.Common
 			}
 		}
 
-		public static T Deserialize<T>(UriBuilder path)
+		/// <summary>
+		/// Deserialize content of UriBuilder
+		/// </summary>
+		/// <typeparam name="T">What class to parse file as</typeparam>
+		/// <param name="path">Path to fetch</param>
+		/// <returns></returns>
+		public static T Deserialize<T>(UriBuilder path) where T : class
 		{
 			return Deserialize<T>(path.Uri);
 		}
 
-		public static T Deserialize<T>(Uri path)
+		/// <summary>
+		/// Deserialize content of Uris.
+		/// </summary>
+		/// <typeparam name="T">Class type to parse as</typeparam>
+		/// <param name="urls">List of mirrors to try</param>
+		/// <returns></returns>
+		public static T Deserialize<T>(Uri[] urls) where T : class
+		{
+			T ret = default(T);
+			foreach (Uri uri in urls)
+			{
+				ret = Deserialize<T>(uri);
+				if (ret != default(T))  //If we got proper data
+					break;
+			}
+			return ret;
+		}
+
+		/// <summary>
+		/// Deserialize content of URI
+		/// </summary>
+		/// <typeparam name="T">Class type to parse as</typeparam>
+		/// <param name="path">URI to deserialize</param>
+		/// <returns></returns>
+		public static T Deserialize<T>(Uri path) where T : class
 		{
 			if (path == null) throw new ArgumentNullException("path");
 			try
