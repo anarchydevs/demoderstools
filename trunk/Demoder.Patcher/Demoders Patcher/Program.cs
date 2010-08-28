@@ -65,6 +65,11 @@ namespace Demoders_Patcher
 		/// Log of statusbar updates.
 		/// </summary>
 		public static List<StatusbarUpdate> StatusbarUpdates = new List<StatusbarUpdate>();
+
+		#region Caches
+		public static XMLCache<Demoder.Patcher.DataClasses.PatchServer> PatchServerCache = null;
+		#endregion
+
 		#endregion
 
 		/// <summary>
@@ -88,6 +93,7 @@ namespace Demoders_Patcher
 				Program.ConfigDir,
 				"PatcherConfig.xml"));
 			#endregion
+			Program.PatchServerCache = new XMLCache<Demoder.Patcher.DataClasses.PatchServer>(Program.ConfigDir.FullName + Path.DirectorySeparatorChar + "XmlCache" + Path.DirectorySeparatorChar + "PatchServer", 10080, 2000);
 			#region Patcher config
 			if (!Program.PatcherConfigPath.Exists)
 			{
