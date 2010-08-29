@@ -64,10 +64,13 @@ namespace Demoders_Patcher.Windows
 			updateTitle(percent.ToString()+"%");
 			updateBar(percent);
 			KeyValuePair<bgw_tasktype, object> kvp = (KeyValuePair<bgw_tasktype, object>)e.Result;
-			this.textBox1.Text += kvp.Key.ToString() + "\r\n";
+			this.textBox_AddText(kvp.Key.ToString());
 		}
 
-
+		private void textBox_AddText(string text)
+		{
+			this.textBox1.Text += text + "\r\n";
+		}
 
 		private void ProgressInfo_Load(object sender, EventArgs e)
 		{
@@ -87,6 +90,13 @@ namespace Demoders_Patcher.Windows
 			string labelText = e.ProgressPercentage.ToString() + "%";
 			this.progressBar_perwork.Value = e.ProgressPercentage;
 
+			try
+			{
+				string text = e.UserState.ToString();
+				if (!String.IsNullOrEmpty(text))
+					this.textBox1.Text += text + "\r\n";
+			}
+			catch { }
 		}
 
 		private void updateTitle(string text) {
@@ -100,6 +110,7 @@ namespace Demoders_Patcher.Windows
 
 		void BackgroundWorker_QueueEmpty(object sender, EventArgs e)
 		{
+			return;
 			if (this.InvokeRequired)
 				BeginInvoke(new VoidParameterDelegate(this.Close));
 			else
