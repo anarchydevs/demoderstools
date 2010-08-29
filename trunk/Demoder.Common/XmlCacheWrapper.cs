@@ -80,7 +80,8 @@ namespace Demoder.Common
 				XMLCache<T> ret = new XMLCache<T>(string.Format("{0}{1}{2}",
 					this._rootDirectory.FullName,
 					Path.DirectorySeparatorChar,
-					GenerateHash.md5(typeof(T).Assembly.FullName + typeof(T).FullName)), CacheTime, FetchTimeout);
+					typeof(T).GUID), CacheTime, FetchTimeout);
+				//If typeof(t).GUID doesn't work as expected, use: GenerateHash.md5(typeof(T).Assembly.FullName + typeof(T).FullName)
 
 				this._xmlCache.Add(typeof(T), ret); //Add to internal list.
 				return ret;
