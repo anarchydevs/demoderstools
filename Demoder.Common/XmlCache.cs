@@ -104,6 +104,16 @@ namespace Demoder.Common
 
 		public T Request(XMLCacheFlags source, string url, params string[] args)
 		{ return this.Request(source, new Uri[] { new Uri(url) }, args); }
+
+		public T Request(XMLCacheFlags source, string[] urls, params string[] args)
+		{ 
+			List<Uri> uris = new List<Uri>();
+			foreach (string s in urls)
+				uris.Add(new Uri(s));
+
+			return this.Request(source, uris.ToArray(), args); 
+		}
+
 		public T Request(XMLCacheFlags source, Uri[] urls, params string[] args)
 		{
 			if (args.Length == 0)
