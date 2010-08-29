@@ -59,31 +59,13 @@ namespace Demoders_Patcher.DataClasses
 			PatchServer ps = null;
 			string[] usa = new string[this.UpdateServers.Count];
 			this.UpdateServers.CopyTo(usa);
-			List<string> us = new List<string>(usa);
+			
 			string[] cacheArgs = new string[] { this.GUID.ToString(), this.Version };
-			if (!Program.PatchServerCache.IsCached(cacheArgs))
-			{
-				do
-				{
-					int mirrornum = (new Random()).Next(0, us.Count - 1);
-					string mirror = us[mirrornum];
-					us.RemoveAt(mirrornum);
-#warning TODO: Add caching here. (This is the major culpilt when starting the patcher atm)
-					/* Cache should use GUID and version of UpdateDefinition */
-					//ps = Xml.Deserialize<PatchServer>(new Uri(mirror));
-					ps = Program.PatchServerCache.Request(XMLCacheFlags.ReadLive | XMLCacheFlags.WriteCache, mirror, cacheArgs);
-				} while (ps == null && us.Count > 0);
-			}
-			else
-			{
-				ps = Program.PatchServerCache.Request(XMLCacheFlags.ReadCache, "", cacheArgs);
-			}
-
+			ps = (Program.XmlCache.Get<PatchServer>()).Request(XMLCacheFlags.Default, this.UpdateServers.ToArray(), cacheArgs);
 			if (ps == null)
 			{
 				throw new Exception("Unable to fetch patch info");
 			}
-			Program.PatchServerCache.Cache(ps, cacheArgs);
 			//We have patch info.
 			foreach (Distribution distribution in ps.Distributions)
 			{
