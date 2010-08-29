@@ -59,7 +59,7 @@ namespace Demoders_Patcher.Windows
 			// 
 			this.progressBar1.Location = new System.Drawing.Point(1, 3);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(203, 23);
+			this.progressBar1.Size = new System.Drawing.Size(295, 23);
 			this.progressBar1.TabIndex = 0;
 			// 
 			// textBox1
@@ -68,7 +68,8 @@ namespace Demoders_Patcher.Windows
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(203, 41);
+			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox1.Size = new System.Drawing.Size(295, 87);
 			this.textBox1.TabIndex = 2;
 			this.textBox1.TabStop = false;
 			// 
@@ -76,14 +77,14 @@ namespace Demoders_Patcher.Windows
 			// 
 			this.progressBar_perwork.Location = new System.Drawing.Point(1, 32);
 			this.progressBar_perwork.Name = "progressBar_perwork";
-			this.progressBar_perwork.Size = new System.Drawing.Size(203, 16);
+			this.progressBar_perwork.Size = new System.Drawing.Size(295, 16);
 			this.progressBar_perwork.TabIndex = 3;
 			// 
 			// InitializeApplication
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(208, 97);
+			this.ClientSize = new System.Drawing.Size(301, 143);
 			this.Controls.Add(this.progressBar_perwork);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.progressBar1);

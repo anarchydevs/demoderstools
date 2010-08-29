@@ -240,6 +240,7 @@ namespace Demoders_Patcher
 
 				if (needsUpdate)
 				{
+					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetching " + uri);
 					uds = (Program.XmlCache.Get<UpdateDefinitions>()).Request(XMLCacheFlags.ReadLive | XMLCacheFlags.WriteCache, uri, cacheArgs);
 					uds.TimeStamp = Misc.Unixtime();
 					if (uds != null)
