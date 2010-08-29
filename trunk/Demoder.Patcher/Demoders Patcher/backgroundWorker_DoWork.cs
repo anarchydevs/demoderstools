@@ -221,48 +221,37 @@ namespace Demoders_Patcher
 		public void UpdateRemoteDefinitions(Int64 AgeBeforeUpdate)
 		{
 			this.BackgroundWorker.ReportProgress(0, "Loading remote definitions...");
-			DirectoryInfo remDefinitions = new DirectoryInfo(Program.ConfigDir.FullName + Path.DirectorySeparatorChar + "RemoteDefinitions");
-			if (!remDefinitions.Exists)
-				remDefinitions.Create();
 			//Check each configured URI
 			int numChecked = 0;
 			Program.UpdateDefinitions_Central = new UpdateDefinitions();
-			foreach (string s in Program.PatcherConfig.CentralUpdateServer)
+			foreach (string uri in Program.PatcherConfig.CentralUpdateServer)
 			{
-				Uri uri = new Uri(s);
-				string md5 = GenerateHash.md5(s);
-				FileInfo cacheFile = new FileInfo(remDefinitions.FullName + Path.DirectorySeparatorChar + md5 + ".xml");
+				string md5 = GenerateHash.md5(uri);
 				bool needsUpdate = false;
+								
+				string[] cacheArgs = new string[] { md5 };
+				UpdateDefinitions uds = Program.XmlCache.Get<UpdateDefinitions>().Request(XMLCacheFlags.Default, uri, cacheArgs);
 
-				if (!cacheFile.Exists)
-				{
+				if (uds.TimeStamp <= (Misc.Unixtime() - AgeBeforeUpdate))
 					needsUpdate = true;
-				}
 				else
-				{
-					UpdateDefinitions uds = Xml.Deserialize<UpdateDefinitions>(cacheFile, false);
-					if (uds.TimeStamp <= (Misc.Unixtime() - AgeBeforeUpdate))
-						needsUpdate = true;
-					else
-						lock (Program.UpdateDefinitions_Central)
-							Program.UpdateDefinitions_Central += uds; //Add to the list of definitions.
-				}
+					lock (Program.UpdateDefinitions_Central)
+						Program.UpdateDefinitions_Central += uds; //Add to the list of definitions.
 
 				if (needsUpdate)
 				{
-					UpdateDefinitions uds = Xml.Deserialize<UpdateDefinitions>(uri);
+					uds = (Program.XmlCache.Get<UpdateDefinitions>()).Request(XMLCacheFlags.ReadLive | XMLCacheFlags.WriteCache, uri, cacheArgs);
 					uds.TimeStamp = Misc.Unixtime();
 					if (uds != null)
 					{
-						Xml.Serialize<UpdateDefinitions>(cacheFile, uds, false);
 						lock (Program.UpdateDefinitions_Central)
 							Program.UpdateDefinitions_Central += uds; //Add to the list of definitions.
 					}
-					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetched " + uri.ToString());
+					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetched " + uri);
 				}
 				else
 				{
-					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Using cached version of " + uri.ToString());
+					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Using cached version of " + uri);
 				}
 				numChecked++;
 			}
