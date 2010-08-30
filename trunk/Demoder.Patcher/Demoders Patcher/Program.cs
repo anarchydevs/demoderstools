@@ -62,9 +62,9 @@ namespace Demoders_Patcher
 		internal static DownloadManager DownloadManager = new DownloadManager(3, 10);
 
 		/// <summary>
-		/// Log of statusbar updates.
+		/// This is the applications Event Log
 		/// </summary>
-		public static List<EventLog> EventLog = new List<EventLog>();
+		public static EventLog EventLog = new EventLog();
 
 		#region Caches
 		public static XmlCacheWrapper XmlCache = null;

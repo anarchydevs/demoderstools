@@ -29,6 +29,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Demoder.Common;
+
 namespace Demoders_Patcher.Windows
 {
 	public partial class InitializeApplication : Form
@@ -69,7 +71,7 @@ namespace Demoders_Patcher.Windows
 
 		private void textBox_AddText(int percent, string text)
 		{
-			Program.EventLog.Add(new DataClasses.EventLog(percent, text));
+			Program.EventLog.Log(new EventLogEntry(EventLogLevel.Notice, this.Name, new ProgressChangedEventArgs(percent, text)));
 			this.textBox1.Text += text + "\r\n";
 		}
 
@@ -111,6 +113,7 @@ namespace Demoders_Patcher.Windows
 
 		void BackgroundWorker_QueueEmpty(object sender, EventArgs e)
 		{
+			Program.EventLog.Log(new EventLogEntry(EventLogLevel.Notice, this.Name, "Loading complete. (100%)"));
 			if (this.InvokeRequired)
 				BeginInvoke(new VoidParameterDelegate(this.Close));
 			else
