@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="cmdParams.cs" />
     <Compile Include="DownloadManager.cs" />
+    <Compile Include="EventLog.cs" />
     <Compile Include="FormatString.cs" />
     <Compile Include="Forms.cs" />
     <Compile Include="GenerateHash.cs" />

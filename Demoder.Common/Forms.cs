@@ -34,8 +34,7 @@ namespace Demoder.Common
 				ch.AutoResize(style);
 		}
 
-#region ListView column sorting
-
+		#region ListView column sorting
 		/// <summary>
 		/// Method to handle sorting of ListViews based on collumns
 		/// </summary>
