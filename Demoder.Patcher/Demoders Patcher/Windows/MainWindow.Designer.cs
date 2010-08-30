@@ -168,20 +168,22 @@ namespace Demoders_Patcher.Windows
 			this.listView_MainWindow.TabIndex = 0;
 			this.listView_MainWindow.UseCompatibleStateImageBehavior = false;
 			this.listView_MainWindow.View = System.Windows.Forms.View.Details;
+			this.listView_MainWindow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView_MainWindow_KeyDown);
 			// 
 			// contextMenuStrip_ListView
 			// 
 			this.contextMenuStrip_ListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.updateToolStripMenuItem});
 			this.contextMenuStrip_ListView.Name = "contextMenuStrip_ListView";
-			this.contextMenuStrip_ListView.Size = new System.Drawing.Size(113, 26);
+			this.contextMenuStrip_ListView.Size = new System.Drawing.Size(153, 48);
+			this.contextMenuStrip_ListView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_ListView_Opening);
 			// 
 			// updateToolStripMenuItem
 			// 
 			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-			this.updateToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.updateToolStripMenuItem.Text = "Update";
-			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.listView_MainWindow_ContextMenu_Repository_Update_Click);
 			// 
 			// menuStrip1
 			// 

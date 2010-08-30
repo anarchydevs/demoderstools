@@ -38,6 +38,8 @@ namespace Demoders_Patcher.DataClasses
 		public string Version = string.Empty;
 		[XmlIgnore]
 		public Presence Present = Presence.Unknown;
+		[XmlIgnore]
+		public StatusFlag StatusFlag = StatusFlag.Unknown;
 
 		public PatchStatus(Guid GUID, string Version)
 		{
@@ -55,7 +57,7 @@ namespace Demoders_Patcher.DataClasses
 
 		public override string ToString()
 		{
-			return this.GUID.ToString() + ": " + this.Present.ToString() + "/" + this.Version;
+			return this.GUID.ToString() + ": " + this.Present.ToString() + "/" + this.StatusFlag.ToString()+ "/" + this.Version;
 		}
 	}
 }

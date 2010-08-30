@@ -53,7 +53,6 @@
     <Compile Include="backgroundWorker_DoWork.cs" />
     <Compile Include="DataClasses\CreateDistributionConfig.cs" />
     <Compile Include="DataClasses\CreatePatchServerConfig.cs" />
-    <Compile Include="DataClasses\EventLog.cs" />
     <Compile Include="DataClasses\PatcherConfig.cs" />
     <Compile Include="DataClasses\PatchStatus.cs" />
     <Compile Include="DataClasses\UpdateDefinition.cs" />

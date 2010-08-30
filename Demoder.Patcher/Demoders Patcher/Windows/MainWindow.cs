@@ -51,8 +51,9 @@ namespace Demoders_Patcher.Windows
 				message = (string)e.UserState;
 			}
 			catch { }
+						
 			lock (Program.EventLog)
-				Program.EventLog.Add(new EventLog(e.ProgressPercentage, message));
+				Program.EventLog.Log(new EventLogEntry(EventLogLevel.Notice, this, e));
 			if (e.ProgressPercentage < 0 || e.ProgressPercentage > 100)
 			{
 				this.toolStripProgressBar1.Visible = false;
@@ -157,6 +158,8 @@ namespace Demoders_Patcher.Windows
 			this.listView_MainWindow.Columns.Clear();
 			if ((mw_treeview_Tags)e.Node.Parent.Tag == mw_treeview_Tags.Repository)
 			{
+				this.listView_MainWindow.Tag = e.Node.Tag;
+
 				this.listView_MainWindow.Columns.Add("Name", "Name");
 				this.listView_MainWindow.Columns.Add("Status", "Status");
 				this.listView_MainWindow.Columns.Add("Source", "Source");
@@ -190,16 +193,16 @@ namespace Demoders_Patcher.Windows
 			{
 				if ((mw_treeview_Tags)e.Node.Tag == mw_treeview_Tags.EventLog)
 				{
-					
+					this.listView_MainWindow.Tag = e.Node.Tag;
 					this.listView_MainWindow.Columns.Add("Time", "Time");
-					this.listView_MainWindow.Columns.Add("%", "%");
+					this.listView_MainWindow.Columns.Add("Level", "Level");
 					this.listView_MainWindow.Columns.Add("Message", "Message");
-					foreach (EventLog su in Program.EventLog)
+					foreach (EventLogEntry el in Program.EventLog.ReadLog(0, EventLogRead.Last))
 					{
-						DateTime dt = Misc.Unixtime(su.Timestamp);
-						ListViewItem lvi = new ListViewItem(dt.ToShortTimeString());
-						lvi.SubItems.Add(su.Percent.ToString());
-						lvi.SubItems.Add(su.Message);
+						ListViewItem lvi = new ListViewItem(el.Time.ToShortTimeString());
+						lvi.SubItems.Add(el.LogLevel.ToString());
+						lvi.SubItems.Add(el.Message);
+						lvi.Tag = el;
 						this.listView_MainWindow.Items.Add(lvi);
 					}
 				}
@@ -241,8 +244,9 @@ namespace Demoders_Patcher.Windows
 						break;
 				}
 			}
-			
-		
+			ps.StatusFlag = status;
+			ud.Tag = ps;
+	
 			lvi.SubItems.Add(status.ToString());
 			if (IsFromCentral)
 				lvi.SubItems.Add("Central");
@@ -252,7 +256,56 @@ namespace Demoders_Patcher.Windows
 			this.listView_MainWindow.Items.Add(lvi);
 		}
 
-        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+
+#region listViewItem context menu
+		private void contextMenuStrip_ListView_Opening(object sender, CancelEventArgs e)
+		{
+			contextMenuStrip_ListView.Items.Clear();
+			switch ((mw_treeview_Tags)this.listView_MainWindow.Tag)
+			{
+				case mw_treeview_Tags.EventLog:
+					ToolStripMenuItem tsmi_eventlog_copy = new ToolStripMenuItem("Copy");
+					tsmi_eventlog_copy.Click += new EventHandler(listView_MainWindow_ContextMenu_EventLog_Copy_Click);
+					this.contextMenuStrip_ListView.Items.Add(tsmi_eventlog_copy);
+					break;
+				case mw_treeview_Tags.Repository:
+					if (listView_MainWindow.SelectedItems.Count > 0)
+					{
+						ListViewItem lvi = listView_MainWindow.SelectedItems[0];
+						UpdateDefinition ud = (UpdateDefinition)lvi.Tag;
+#warning Should make this use a label instead of an index.
+						StatusFlag sf = (StatusFlag)Enum.Parse(typeof(StatusFlag), lvi.SubItems[1].Text);
+
+						string UpdateButtonText = "Update";
+						if (sf == StatusFlag.Installable)
+							UpdateButtonText = "Install";
+						if (sf == StatusFlag.OK)
+							UpdateButtonText = "Force Update";
+						
+						ToolStripMenuItem tsmi_repository_update = new ToolStripMenuItem(UpdateButtonText);
+						tsmi_repository_update.Click += new EventHandler(listView_MainWindow_ContextMenu_Repository_Update_Click);
+						this.contextMenuStrip_ListView.Items.Add(tsmi_repository_update);
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Event triggered when contextmenubutton Repository:Update is clicked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void listView_MainWindow_ContextMenu_EventLog_Copy_Click(object sender, EventArgs e)
+		{
+			this.listView_MainWindow_CopyItemsToClipBoard();
+		}
+
+		/// <summary>
+		/// Event triggered when contextmenubutton Repository:Update is clicked
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void listView_MainWindow_ContextMenu_Repository_Update_Click(object sender, EventArgs e)
         {
             ListView lv = this.listView_MainWindow;
             if (lv.SelectedItems.Count == 0) return;
@@ -263,6 +316,7 @@ namespace Demoders_Patcher.Windows
 				uris.Add(new Uri(s));
 			this.backgroundWorker.Enq_RunUpdate(uris);
 		}
+#endregion
 
 		#region Menu: Tools
 
@@ -282,5 +336,35 @@ namespace Demoders_Patcher.Windows
 		{
 			(new CreatePatchServer()).Show();
 		}
+
+		private void listView_MainWindow_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control)
+			{
+				//Control key is pressed.
+				switch (e.KeyCode)
+				{
+					case Keys.C:
+						this.listView_MainWindow_CopyItemsToClipBoard();
+					break;
+				}
+			}
+		}
+
+		private void listView_MainWindow_CopyItemsToClipBoard()
+		{
+			if (this.listView_MainWindow.SelectedItems.Count > 0)
+			{
+				List<string> cliptext = new List<string>();
+				foreach (ListViewItem lvi in this.listView_MainWindow.SelectedItems)
+				{
+					cliptext.Add(lvi.Tag.ToString());
+				}
+				Clipboard.SetText(String.Join("\r\n", cliptext.ToArray()));
+			}
+		}
+		#region Events for listView_MainWindow
+		
+		#endregion
 	}
 }

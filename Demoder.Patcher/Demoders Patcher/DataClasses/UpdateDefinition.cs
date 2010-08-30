@@ -48,6 +48,8 @@ namespace Demoders_Patcher.DataClasses
 		public DefinitionType DefinitionType = DefinitionType.Other;
 		[XmlElement("server")]
 		public List<string> UpdateServers = new List<string>();
+		[XmlIgnore]
+		public object Tag = null;
 		/// <summary>
 		/// Check if this distribution exists locally
 		/// </summary>
@@ -81,6 +83,18 @@ namespace Demoders_Patcher.DataClasses
 				}
 			}
 			return false;
+		}
+
+		public override string ToString()
+		{
+			string tag = "";
+			if (this.Tag != null)
+				tag = "[" + this.Tag.ToString() + "]";
+			return String.Format("[{0}] [{1}] [{2}] {3}",
+				this.DefinitionType,
+				this.Name,
+				this.GUID,
+				tag);
 		}
 	}
 }
