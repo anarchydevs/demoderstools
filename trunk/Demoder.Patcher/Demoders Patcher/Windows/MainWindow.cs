@@ -51,8 +51,8 @@ namespace Demoders_Patcher.Windows
 				message = (string)e.UserState;
 			}
 			catch { }
-			lock (Program.StatusbarUpdates)
-				Program.StatusbarUpdates.Add(new StatusbarUpdate(e.ProgressPercentage, message));
+			lock (Program.EventLog)
+				Program.EventLog.Add(new EventLog(e.ProgressPercentage, message));
 			if (e.ProgressPercentage < 0 || e.ProgressPercentage > 100)
 			{
 				this.toolStripProgressBar1.Visible = false;
@@ -194,7 +194,7 @@ namespace Demoders_Patcher.Windows
 					this.listView_MainWindow.Columns.Add("Time", "Time");
 					this.listView_MainWindow.Columns.Add("%", "%");
 					this.listView_MainWindow.Columns.Add("Message", "Message");
-					foreach (StatusbarUpdate su in Program.StatusbarUpdates)
+					foreach (EventLog su in Program.EventLog)
 					{
 						DateTime dt = Misc.Unixtime(su.Timestamp);
 						ListViewItem lvi = new ListViewItem(dt.ToShortTimeString());

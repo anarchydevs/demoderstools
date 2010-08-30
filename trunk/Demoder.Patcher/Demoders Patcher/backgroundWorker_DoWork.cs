@@ -220,7 +220,7 @@ namespace Demoders_Patcher
 		/// <param name="AgeBeforeUpdate">Cache needs to be this many seconds old for it to be updated</param>
 		public void UpdateRemoteDefinitions(Int64 AgeBeforeUpdate)
 		{
-			this.BackgroundWorker.ReportProgress(0, "Loading remote definitions...");
+			this.BackgroundWorker.ReportProgress(0, "Remote definitions: Loading...");
 			//Check each configured URI
 			int numChecked = 0;
 			Program.UpdateDefinitions_Central = new UpdateDefinitions();
@@ -228,7 +228,8 @@ namespace Demoders_Patcher
 			{
 				string md5 = GenerateHash.md5(uri);
 				bool needsUpdate = false;
-								
+				this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Loading " + uri);
+				
 				string[] cacheArgs = new string[] { md5 };
 				UpdateDefinitions uds = Program.XmlCache.Get<UpdateDefinitions>().Request(XMLCacheFlags.Default, uri, cacheArgs);
 
@@ -240,7 +241,6 @@ namespace Demoders_Patcher
 
 				if (needsUpdate)
 				{
-					this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Fetching " + uri);
 					uds = (Program.XmlCache.Get<UpdateDefinitions>()).Request(XMLCacheFlags.ReadLive | XMLCacheFlags.WriteCache, uri, cacheArgs);
 					uds.TimeStamp = Misc.Unixtime();
 					if (uds != null)
