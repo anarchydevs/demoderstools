@@ -64,7 +64,7 @@ namespace Demoders_Patcher
 		/// <summary>
 		/// Log of statusbar updates.
 		/// </summary>
-		public static List<StatusbarUpdate> StatusbarUpdates = new List<StatusbarUpdate>();
+		public static List<EventLog> EventLog = new List<EventLog>();
 
 		#region Caches
 		public static XmlCacheWrapper XmlCache = null;
@@ -120,6 +120,7 @@ namespace Demoders_Patcher
 			//Load stuff.
 			Windows.InitializeApplication pi = new Windows.InitializeApplication();
 			pi.ShowDialog();
+
 			if (pi.DialogResult == DialogResult.Cancel)
 				Environment.Exit(0);
 			pi.Dispose();

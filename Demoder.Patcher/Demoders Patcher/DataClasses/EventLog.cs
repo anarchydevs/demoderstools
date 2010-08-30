@@ -27,7 +27,7 @@ using Demoder.Common;
 
 namespace Demoders_Patcher.DataClasses
 {
-	public class StatusbarUpdate
+	public class EventLog
 	{
 		#region members
 		public Int64 Timestamp = Misc.Unixtime();
@@ -35,7 +35,7 @@ namespace Demoders_Patcher.DataClasses
 		public string Message = "n/a";
 
 		#endregion
-		public StatusbarUpdate(int Percent, string Message)
+		public EventLog(int Percent, string Message)
 		{
 			this.Percent = Percent;
 			this.Message = Message;
