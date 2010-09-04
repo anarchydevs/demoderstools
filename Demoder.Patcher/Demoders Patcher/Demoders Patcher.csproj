@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="backgroundWorker_CreatePatchServer.cs" />
-    <Compile Include="backgroundWorker_DoWork.cs" />
+    <Compile Include="BWDoWork.cs" />
     <Compile Include="DataClasses\CreateDistributionConfig.cs" />
     <Compile Include="DataClasses\CreatePatchServerConfig.cs" />
     <Compile Include="DataClasses\PatcherConfig.cs" />

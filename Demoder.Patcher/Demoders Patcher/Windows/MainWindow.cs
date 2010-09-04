@@ -38,7 +38,7 @@ namespace Demoders_Patcher.Windows
 	public partial class MainWindow : Form
 	{
 		#region members
-		private backgroundWorker_DoWork backgroundWorker = new backgroundWorker_DoWork();
+		private BWDoWork backgroundWorker = new BWDoWork();
 		#endregion
 
 		#region Backgroundworker stuff

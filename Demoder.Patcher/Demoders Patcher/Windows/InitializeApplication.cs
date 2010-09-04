@@ -35,7 +35,8 @@ namespace Demoders_Patcher.Windows
 {
 	public partial class InitializeApplication : Form
 	{
-		private backgroundWorker_DoWork backgroundWorker = new backgroundWorker_DoWork();
+		//private backgroundWorker_DoWork backgroundWorker = new backgroundWorker_DoWork();
+		private BWDoWork backgroundWorker = new BWDoWork();
 		delegate void StringParameterDelegate(string value);
 		delegate void IntParameterDelegate(int value);
 		delegate void VoidParameterDelegate();
