@@ -1,79 +1,30 @@
-﻿/*
-MIT Licence
-Copyright (c) 2010 Demoder <demoder@flw.nu> (project: https://sourceforge.net/projects/demoderstools/)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Text;
-using System.Threading;
+
 using Demoder.Common;
 using Demoder.Patcher;
-using Demoders_Patcher.DataClasses;
 using Demoder.Patcher.Events;
+using Demoders_Patcher.DataClasses;
 
 namespace Demoders_Patcher
 {
-	public class backgroundWorker_DoWork
+	public class BWDoWork : BackgroundWorkerInputQueue
 	{
-		#region members
-		internal BackgroundWorker BackgroundWorker = new BackgroundWorker();
-		internal Queue<KeyValuePair<bgw_tasktype, object>> bw_queue = new Queue<KeyValuePair<bgw_tasktype, object>>();
-		internal ManualResetEvent bw_taskadded_mre = new ManualResetEvent(false);
-		internal ManualResetEvent bw_taskdone_mre = new ManualResetEvent(false);
-		#endregion
-		#region Events
-		public event RunWorkerCompletedEventHandler WorkComplete;
-		public event EventHandler QueueEmpty;
-		#endregion
+		public BWDoWork() : base(true, true) { }
 
-		#region constructors
-
-		public backgroundWorker_DoWork()
+		/// <summary>
+		/// Handle queue items
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		/// <param name="QueueItem"></param>
+		protected override void myWorker(object sender, DoWorkEventArgs e, object QueueItem)
 		{
-			this.BackgroundWorker.WorkerReportsProgress = true;
-			
-			this.BackgroundWorker.DoWork += new DoWorkEventHandler(this.bgw_DoWork);
-			this.BackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
-		}
+			KeyValuePair<bgw_tasktype, object> kvp = (KeyValuePair<bgw_tasktype, object>)QueueItem;
 
-		#endregion
-
-		#region the background worker.
-		private void bgw_DoWork(object sender, DoWorkEventArgs e)
-		{
-			while (this.bw_queue.Count == 0)
-			{
-				//Signal that the queue is empty
-				if (this.QueueEmpty != null)
-					lock (this.QueueEmpty)
-						this.QueueEmpty(this, new EventArgs());
-				this.bw_taskadded_mre.WaitOne();
-			}
-			this.bw_taskadded_mre.Reset();
-			KeyValuePair<bgw_tasktype, object> kvp = new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.Invalid, null);
-			lock (this.bw_queue)
-				kvp = this.bw_queue.Dequeue();
 			if (kvp.Key != bgw_tasktype.Invalid)
 			{
 				bool result = true;
@@ -106,57 +57,44 @@ namespace Demoders_Patcher
 				}
 			}
 		}
-		private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			//Signal stuff which subscribes to this event
-			if (this.WorkComplete!=null)
-				lock (this.WorkComplete)
-					this.WorkComplete(sender, e);
-			//Run the worker again.
-			this.BackgroundWorker.RunWorkerAsync();
-		}
-		#endregion
 
 
-		#region BGW Enqueuement methods
 
-		private void taskAdded()
-		{
-			if (!this.BackgroundWorker.IsBusy)
-				this.BackgroundWorker.RunWorkerAsync();
-			this.bw_taskadded_mre.Set();
-		}
+
+
 		#region bgworker enqueement methods
 		internal void Enq_LoadCentralUpdateDefinitions(bool force_update)
 		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.FetchCentralUpdateDefinitions, force_update));
-			this.taskAdded();
+			this.enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.FetchCentralUpdateDefinitions, force_update));
 		}
 
 		internal void Enq_LoadLocalUpdateDefinitions()
 		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.LoadLocalUpdateDefinitions, null));
-			this.taskAdded();
+			this.enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.LoadLocalUpdateDefinitions, null));
 		}
 
 		internal void Enq_RunUpdate(List<Uri> uris)
 		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.RunUpdate, uris));
-			this.taskAdded();
+			this.enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.RunUpdate, uris));
 		}
 
 		internal void Enq_CheckPatchStatus()
 		{
-			lock (this.bw_queue)
-				this.bw_queue.Enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.CheckIfUpdateDefinitionsExistLocally, true));
-			this.taskAdded();
+			this.enqueue(new KeyValuePair<bgw_tasktype, object>(bgw_tasktype.CheckIfUpdateDefinitionsExistLocally, true));
 		}
 		#endregion
-		#endregion
 
+
+
+
+
+
+
+
+
+
+
+		#region work methods
 		#region RunUpdate
 		public bool RunUpdate(List<Uri> uris, bool ForceUpdate)
 		{
@@ -166,13 +104,13 @@ namespace Demoders_Patcher
 				for (int i = 0; i < uris.Count; i++)
 					patchserver = Xml.Deserialize<Demoder.Patcher.DataClasses.PatchServer>(uris[i]);
 				PatchStatus patchStatus = Program.PatcherConfig.GetPatchStatus(patchserver.GUID);
-				
+
 				if (!ForceUpdate && patchStatus != null && patchserver.Version == patchStatus.Version)
 				{
 					this.BackgroundWorker.ReportProgress(100, "Version match.");
 					return true;
 				}
-				
+
 				DoPatch dp = new DoPatch(patchserver);
 				dp.eventDownloadStatusReport += new DownloadStatusReportEventHandler(dp_eventDownloadStatusReport);
 				this.BackgroundWorker.ReportProgress(0, "Comparing distributions");
@@ -184,7 +122,7 @@ namespace Demoders_Patcher
 					return true;
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				this.BackgroundWorker.ReportProgress(0, ex.Message);
 			}
@@ -229,7 +167,7 @@ namespace Demoders_Patcher
 				string md5 = GenerateHash.md5(uri);
 				bool needsUpdate = false;
 				this.BackgroundWorker.ReportProgress(math.Percent(Program.PatcherConfig.CentralUpdateServer.Count, numChecked), "Remote definitions: Loading " + uri);
-				
+
 				string[] cacheArgs = new string[] { md5 };
 				UpdateDefinitions uds = Program.XmlCache.Get<UpdateDefinitions>().Request(XMLCacheFlags.Default, uri, cacheArgs);
 
@@ -265,7 +203,8 @@ namespace Demoders_Patcher
 			this.BackgroundWorker.ReportProgress(0, "Local definitions: Loading...");
 			FileInfo cacheFile = new FileInfo(Program.ConfigDir.FullName + Path.DirectorySeparatorChar + "localUpdateDefinitions.xml");
 			UpdateDefinitions uds = Xml.Deserialize<UpdateDefinitions>(cacheFile, false);
-			lock (Program.UpdateDefinitions_Local) {
+			lock (Program.UpdateDefinitions_Local)
+			{
 				if (uds != null)
 					Program.UpdateDefinitions_Local = uds;
 				else
@@ -332,5 +271,6 @@ namespace Demoders_Patcher
 			}
 		}
 		#endregion find the 'state'
+		#endregion
 	}
 }
